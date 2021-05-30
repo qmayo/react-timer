@@ -6,6 +6,7 @@ const Navbar = ({eventName, changeEvent}) => {
     <div className="navbar has-background-link-dark mb-6">
         <div className="navbar-brand">
           <img src={process.env.PUBLIC_URL + '/logo.png'} height="100" width="100" alt={'React timer logo'}/>
+          <h1 className="navbar-item title is-1 has-text-white">ReactTimer</h1>
         </div>
         <div className="navbar-start">
           <div className="navbar-item has-dropdown is-hoverable">

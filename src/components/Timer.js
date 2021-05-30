@@ -18,16 +18,11 @@ const Timer = () => {
         //Upload time
     }
 
-    const handleToggle = () => {
-        toggleActive(isActive ? false : true)
-    }
-
     useEffect(() => {isActive ? startTimer() : stopTimer()}, [isActive])
 
     return (
         <div>
-            <p style={{'fontSize': '12vw'}}><strong>{time.toFixed(2)}</strong></p>
-            <button className="button is-primary" onClick={handleToggle}>Toggle</button>
+            <h1 style={{'fontSize': '10em', 'padding': '20px'}}><strong>{time.toFixed(2)}</strong></h1>
         </div>
     )
 }
