@@ -20,7 +20,7 @@ const Casual = ({eventName}) => {
         <div>
             <div className="columns is-vcentered">
                 <div className="column has-text-centered">
-                    <div id="timer">
+                    <div id="timer"> {/* id must match targetComponentID in Timer.js */}
                         <Timer />
                     </div>
                     <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-around">
