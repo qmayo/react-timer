@@ -12,13 +12,9 @@ import {useState} from 'react';
 function App() {
   const [eventName, setEvent] = useState('333')
 
-  const changeEvent = (e) => { //Probably dont need this, just use setEvent()
-    setEvent(e)
-  }
-
   return (
     <Router>
-      <Navbar eventName={eventName} changeEvent={changeEvent}/>
+      <Navbar eventName={eventName} changeEvent={setEvent}/>
       <Switch>
         <Route path="/casual">
           <div className="container has-text-centered">

@@ -13,7 +13,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "scrambles": "^0.1.13",
-    "use-keyboard-timer": "https://github.com/qmayo/use-keyboard-timer",
+    "use-keyboard-timer": "git+https://github.com/qmayo/use-keyboard-timer.git",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

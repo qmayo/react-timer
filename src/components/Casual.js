@@ -14,15 +14,15 @@ const Casual = ({eventName}) => {
         } else {
             setAverageType('Ao5')
         }
-    }, [eventName])
-
-    
+    }, [eventName])    
 
     return (
         <div>
             <div className="columns is-vcentered">
                 <div className="column has-text-centered">
-                    <Timer />
+                    <div id="timer">
+                        <Timer />
+                    </div>
                     <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-around">
                         <Card>
                             <h4 className="title is-4">{averageType}:</h4>

@@ -1,21 +1,26 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 
-
+/*
+GENERAL TODO:
+Bind scramble to timer
+Store times in localstorage
+*/
 
 const millisecondsToSeconds = (time) => {
     return (time / 1000).toFixed(2)
 }
 
 const Timer = () => {
-    const [times, setTimes] = useState([]); //Refactor to pull from localstorage; string because of DNFs
+    const [times, setTimes] = useState([]);
 
     const settings = {
         timerInput: 'timer',
         inspection: 'always',
         timerUpdate: 'deciseconds',
         timeToRelease: 'stackmat',
+        targetComponentID: 'timer'
       };
 
     const keyboardTimerCallback = (time, penalty) => {
