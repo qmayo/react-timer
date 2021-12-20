@@ -4,6 +4,12 @@
     border-color: white;
 }
 
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 *.unselectable {
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
@@ -15,6 +21,16 @@
   */
   -ms-user-select: none;
   user-select: none;
+}
+
+.fill-window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: white;
 }
 
 .spin {

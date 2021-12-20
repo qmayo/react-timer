@@ -2,29 +2,38 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 
-/*
-GENERAL TODO:
-Bind scramble to timer
-Store times in localstorage
-*/
+let settings = {
+    timerInput: 'timer',
+    inspection: 'always',
+    timerUpdate: 'deciseconds',
+    timeToRelease: 'stackmat',
+    targetComponentID: 'timer'
+  };
 
 const millisecondsToSeconds = (time) => {
     return (time / 1000).toFixed(2)
 }
 
-const Timer = () => {
-    const [times, setTimes] = useState([]);
+const Timer = ({eventName}) => {
+    const [times, setTimes] = useState([])
 
-    const settings = {
-        timerInput: 'timer',
-        inspection: 'always',
-        timerUpdate: 'deciseconds',
-        timeToRelease: 'stackmat',
-        targetComponentID: 'timer'
-      };
+    useEffect(() => {
+        const times = JSON.parse(localStorage.getItem(eventName))
+        times ? setTimes(times) : setTimes([])
+    }, [eventName])
 
     const keyboardTimerCallback = (time, penalty) => {
-        setTimes([...times, {time: time, penalty: penalty}])
+        let times = JSON.parse(localStorage.getItem(eventName))
+
+        if(times === null) {
+            localStorage.setItem(eventName, JSON.stringify([{time: time, penalty: penalty}]))
+            times = JSON.parse(localStorage.getItem(eventName))
+            setTimes(times)
+        } else {
+            localStorage.setItem(eventName, JSON.stringify([...times, {time: time, penalty: penalty}]))
+            times = JSON.parse(localStorage.getItem(eventName))
+            setTimes(times)
+        }
     }
   
     const { time, inspectionTime, state, isTiming, dnf, plusTwo } = useKeyboardTimer(settings, keyboardTimerCallback);
@@ -57,8 +66,8 @@ const Timer = () => {
     }
 
     return (
-        <div>
-            <h1 style={{'fontSize': '10em', 'padding': '20px'}}><strong>{renderTimer()}</strong></h1>
+        <div className={isTiming ? 'fill-window' : ''} style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <h1 style={{'fontSize': '10em', 'padding': '20px', margin: '5px'}}><strong>{renderTimer()}</strong></h1>
         </div>
     )
 }
