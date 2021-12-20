@@ -15,11 +15,15 @@ const millisecondsToSeconds = (time) => {
 }
 
 const Timer = ({eventName}) => {
-    const [times, setTimes] = useState([])
+    const [previousTime, setPreviousTime] = useState({time: 0.00})
 
     useEffect(() => {
         const times = JSON.parse(localStorage.getItem(eventName))
-        times ? setTimes(times) : setTimes([])
+        if(times) {
+            setPreviousTime(times[times.length - 1])
+        } else {
+            setPreviousTime({time: 0.00})
+        }
     }, [eventName])
 
     const keyboardTimerCallback = (time, penalty) => {
@@ -27,19 +31,17 @@ const Timer = ({eventName}) => {
 
         if(times === null) {
             localStorage.setItem(eventName, JSON.stringify([{time: time, penalty: penalty}]))
-            times = JSON.parse(localStorage.getItem(eventName))
-            setTimes(times)
+            setPreviousTime({time: time, penalty: penalty})
         } else {
             localStorage.setItem(eventName, JSON.stringify([...times, {time: time, penalty: penalty}]))
-            times = JSON.parse(localStorage.getItem(eventName))
-            setTimes(times)
+            setPreviousTime({time: time, penalty: penalty})
         }
     }
   
     const { time, inspectionTime, state, isTiming, dnf, plusTwo } = useKeyboardTimer(settings, keyboardTimerCallback);
 
     const renderTime = (time) => {
-        return time.penalty 
+        return time.penalty //LEFT OFF HERE; FIGURE OUT HOW TO DO THIS
             ? time.penalty.type === 'DNF' //This is because the time for inspection DNFs defaults to -1, and that would look weird
                 ? <p className="unselectable">DNF</p>
                 : <p className="unselectable">{`${millisecondsToSeconds(time.time)} (${time.penalty.type})`}</p>
@@ -49,7 +51,7 @@ const Timer = ({eventName}) => {
     const renderTimer = () => { //render timer itself
         switch(state) {
             default:
-                return (<p className="unselectable">{times.length === 0 ? "0.00" : renderTime(times[times.length - 1])}</p>);
+                return (<p className="unselectable">{renderTime(previousTime)}</p>);
 
             case 'SPACE_PRESSED_INSPECTION':
                 return (<p className="unselectable" style={{color: "green"}}>15</p>);
