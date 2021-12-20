@@ -8,7 +8,6 @@ const Casual = ({eventName}) => {
     const [averageType, setAverageType] = useState('Ao5')
 
     useEffect(() => {
-        console.log(toString(eventName))
         if(['666wca', '777wca', '333ni', '444bld', '555bld'].includes(eventName)) {
             setAverageType('Mo3')
         } else {

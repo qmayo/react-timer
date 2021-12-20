@@ -2,6 +2,8 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 
+import {getTimes, saveTime} from './utils/storageTools';
+
 let settings = {
     timerInput: 'timer',
     inspection: 'always',
@@ -18,7 +20,7 @@ const Timer = ({eventName}) => {
     const [previousTime, setPreviousTime] = useState({time: 0.00})
 
     useEffect(() => {
-        const times = JSON.parse(localStorage.getItem(eventName))
+        const times = getTimes(eventName)
         if(times) {
             setPreviousTime(times[times.length - 1])
         } else {
@@ -27,21 +29,14 @@ const Timer = ({eventName}) => {
     }, [eventName])
 
     const keyboardTimerCallback = (time, penalty) => {
-        let times = JSON.parse(localStorage.getItem(eventName))
-
-        if(times === null) {
-            localStorage.setItem(eventName, JSON.stringify([{time: time, penalty: penalty}]))
-            setPreviousTime({time: time, penalty: penalty})
-        } else {
-            localStorage.setItem(eventName, JSON.stringify([...times, {time: time, penalty: penalty}]))
-            setPreviousTime({time: time, penalty: penalty})
-        }
+        saveTime(eventName, time, penalty)
+        setPreviousTime({time: time, penalty: penalty})
     }
   
     const { time, inspectionTime, state, isTiming, dnf, plusTwo } = useKeyboardTimer(settings, keyboardTimerCallback);
 
     const renderTime = (time) => {
-        return time.penalty //LEFT OFF HERE; FIGURE OUT HOW TO DO THIS
+        return time.penalty
             ? time.penalty.type === 'DNF' //This is because the time for inspection DNFs defaults to -1, and that would look weird
                 ? <p className="unselectable">DNF</p>
                 : <p className="unselectable">{`${millisecondsToSeconds(time.time)} (${time.penalty.type})`}</p>
