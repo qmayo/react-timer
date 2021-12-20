@@ -32,6 +32,9 @@ const Scramble = ({eventName}) => {
             case 'mgmp':
                 scrambleArgs = [eventName, 60]
                 break;
+            case '333oh':
+                scrambleArgs = ['333']
+                break;
             default:
                 break;
         }

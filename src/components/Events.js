@@ -18,7 +18,7 @@ const Events = ({eventName, changeEvent}) => {
             <button className="button is-ghost has-text-white" value="333ni" onClick={setEventHelper}>3x3x3 BLD</button>
             <button className="button is-ghost has-text-white" value="444bld" onClick={setEventHelper}>4x4x4 BLD</button>
             <button className="button is-ghost has-text-white" value="555bld" onClick={setEventHelper}>5x5x5 BLD</button>
-            <button className="button is-ghost has-text-white" value="333" onClick={setEventHelper}>3x3x3 OH</button>
+            <button className="button is-ghost has-text-white" value="333oh" onClick={setEventHelper}>3x3x3 OH</button>
             <button className="button is-ghost has-text-white" value="clkwca" onClick={setEventHelper}>Clock</button>
             <button className="button is-ghost has-text-white" value="mgmp" onClick={setEventHelper}>Megaminx</button>
             <button className="button is-ghost has-text-white" value="pyrso" onClick={setEventHelper}>Pyraminx</button>
