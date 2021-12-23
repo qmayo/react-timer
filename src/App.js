@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Casual from './components/Casual';
-import Scramble from './components/scrambles/Scramble'
 import {useState} from 'react';
 
 function App() {
@@ -17,9 +16,6 @@ function App() {
       <Navbar eventName={eventName} changeEvent={setEvent}/>
       <Switch>
         <Route path="/casual">
-          <div className="container has-text-centered">
-          <Scramble eventName={eventName} />
-          </div>
           <Casual eventName={eventName}/>
         </Route>
         <Route path="/competetive">

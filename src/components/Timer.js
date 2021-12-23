@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 
 import {getTimes, saveTime} from './utils/storageTools';
+import useDidMountEffect from './utils/useDidMountEffect';
 
 let settings = {
     timerInput: 'timer',
@@ -16,7 +17,7 @@ const millisecondsToSeconds = (time) => {
     return (time / 1000).toFixed(2)
 }
 
-const Timer = ({eventName}) => {
+const Timer = ({eventName, setShouldScrambleUpdate, scrambleString}) => {
     const [previousTime, setPreviousTime] = useState({time: 0.00})
 
     useEffect(() => {
@@ -29,11 +30,19 @@ const Timer = ({eventName}) => {
     }, [eventName])
 
     const keyboardTimerCallback = (time, penalty) => {
-        saveTime(eventName, time, penalty)
-        setPreviousTime({time: time, penalty: penalty})
+        saveTime(eventName, time, penalty, scrambleString)
+        setPreviousTime({time: time, penalty: penalty, scramble: scrambleString})
     }
   
     const { time, inspectionTime, state, isTiming, dnf, plusTwo } = useKeyboardTimer(settings, keyboardTimerCallback);
+
+    useDidMountEffect(() => {
+        if(state === 'NONE' || state === 'STOPPED') {
+            setShouldScrambleUpdate(true)
+        } else {
+            setShouldScrambleUpdate(false)
+        }
+    }, [state])
 
     const renderTime = (time) => {
         return time.penalty

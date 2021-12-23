@@ -9,10 +9,8 @@ const cleanMegaScramble = (scrambleString) => { //CStimer mega scrambles include
     return scrambleString
 }
 
-const Scramble = ({eventName}) => {
-    const [scrambleString, setScramble] = useState('')
-    
-    useEffect(() => { 
+const Scramble = ({eventName, scrambleString, setScramble, shouldScrambleUpdate, setShouldScrambleUpdate}) => {
+    const getNewScramble = () => {
         setScramble('') //Allow loading sign to display
 
         let scrambleArgs = [eventName] //CStimer demands scramble lengths for some events
@@ -41,8 +39,18 @@ const Scramble = ({eventName}) => {
 
         cstimerScrambler.getScramble(scrambleArgs, function(scramble) {
             eventName === 'mgmp' ? setScramble(cleanMegaScramble(scramble)) : setScramble(scramble)
-        })    
+        })   
+    }
+
+    useEffect(() => { 
+        getNewScramble()
     }, [eventName])
+
+    useEffect(() => {
+        if(shouldScrambleUpdate) {
+            getNewScramble()
+        }
+    }, [shouldScrambleUpdate])
     
     return (
         <div>

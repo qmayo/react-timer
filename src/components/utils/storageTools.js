@@ -2,13 +2,13 @@ export const getTimes = (eventName) => {
     return JSON.parse(localStorage.getItem(eventName))
 }
 
-export const saveTime = (eventName, time, penalty) => {
+export const saveTime = (eventName, time, penalty, scrambleString) => {
     const times = getTimes(eventName)
 
     if(times === null) {
-        localStorage.setItem(eventName, JSON.stringify([{time: time, penalty: penalty}]))
+        localStorage.setItem(eventName, JSON.stringify([{time: time, penalty: penalty, scramble: scrambleString}]))
     } else {
-        localStorage.setItem(eventName, JSON.stringify([...times, {time: time, penalty: penalty}]))
+        localStorage.setItem(eventName, JSON.stringify([...times, {time: time, penalty: penalty, scramble: scrambleString}]))
     }
 }
 
