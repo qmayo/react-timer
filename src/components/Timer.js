@@ -4,6 +4,7 @@ import useKeyboardTimer from 'use-keyboard-timer';
 
 import {getTimes, saveTime} from './utils/storageTools';
 import useDidMountEffect from './utils/useDidMountEffect';
+import millisecondsToSeconds from './utils/millisecondsToSeconds'
 
 let settings = {
     timerInput: 'timer',
@@ -12,10 +13,6 @@ let settings = {
     timeToRelease: 'stackmat',
     targetComponentID: 'timer'
   };
-
-const millisecondsToSeconds = (time) => {
-    return (time / 1000).toFixed(2)
-}
 
 const Timer = ({eventName, setShouldScrambleUpdate, scrambleString}) => {
     const [previousTime, setPreviousTime] = useState({time: 0.00})
@@ -48,8 +45,8 @@ const Timer = ({eventName, setShouldScrambleUpdate, scrambleString}) => {
         return time.penalty
             ? time.penalty.type === 'DNF' //This is because the time for inspection DNFs defaults to -1, and that would look weird
                 ? <p className="unselectable">DNF</p>
-                : <p className="unselectable">{`${millisecondsToSeconds(time.time)} (${time.penalty.type})`}</p>
-            : <p className="unselectable">{millisecondsToSeconds(time.time)}</p>
+                : <p className="unselectable">{`${millisecondsToSeconds(time.time).toFixed(2)} (${time.penalty.type})`}</p>
+            : <p className="unselectable">{millisecondsToSeconds(time.time).toFixed(2)}</p>
     }
 
     const renderTimer = () => { //render timer itself
@@ -67,7 +64,7 @@ const Timer = ({eventName, setShouldScrambleUpdate, scrambleString}) => {
             case 'SPACE_PRESSED_VALID':
                 return (<p className="unselectable" style={{color: "green"}}>0.00</p>);
             case 'STARTED':
-                return <p className="unselectable">{millisecondsToSeconds(time)}</p>
+                return <p className="unselectable">{millisecondsToSeconds(time).toFixed(2)}</p>
         }
     }
 
