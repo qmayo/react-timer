@@ -1,5 +1,11 @@
 export const getTimes = (eventName) => {
-    return JSON.parse(localStorage.getItem(eventName))
+    const times = JSON.parse(localStorage.getItem(eventName))
+
+    if(times) {
+        return times
+    } else {
+        return null
+    }
 }
 
 export const saveTime = (eventName, time, penalty, scrambleString) => {
@@ -14,5 +20,10 @@ export const saveTime = (eventName, time, penalty, scrambleString) => {
 
 export const getCurrentTimes = (eventName, amount) => {
     const times = getTimes(eventName)
-    return JSON.parse(times.splice[times.length - amount - 1, times.length - 1])
+
+    if(times && times.length >= amount) {
+        return times.slice(times.length - amount, times.length)
+    } else {
+        return null
+    }
 }
