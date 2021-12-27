@@ -1,5 +1,5 @@
 import React from 'react'
-import {useState, useEffect} from 'react'
+import {useEffect} from 'react'
 import {AiOutlineLoading3Quarters} from 'react-icons/ai'
 import cstimerScrambler from './worker'
 
