@@ -1,10 +1,17 @@
-@import "~bulma/css/bulma.css";
+@import '~bulma/css/bulma.css';
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
-.navbar-link:not(.is-arrowless)::after { /* Change dropdown Arrow */
-    border-color: white;
+* {
+  font-family: 'Quicksand', sans-serif;
 }
 
-html, body {
+.navbar-link:not(.is-arrowless)::after {
+  /* Change dropdown Arrow */
+  border-color: white;
+}
+
+html,
+body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
@@ -34,13 +41,13 @@ html, body {
 }
 
 .spin {
-    animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(359deg);
-    }
+  100% {
+    transform: rotate(359deg);
   }
+}
