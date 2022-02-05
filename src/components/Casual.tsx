@@ -1,11 +1,11 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Timer from './Timer';
 import Card from './Card';
 import Scramble from './scrambles/Scramble';
 import avgsAsCards from './utils/avgsAsCards';
 import { WCAEvent, PuzzleAverage } from '../types';
-import { changePenaltyOfCurrentTime } from './utils/storageTools';
+import { changePenaltyOfCurrentTime, deleteCurrentTime } from './utils/storageTools';
 
 export interface CasualProps {
   eventName: WCAEvent;
@@ -59,6 +59,18 @@ const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
                 }}
               >
                 DNF
+              </a>
+            </div>
+            <div className="m-3 is-size-3 is-link-dark">
+              <a
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to delete your previous time?')) {
+                    deleteCurrentTime(eventName);
+                    setShouldTimerReload(!shouldTimerReload);
+                  }
+                }}
+              >
+                Delete
               </a>
             </div>
           </div>

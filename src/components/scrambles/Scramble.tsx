@@ -1,14 +1,23 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { WCAEvent } from '../../types';
 import cstimerScrambler from './worker';
 
-const cleanMegaScramble = (scrambleString) => {
+const cleanMegaScramble = (scrambleString: string): string => {
   //CStimer mega scrambles include \n and ~ symbols; needs cleaning
   scrambleString = scrambleString.replace(/~/g, '');
   scrambleString = scrambleString.replace(/\\n/g, '');
   return scrambleString;
 };
+
+export interface ScrambleProps {
+  eventName: WCAEvent;
+  scrambleString: string;
+  setScramble: any;
+  shouldScrambleUpdate: boolean;
+  setShouldScrambleUpdate: any;
+}
 
 const Scramble = ({
   eventName,
@@ -16,11 +25,11 @@ const Scramble = ({
   setScramble,
   shouldScrambleUpdate,
   setShouldScrambleUpdate,
-}) => {
-  const getNewScramble = () => {
+}: ScrambleProps) => {
+  const getNewScramble = (): void => {
     setScramble(''); //Allow loading sign to display
 
-    let scrambleArgs = [eventName]; //CStimer demands scramble lengths for some events
+    let scrambleArgs = [eventName, undefined as unknown as number]; //CStimer demands scramble lengths for some events
     switch (eventName) {
       case '555wca':
         scrambleArgs = [eventName, 60];
@@ -38,13 +47,13 @@ const Scramble = ({
         scrambleArgs = [eventName, 60];
         break;
       case '333oh':
-        scrambleArgs = ['333'];
+        scrambleArgs = ['333', undefined as unknown as number];
         break;
       default:
         break;
     }
-
-    cstimerScrambler.getScramble(scrambleArgs, function (scramble) {
+    // @ts-ignore
+    cstimerScrambler.getScramble(scrambleArgs, function (scramble: string): void {
       eventName === 'mgmp' ? setScramble(cleanMegaScramble(scramble)) : setScramble(scramble);
     });
   };

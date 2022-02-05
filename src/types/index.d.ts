@@ -12,7 +12,7 @@ export type WCAEvent =
   | 'clkwca'
   | 'mgmp'
   | 'pyrso'
-  | 'skbso';
+  | 'skbso'; //Add Square-one when scramble generator works for it
 
 export interface Penalty {
   type: 'DNF' | '+2';
@@ -29,5 +29,6 @@ export interface PuzzleSolve {
   time: number;
   penalty: Penalty | undefined;
   scramble: string;
+  date: Date;
   solveId: string;
 }

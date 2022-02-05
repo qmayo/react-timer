@@ -10,7 +10,7 @@ import {
 import { getTimes, getCurrentTimes } from './storageTools';
 import millisecondsToSeconds from './millisecondsToSeconds';
 import { PuzzleAverage, WCAEvent } from '../../types';
-const crypto = require('crypto');
+import { nanoid } from 'nanoid';
 
 const avgsAsCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) => {
   return avgsToDisplay.map((avg) => {
@@ -44,11 +44,11 @@ const avgsAsCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) =
       }
 
       return (
-        <Card key={crypto.randomBytes(20).toString('hex')}>
+        <Card key={nanoid(5)}>
           <h4 className="title is-4">{`Ao${avg.size}`}:</h4>
-          <p>Current: {currentAverage}</p>
-          <p>Best: {bestAverage}</p>
-          <p>Worst: {worstAverage}</p>
+          <p>Current: {currentAverage || 'N/A'}</p>
+          <p>Best: {bestAverage || 'N/A'}</p>
+          <p>Worst: {worstAverage || 'N/A'}</p>
         </Card>
       );
     } else {
@@ -82,11 +82,11 @@ const avgsAsCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) =
       }
 
       return (
-        <Card key={crypto.randomBytes(20).toString('hex')}>
+        <Card key={nanoid(5)}>
           <h4 className="title is-4">{`Mo${avg.size}`}:</h4>
-          <p>Current: {currentMean}</p>
-          <p>Best: {bestMean}</p>
-          <p>Worst: {worstMean}</p>
+          <p>Current: {currentMean || 'N/A'}</p>
+          <p>Best: {bestMean || 'N/A'}</p>
+          <p>Worst: {worstMean || 'N/A'}</p>
         </Card>
       );
     }

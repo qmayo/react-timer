@@ -68,8 +68,7 @@ export const getAvg = (times: Array<number>): number | null => {
           1
         );
       }
-
-      return clonedTimes.reduce((a, b) => a + b) / times.length;
+      return clonedTimes.reduce((a, b) => a + b) / clonedTimes.length;
     }
   } else {
     return null;

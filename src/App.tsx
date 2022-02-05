@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Casual from './components/Casual';
+import Analytics from './components/Analytics';
 import { WCAEvent, PuzzleAverage } from './types/index';
 
 function App() {
@@ -17,11 +18,14 @@ function App() {
     <Router>
       <Navbar eventName={eventName} changeEvent={setEvent} />
       <Switch>
-        <Route path="/casual">
+        <Route exact path="/casual">
           <Casual eventName={eventName} avgsToDisplay={avgsToDisplay} />
         </Route>
-        <Route path="/competetive">
+        <Route exact path="/competetive">
           <div className="Competetive"></div>
+        </Route>
+        <Route exact path="/analytics">
+          <Analytics eventName={eventName} />
         </Route>
       </Switch>
     </Router>

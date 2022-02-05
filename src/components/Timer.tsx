@@ -35,13 +35,15 @@ const Timer = ({
     time: 0.0,
     penalty: undefined,
     scramble: 'DEFAULT',
+    date: new Date(),
     solveId: 'DEFAULT',
   };
   const [previousTime, setPreviousTime] = useState<PuzzleSolve>(defaultPreviousTime);
 
   useEffect(() => {
     const times = getTimes(eventName);
-    if (times) {
+
+    if (times && times.length !== 0) {
       setPreviousTime(times[times.length - 1]);
     } else {
       setPreviousTime(defaultPreviousTime);
@@ -49,13 +51,15 @@ const Timer = ({
   }, [eventName, shouldTimerReload]);
 
   const keyboardTimerCallback = (time: number, penalty: Penalty): void => {
-    saveTime(eventName, time, penalty, scrambleString, nanoid());
+    const solveId = nanoid();
+    saveTime(eventName, time, penalty, scrambleString, new Date(), solveId);
     setPreviousTime({
       eventName: eventName,
       time: time,
       penalty: penalty,
       scramble: scrambleString,
-      solveId: nanoid(),
+      date: new Date(),
+      solveId: solveId,
     });
   };
 
