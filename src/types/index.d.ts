@@ -12,7 +12,8 @@ export type WCAEvent =
   | 'clkwca'
   | 'mgmp'
   | 'pyrso'
-  | 'skbso'; //Add Square-one when scramble generator works for it
+  | 'skbso'
+  | 'sq1';
 
 export interface Penalty {
   type: 'DNF' | '+2';

@@ -127,7 +127,7 @@ const Timer = ({
       className={isTiming ? 'fill-window' : ''}
       style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
-      <h1 style={{ fontSize: '10em', padding: '20px', margin: '5px' }}>
+      <h1 style={{ fontSize: '12vh', padding: '20px', margin: '5px' }}>
         <strong>{renderTimer()}</strong>
       </h1>
     </div>
