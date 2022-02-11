@@ -1,5 +1,5 @@
 import React from 'react';
-import { WCAEvent } from '../types';
+import { WCAEvent } from '../../types';
 
 export interface EventsProps {
   eventName: WCAEvent;

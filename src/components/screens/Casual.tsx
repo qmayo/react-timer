@@ -1,12 +1,12 @@
 import React from 'react';
 import { useState, useContext } from 'react';
-import Timer from './Timer';
-import Card from './Card';
-import Scramble from './scrambles/Scramble';
-import avgsAsCards from './utils/avgsAsCards';
-import { WCAEvent, PuzzleAverage } from '../types';
-import { changePenaltyOfCurrentTime, deleteCurrentTime, getTimes } from './utils/storageTools';
-import SolvesContext from './contexts/SolvesContext';
+import Timer from '../sections/Timer';
+import Card from '../sections/Card';
+import Scramble from '../scrambles/Scramble';
+import avgsAsCards from '../utils/avgsAsCards';
+import { WCAEvent, PuzzleAverage } from '../../types';
+import { changePenaltyOfCurrentTime, deleteCurrentTime, getTimes } from '../utils/storageTools';
+import SolvesContext from '../contexts/SolvesContext';
 
 export interface CasualProps {
   eventName: WCAEvent;

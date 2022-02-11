@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import useDidMountEffect from './utils/useDidMountEffect';
-import { PuzzleSolve, WCAEvent } from '../types';
-import millisecondsToSeconds from './utils/millisecondsToSeconds';
-import { changePenaltyOfTime, deleteTime } from './utils/storageTools';
+import useDidMountEffect from '../utils/useDidMountEffect';
+import { PuzzleSolve, WCAEvent } from '../../types';
+import millisecondsToSeconds from '../utils/millisecondsToSeconds';
+import { changePenaltyOfTime, deleteTime } from '../utils/storageTools';
 import { BiX } from 'react-icons/bi';
-import SolvesContext from './contexts/SolvesContext';
-import eventNameToFullName from './utils/eventNameToFullName';
+import SolvesContext from '../contexts/SolvesContext';
+import eventNameToFullName from '../utils/eventNameToFullName';
 
 export interface SolveModalProps {
   eventName: WCAEvent;
@@ -32,7 +32,7 @@ const SolveModal = ({
               <BiX color="black" size={40} onClick={() => setIsActive(false)} />
             </a>
             <h2 className="title is-2">{eventNameToFullName(eventName)}</h2>
-            <h4 className="title is-4">Time: {millisecondsToSeconds(solve.time).toFixed(2) + (solve.penalty ? ` (${solve.penalty.type})`)}</h4>
+            <h4 className="title is-4">Time: {(solve.time !== -1 ? (millisecondsToSeconds(solve.time).toFixed(2) + (solve.penalty ? ` (${solve.penalty.type})` : '')) : "DNF")}</h4>
             <h4 className="title is-4">Scramble: {solve.scramble}</h4>
             <h4 className="title is-4">Penalty: {solve.penalty ? solve.penalty.type : 'None'}</h4>
             <h4 className="title is-4">

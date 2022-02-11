@@ -1,5 +1,5 @@
 import React from 'react';
-import { WCAEvent } from '../types';
+import { WCAEvent } from '../../types';
 import Events from './Events';
 import { BiCubeAlt } from 'react-icons/bi';
 import { Link } from 'react-router-dom';

@@ -3,12 +3,12 @@ import { useState, useEffect, useContext } from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 import { nanoid } from 'nanoid';
 
-import { getTimes, saveTime } from './utils/storageTools';
-import useDidMountEffect from './utils/useDidMountEffect';
-import millisecondsToSeconds from './utils/millisecondsToSeconds';
-import SolvesContext from './contexts/SolvesContext';
+import { getTimes, saveTime } from '../utils/storageTools';
+import useDidMountEffect from '../utils/useDidMountEffect';
+import millisecondsToSeconds from '../utils/millisecondsToSeconds';
+import SolvesContext from '../contexts/SolvesContext';
 
-import { WCAEvent, Penalty, PuzzleSolve } from '../types/index';
+import { WCAEvent, Penalty, PuzzleSolve } from '../../types';
 
 let settings = {
   timerInput: 'timer',
@@ -24,11 +24,7 @@ export interface TimerProps {
   scrambleString: string;
 }
 
-const Timer = ({
-  eventName,
-  setShouldScrambleUpdate,
-  scrambleString,
-}: TimerProps) => {
+const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProps) => {
   const { solves, updateSolves } = useContext(SolvesContext);
 
   useEffect(() => {
@@ -72,7 +68,9 @@ const Timer = ({
     //render timer itself
     switch (state) {
       default:
-        return <p className="unselectable">{solves ? renderTime(solves[solves.length - 1]) : "0.00"}</p>;
+        return (
+          <p className="unselectable">{solves ? renderTime(solves[solves.length - 1]) : '0.00'}</p>
+        );
 
       case 'SPACE_PRESSED_INSPECTION':
         return (
