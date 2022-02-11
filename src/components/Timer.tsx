@@ -1,11 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 import { nanoid } from 'nanoid';
 
 import { getTimes, saveTime } from './utils/storageTools';
 import useDidMountEffect from './utils/useDidMountEffect';
 import millisecondsToSeconds from './utils/millisecondsToSeconds';
+import SolvesContext from './contexts/SolvesContext';
 
 import { WCAEvent, Penalty, PuzzleSolve } from '../types/index';
 
@@ -21,49 +22,26 @@ export interface TimerProps {
   eventName: WCAEvent;
   setShouldScrambleUpdate: any;
   scrambleString: string;
-  shouldTimerReload: boolean;
 }
 
 const Timer = ({
   eventName,
   setShouldScrambleUpdate,
   scrambleString,
-  shouldTimerReload,
 }: TimerProps) => {
-  const defaultPreviousTime: PuzzleSolve = {
-    eventName: eventName,
-    time: 0.0,
-    penalty: undefined,
-    scramble: 'DEFAULT',
-    date: new Date(),
-    solveId: 'DEFAULT',
-  };
-  const [previousTime, setPreviousTime] = useState<PuzzleSolve>(defaultPreviousTime);
+  const { solves, updateSolves } = useContext(SolvesContext);
 
   useEffect(() => {
-    const times = getTimes(eventName);
-
-    if (times && times.length !== 0) {
-      setPreviousTime(times[times.length - 1]);
-    } else {
-      setPreviousTime(defaultPreviousTime);
-    }
-  }, [eventName, shouldTimerReload]);
+    //Just want to re-render
+  }, [eventName, solves]);
 
   const keyboardTimerCallback = (time: number, penalty: Penalty): void => {
     const solveId = nanoid();
     saveTime(eventName, time, penalty, scrambleString, new Date(), solveId);
-    setPreviousTime({
-      eventName: eventName,
-      time: time,
-      penalty: penalty,
-      scramble: scrambleString,
-      date: new Date(),
-      solveId: solveId,
-    });
+    updateSolves();
   };
 
-  const { time, inspectionTime, state, isTiming, dnf, plusTwo } = useKeyboardTimer(
+  const { time, inspectionTime, state, isTiming } = useKeyboardTimer(
     settings,
     keyboardTimerCallback
   );
@@ -94,7 +72,7 @@ const Timer = ({
     //render timer itself
     switch (state) {
       default:
-        return <p className="unselectable">{renderTime(previousTime)}</p>;
+        return <p className="unselectable">{solves ? renderTime(solves[solves.length - 1]) : "0.00"}</p>;
 
       case 'SPACE_PRESSED_INSPECTION':
         return (

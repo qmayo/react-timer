@@ -6,11 +6,9 @@ import SolveModal from './SolveModal';
 export interface SolveModalForAnalytics {
   eventName: WCAEvent;
   solve: PuzzleSolve;
-  setShouldSolvesUpdate: any;
-  sholdSolvesUpdate: boolean;
 }
 
-const SolveModalForAnalytics = ({ eventName, solve, setShouldSolvesUpdate, sholdSolvesUpdate }: SolveModalForAnalytics) => { //FOR ANALYTICS PAGE
+const SolveModalForAnalytics = ({ eventName, solve }: SolveModalForAnalytics) => { //FOR ANALYTICS PAGE
   const [isActive, setIsActive] = useState<boolean>(false);
 
   return (
@@ -26,13 +24,10 @@ const SolveModalForAnalytics = ({ eventName, solve, setShouldSolvesUpdate, shold
         </td>
       </tr>
       <SolveModal
-        key={solve.solveId}
         eventName={eventName}
         solve={solve}
         isActive={isActive}
         setIsActive={setIsActive}
-        setShouldSolvesUpdate={setShouldSolvesUpdate}
-        shouldSolvesUpdate={sholdSolvesUpdate}
       />
     </React.Fragment>
   );

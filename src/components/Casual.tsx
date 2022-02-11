@@ -1,11 +1,12 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Timer from './Timer';
 import Card from './Card';
 import Scramble from './scrambles/Scramble';
 import avgsAsCards from './utils/avgsAsCards';
 import { WCAEvent, PuzzleAverage } from '../types';
-import { changePenaltyOfCurrentTime, deleteCurrentTime } from './utils/storageTools';
+import { changePenaltyOfCurrentTime, deleteCurrentTime, getTimes } from './utils/storageTools';
+import SolvesContext from './contexts/SolvesContext';
 
 export interface CasualProps {
   eventName: WCAEvent;
@@ -15,7 +16,8 @@ export interface CasualProps {
 const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
   const [scrambleString, setScramble] = useState<string>('');
   const [shouldScrambleUpdate, setShouldScrambleUpdate] = useState<boolean>(false);
-  const [shouldTimerReload, setShouldTimerReload] = useState<boolean>(false); //Might need to update if e. g. penalties are changed
+
+  const { updateSolves } = useContext(SolvesContext);
 
   return (
     <div>
@@ -37,7 +39,6 @@ const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
               eventName={eventName}
               setShouldScrambleUpdate={setShouldScrambleUpdate}
               scrambleString={scrambleString}
-              shouldTimerReload={shouldTimerReload}
             />
           </div>
           <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center mb-6">
@@ -45,7 +46,7 @@ const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
               <a
                 onClick={async () => {
                   changePenaltyOfCurrentTime(eventName, { type: '+2', amount: 2 });
-                  setShouldTimerReload(!shouldTimerReload);
+                  updateSolves();
                 }}
               >
                 +2
@@ -55,7 +56,7 @@ const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
               <a
                 onClick={() => {
                   changePenaltyOfCurrentTime(eventName, { type: 'DNF' });
-                  setShouldTimerReload(!shouldTimerReload);
+                  updateSolves();
                 }}
               >
                 DNF
@@ -66,7 +67,7 @@ const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
                 onClick={() => {
                   if (window.confirm('Are you sure you want to delete your previous time?')) {
                     deleteCurrentTime(eventName);
-                    setShouldTimerReload(!shouldTimerReload);
+                    updateSolves();
                   }
                 }}
               >
