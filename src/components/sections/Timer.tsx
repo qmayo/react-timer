@@ -8,10 +8,11 @@ import useDidMountEffect from '../utils/useDidMountEffect';
 import millisecondsToSeconds from '../utils/millisecondsToSeconds';
 import SolvesContext from '../contexts/SolvesContext';
 
-import { WCAEvent, Penalty, PuzzleSolve } from '../../types';
+import { WCAEvent, Penalty, PuzzleSolve, TimeEntryType } from '../../types';
+import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 
 let settings = {
-  timerInput: 'timer',
+  timerInput: 'timer', //TODO: Do work in fork of use-keyboard-timer to enable stackmat timing
   inspection: 'always',
   timerUpdate: 'deciseconds',
   timeToRelease: 'stackmat',
@@ -51,17 +52,17 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
   }, [state]);
 
   const renderTime = (time: PuzzleSolve) => {
-    return time.penalty ? (
-      time.penalty.type === 'DNF' ? ( //This is because the time for inspection DNFs defaults to -1, and that would look weird
+    if (time.penalty) {
+      return time.penalty.type === 'DNF' ? (
         <p className="unselectable">DNF</p>
       ) : (
-        <p className="unselectable">{`${millisecondsToSeconds(time.time).toFixed(2)} (${
+        <p className="unselectable">{`${millisecondsToHHMMSSDD(time.time)} (${
           time.penalty.type
         })`}</p>
-      )
-    ) : (
-      <p className="unselectable">{millisecondsToSeconds(time.time).toFixed(2)}</p>
-    );
+      );
+    } else {
+      return <p className="unselectable">{millisecondsToHHMMSSDD(time.time)}</p>;
+    }
   };
 
   const renderTimer = () => {
@@ -94,14 +95,15 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
           </p>
         );
       case 'STARTED':
-        return <p className="unselectable">{millisecondsToSeconds(time).toFixed(2)}</p>;
+        return <p className="unselectable">{millisecondsToHHMMSSDD(time)}</p>;
     }
   };
 
   return (
     <div
-      className={isTiming ? 'fill-window' : ''}
-      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      className={
+        'is-flex is-justify-content-center is-align-items-center' + (isTiming ? ' fill-window' : '')
+      }
     >
       <h1 style={{ fontSize: '12vh', padding: '20px', margin: '5px' }}>
         <strong>{renderTimer()}</strong>

@@ -19,8 +19,10 @@ const SolveModalForAnalytics = ({ eventName, solve }: SolveModalForAnalytics) =>
         }}
       >
         <td className="is-size-5" style={{ width: '25%' }}>
-          {solve.time !== -1 ? millisecondsToSeconds(solve.time).toFixed(2) +
-            (solve.penalty ? ` (${solve.penalty.type})` : '') : "DNF"}
+          {solve.time !== -1
+            ? millisecondsToSeconds(solve.time).toFixed(2) +
+              (solve.penalty ? ` (${solve.penalty.type})` : '')
+            : 'DNF'}
         </td>
         <td className="is-size-5" style={{ width: '75%' }}>
           {solve.scramble}

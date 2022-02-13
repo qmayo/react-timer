@@ -28,9 +28,7 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
               })}
           </tbody>
         </table>
-        {!solves && 
-         <h5 className='title is-5'>No Data Available</h5>
-        }
+        {!solves && <h5 className="title is-5">No Data Available</h5>}
       </div>
     </div>
   );

@@ -14,12 +14,7 @@ export interface SolveModalProps {
   setIsActive: any;
 }
 
-const SolveModal = ({
-  eventName,
-  solve,
-  isActive,
-  setIsActive,
-}: SolveModalProps) => {
+const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps) => {
   const { updateSolves } = useContext(SolvesContext);
 
   return (
@@ -32,7 +27,13 @@ const SolveModal = ({
               <BiX color="black" size={40} onClick={() => setIsActive(false)} />
             </a>
             <h2 className="title is-2">{eventNameToFullName(eventName)}</h2>
-            <h4 className="title is-4">Time: {(solve.time !== -1 ? (millisecondsToSeconds(solve.time).toFixed(2) + (solve.penalty ? ` (${solve.penalty.type})` : '')) : "DNF")}</h4>
+            <h4 className="title is-4">
+              Time:{' '}
+              {solve.time !== -1
+                ? millisecondsToSeconds(solve.time).toFixed(2) +
+                  (solve.penalty ? ` (${solve.penalty.type})` : '')
+                : 'DNF'}
+            </h4>
             <h4 className="title is-4">Scramble: {solve.scramble}</h4>
             <h4 className="title is-4">Penalty: {solve.penalty ? solve.penalty.type : 'None'}</h4>
             <h4 className="title is-4">

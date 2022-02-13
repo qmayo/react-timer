@@ -5,12 +5,13 @@ import Navbar from './components/sections/Navbar';
 import Casual from './components/screens/Casual';
 import Analytics from './components/screens/Analytics';
 import SolvesContext from './components/contexts/SolvesContext';
-import { WCAEvent, PuzzleAverage, PuzzleSolve } from './types/index';
+import { WCAEvent, PuzzleAverage, PuzzleSolve, TimeEntryType } from './types/index';
 import { getTimes } from './components/utils/storageTools';
 
 function App() {
   const [eventName, setEvent] = useState<WCAEvent>('333');
   const [solves, setSolves] = useState<PuzzleSolve[] | null>(null);
+  const [timeEntryType, setTimeEntryTipe] = useState<TimeEntryType>('timer');
   const [avgsToDisplay, setAvgsToDisplay] = useState<Array<PuzzleAverage>>([
     { size: 5, type: 'avg' },
     { size: 12, type: 'avg' },
@@ -28,7 +29,8 @@ function App() {
       <SolvesContext.Provider
         value={{
           solves: solves,
-          updateSolves: () => { //NEEDS TO BE CALLED WHENEVER SOLVES ARE CHANGED IN LOCALSTORAGE
+          updateSolves: () => {
+            //NEEDS TO BE CALLED WHENEVER SOLVES ARE CHANGED IN LOCALSTORAGE
             const solves = getTimes(eventName);
             setSolves(solves);
           },
@@ -36,7 +38,11 @@ function App() {
       >
         <Switch>
           <Route exact path="/casual">
-            <Casual eventName={eventName} avgsToDisplay={avgsToDisplay} />
+            <Casual
+              eventName={eventName}
+              avgsToDisplay={avgsToDisplay}
+              timeEntryType={timeEntryType}
+            />
           </Route>
           <Route exact path="/competetive">
             <div className="Competetive"></div>

@@ -15,6 +15,8 @@ export type WCAEvent =
   | 'skbso'
   | 'sq1';
 
+export type TimeEntryType = 'timer' | 'manual' | 'stackmat';
+
 export interface Penalty {
   type: 'DNF' | '+2';
   amount?: number;

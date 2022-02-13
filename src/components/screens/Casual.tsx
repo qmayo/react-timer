@@ -1,19 +1,20 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import Timer from '../sections/Timer';
-import Card from '../sections/Card';
+import ManualTimer from '../sections/ManualTimer';
 import Scramble from '../scrambles/Scramble';
 import avgsAsCards from '../utils/avgsAsCards';
-import { WCAEvent, PuzzleAverage } from '../../types';
+import { WCAEvent, PuzzleAverage, TimeEntryType } from '../../types';
 import { changePenaltyOfCurrentTime, deleteCurrentTime, getTimes } from '../utils/storageTools';
 import SolvesContext from '../contexts/SolvesContext';
 
 export interface CasualProps {
   eventName: WCAEvent;
   avgsToDisplay: Array<PuzzleAverage>;
+  timeEntryType: TimeEntryType;
 }
 
-const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
+const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
   const [scrambleString, setScramble] = useState<string>('');
   const [shouldScrambleUpdate, setShouldScrambleUpdate] = useState<boolean>(false);
 
@@ -33,13 +34,21 @@ const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
       <div className="columns is-vcentered">
         <div className="column has-text-centered">
           <div id="timer">
-            {' '}
             {/* id must match targetComponentID in Timer.js */}
-            <Timer
-              eventName={eventName}
-              setShouldScrambleUpdate={setShouldScrambleUpdate}
-              scrambleString={scrambleString}
-            />
+            {/* @ts-ignore */}
+            {timeEntryType !== 'manual' ? (
+              <Timer
+                eventName={eventName}
+                setShouldScrambleUpdate={setShouldScrambleUpdate}
+                scrambleString={scrambleString}
+              />
+            ) : (
+              <ManualTimer
+                eventName={eventName}
+                setShouldScrambleUpdate={setShouldScrambleUpdate}
+                scrambleString={scrambleString}
+              />
+            )}
           </div>
           <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center mb-6">
             <div className="m-3 is-size-3 is-link-dark">
