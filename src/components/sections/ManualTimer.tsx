@@ -4,6 +4,8 @@ import SolvesContext from '../contexts/SolvesContext';
 import useDidMountEffect from '../utils/useDidMountEffect';
 import { saveTime } from '../utils/storageTools';
 import { nanoid } from 'nanoid';
+import HHMMSSDDToMs from '../utils/HHMMSSDDToMs';
+import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 
 export interface ManualTimerProps {
   eventName: WCAEvent;
@@ -12,7 +14,7 @@ export interface ManualTimerProps {
 }
 
 const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: ManualTimerProps) => {
-  const [time, setTime] = useState<number | null>(null);
+  const [time, setTime] = useState<number | null>(null); //HHMMSSDD, not MS
 
   const { solves, updateSolves } = useContext(SolvesContext);
 
@@ -35,7 +37,7 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
             const solveId = nanoid();
             saveTime(
               eventName,
-              time,
+              HHMMSSDDToMs(time),
               undefined as unknown as Penalty,
               scrambleString,
               new Date(),
@@ -47,9 +49,10 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
         }}
       >
         <input
-          className="Large input"
-          placeholder="Enter Solve Time"
+          className="Large input timer-input"
+          placeholder="Enter Time (HHMMSSDD)"
           type="text"
+          maxLength={8}
           value={time ? time : ''}
           onChange={(e) => {
             const parsedInput =  e.target.value.replace('/\D/[e]/','');
@@ -57,11 +60,15 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
           }}
         />
       </form>
-      {/* <div className="mt-6">
+      <div className="mt-6">
         <small>
-          <b>Previous Time: {solves && solves[solves.length - 1].time}</b>
+          {solves && (
+            <b>
+              Previous Time: {millisecondsToHHMMSSDD(solves[solves.length - 1].time)}
+            </b>
+          )}
         </small>
-      </div> */}
+      </div>
     </div>
   );
 };
