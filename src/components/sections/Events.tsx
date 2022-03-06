@@ -1,7 +1,7 @@
 import React from 'react';
 import { WCAEvent } from '../../types';
 
-export interface EventsProps {
+interface EventsProps {
   eventName: WCAEvent;
   changeEvent: any;
 }

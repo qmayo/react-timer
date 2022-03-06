@@ -4,7 +4,7 @@ import Events from './Events';
 import { BiCubeAlt } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 
-export interface NavbarProps {
+interface NavbarProps {
   eventName: WCAEvent;
   changeEvent: any;
 }

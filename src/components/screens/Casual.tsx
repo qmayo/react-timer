@@ -5,10 +5,10 @@ import ManualTimer from '../sections/ManualTimer';
 import Scramble from '../scrambles/Scramble';
 import avgsAsCards from '../utils/avgsAsCards';
 import { WCAEvent, PuzzleAverage, TimeEntryType } from '../../types';
-import { changePenaltyOfCurrentTime, deleteCurrentTime, getTimes } from '../utils/storageTools';
+import { changePenaltyOfCurrentSolve, deleteCurrentSolve } from '../utils/storageTools';
 import SolvesContext from '../contexts/SolvesContext';
 
-export interface CasualProps {
+interface CasualProps {
   eventName: WCAEvent;
   avgsToDisplay: Array<PuzzleAverage>;
   timeEntryType: TimeEntryType;
@@ -53,8 +53,8 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
           <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center mb-6">
             <div className="m-3 is-size-3 is-link-dark">
               <a
-                onClick={async () => {
-                  changePenaltyOfCurrentTime(eventName, { type: '+2', amount: 2 });
+                onClick={() => {
+                  changePenaltyOfCurrentSolve(eventName, { type: '+2', amount: 2 });
                   updateSolves();
                 }}
               >
@@ -64,7 +64,7 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
             <div className="m-3 is-size-3 is-link-dark">
               <a
                 onClick={() => {
-                  changePenaltyOfCurrentTime(eventName, { type: 'DNF' });
+                  changePenaltyOfCurrentSolve(eventName, { type: 'DNF' });
                   updateSolves();
                 }}
               >
@@ -75,7 +75,7 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
               <a
                 onClick={() => {
                   if (window.confirm('Are you sure you want to delete your previous time?')) {
-                    deleteCurrentTime(eventName);
+                    deleteCurrentSolve(eventName);
                     updateSolves();
                   }
                 }}

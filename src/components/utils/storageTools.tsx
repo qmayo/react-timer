@@ -1,29 +1,41 @@
 import { Penalty, PuzzleSolve, WCAEvent } from '../../types';
 
-export const getTimes = (eventName: WCAEvent): Array<PuzzleSolve> | null => {
-  const unparsedTimes = localStorage.getItem(eventName);
-  let times: Array<PuzzleSolve> | null;
+export const getSolves = (eventName: WCAEvent): Array<PuzzleSolve> | null => {
+  const unparsedSolves = localStorage.getItem(eventName);
+  let solves: Array<PuzzleSolve> | null;
 
-  unparsedTimes ? (times = JSON.parse(unparsedTimes)) : (times = null);
+  unparsedSolves ? (solves = JSON.parse(unparsedSolves)) : (solves = null);
 
-  if (times && times.length !== 0) {
-    return times;
+  if (solves && solves.length !== 0) {
+    return solves;
   } else {
     return null;
   }
 };
 
-export const getCurrentTimes = (eventName: WCAEvent, amount: number): Array<PuzzleSolve> | null => {
-  const times = getTimes(eventName);
+export const getCurrentSolves = (eventName: WCAEvent, amount: number): Array<PuzzleSolve> | null => {
+  const solves = getSolves(eventName);
 
-  if (times && times.length >= amount) {
-    return times.slice(times.length - amount, times.length);
+  if (solves && solves.length >= amount) {
+    return solves.slice(solves.length - amount, solves.length);
   } else {
     return null;
   }
 };
 
-export const saveTime = (
+/* export const getSolve = (eventName: WCAEvent, solveId: string):  => {
+  const solves = getSolves(eventName);
+
+  if (solves && solves.length !== 0) {
+    const solve = solves.find((solve) => {
+      return solve.solveId === solveId;
+    })
+
+
+  }
+} */
+
+export const saveSolve = (
   eventName: WCAEvent,
   time: number,
   penalty: Penalty,
@@ -31,9 +43,9 @@ export const saveTime = (
   date: Date,
   solveId: string
 ): void => {
-  const times = getTimes(eventName);
+  const solves = getSolves(eventName);
 
-  if (times === null) {
+  if (solves === null) {
     localStorage.setItem(
       eventName,
       JSON.stringify([
@@ -44,121 +56,121 @@ export const saveTime = (
     localStorage.setItem(
       eventName,
       JSON.stringify([
-        ...times,
+        ...solves,
         { time: time, penalty: penalty, scramble: scrambleString, date: date, solveId: solveId },
       ])
     );
   }
 };
 
-export const deleteTime = (eventName: WCAEvent, solveId: string): void => {
-  const times = getTimes(eventName);
+export const deleteSolve = (eventName: WCAEvent, solveId: string): void => {
+  const solves = getSolves(eventName);
 
-  if (times && times.length !== 0) {
-    const time = times.find((time) => {
-      return time.solveId === solveId;
+  if (solves && solves.length !== 0) {
+    const solve = solves.find((solve) => {
+      return solve.solveId === solveId;
     });
 
-    if (time) {
-      const index = times.indexOf(time);
-      times.splice(index, 1);
-      localStorage.setItem(eventName, JSON.stringify(times));
+    if (solve) {
+      const index = solves.indexOf(solve);
+      solves.splice(index, 1);
+      localStorage.setItem(eventName, JSON.stringify(solves));
     }
   }
 };
 
-export const deleteCurrentTime = (eventName: WCAEvent): void => {
-  const times = getTimes(eventName);
+export const deleteCurrentSolve = (eventName: WCAEvent): void => {
+  const solves = getSolves(eventName);
 
-  if (times && times.length !== 0) {
-    times.splice(times.length - 1, 1);
-    localStorage.setItem(eventName, JSON.stringify(times));
+  if (solves && solves.length !== 0) {
+    solves.splice(solves.length - 1, 1);
+    localStorage.setItem(eventName, JSON.stringify(solves));
   }
 };
 
-export const changePenaltyOfTime = (
+export const changePenaltyOfSolve = (
   eventName: WCAEvent,
   solveId: string,
   penalty: Penalty
 ): void => {
-  const times = getTimes(eventName);
+  const solves = getSolves(eventName);
 
-  if (times && times.length !== 0) {
-    const time = times.find((time) => {
-      return time.solveId === solveId;
+  if (solves && solves.length !== 0) {
+    const solve = solves.find((solve) => {
+      return solve.solveId === solveId;
     });
 
-    if (time && time.time !== -1) {
-      const index = times.indexOf(time);
-      if (JSON.stringify(time.penalty) !== JSON.stringify(penalty)) {
-        let penalizedTime = time;
+    if (solve && solve.time !== -1) {
+      const index = solves.indexOf(solve);
+      if (JSON.stringify(solve.penalty) !== JSON.stringify(penalty)) {
+        let penalizedSolve = solve;
 
         if (penalty.type === '+2') {
-          penalizedTime.time = penalizedTime.time + 2000;
-          penalizedTime.penalty = penalty;
+          penalizedSolve.time = penalizedSolve.time + 2000;
+          penalizedSolve.penalty = penalty;
         } else {
-          if (time.penalty) {
-            if (time.penalty.type === '+2') {
-              penalizedTime.time = time.time - 2000;
-              penalizedTime.penalty = penalty;
+          if (solve.penalty) {
+            if (solve.penalty.type === '+2') { //Change from +2 to DNF if already +2; Else set DNF
+              penalizedSolve.time = solve.time - 2000;
+              penalizedSolve.penalty = penalty;
             }
           } else {
-            penalizedTime.penalty = penalty;
+            penalizedSolve.penalty = penalty;
           }
         }
 
-        times[index] = penalizedTime;
-        localStorage.setItem(eventName, JSON.stringify(times));
+        solves[index] = penalizedSolve;
+        localStorage.setItem(eventName, JSON.stringify(solves));
       } else {
-        let unPenalizedTime = time;
-        delete unPenalizedTime.penalty;
+        let unPenalizedSolve = solve;
+        delete unPenalizedSolve.penalty;
 
         if (penalty.type === '+2') {
-          unPenalizedTime.time = unPenalizedTime.time - 2000;
+          unPenalizedSolve.time = unPenalizedSolve.time - 2000;
         }
 
-        times[index] = unPenalizedTime;
-        localStorage.setItem(eventName, JSON.stringify(times));
+        solves[index] = unPenalizedSolve;
+        localStorage.setItem(eventName, JSON.stringify(solves));
       }
     }
   }
 };
 
-export const changePenaltyOfCurrentTime = (eventName: WCAEvent, penalty: Penalty): void => {
-  const times = getTimes(eventName);
+export const changePenaltyOfCurrentSolve = (eventName: WCAEvent, penalty: Penalty): void => {
+  const solves = getSolves(eventName);
 
-  if (times && times.length !== 0) {
-    const time = times[times.length - 1];
-    if (time.time !== -1) {
-      if (JSON.stringify(time.penalty) !== JSON.stringify(penalty)) {
-        let penalizedTime = time;
+  if (solves && solves.length !== 0) {
+    const solve = solves[solves.length - 1];
+    if (solve.time !== -1) {
+      if (JSON.stringify(solve.penalty) !== JSON.stringify(penalty)) {
+        let penalizedSolve = solve;
 
         if (penalty.type === '+2') {
-          penalizedTime.time = penalizedTime.time + 2000;
-          penalizedTime.penalty = penalty;
+          penalizedSolve.time = penalizedSolve.time + 2000;
+          penalizedSolve.penalty = penalty;
         } else {
-          if (time.penalty) {
-            if (time.penalty.type === '+2') {
-              penalizedTime.time = time.time - 2000;
-              penalizedTime.penalty = penalty;
+          if (solve.penalty) {
+            if (solve.penalty.type === '+2') { //Change from +2 to DNF if already +2; Else set DNF
+              penalizedSolve.time = solve.time - 2000;
+              penalizedSolve.penalty = penalty;
             }
           } else {
-            penalizedTime.penalty = penalty;
+            penalizedSolve.penalty = penalty;
           }
         }
 
-        times[times.length - 1] = penalizedTime;
-        localStorage.setItem(eventName, JSON.stringify(times));
+        solves[solves.length - 1] = penalizedSolve;
+        localStorage.setItem(eventName, JSON.stringify(solves));
       } else {
-        let unPenalizedTime = time;
+        let unPenalizedTime = solve;
         delete unPenalizedTime.penalty;
 
         if (penalty.type === '+2') {
           unPenalizedTime.time = unPenalizedTime.time - 2000;
         }
 
-        times[times.length - 1] = unPenalizedTime;
-        localStorage.setItem(eventName, JSON.stringify(times));
+        solves[solves.length - 1] = unPenalizedTime;
+        localStorage.setItem(eventName, JSON.stringify(solves));
       }
     }
   }

@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import useDidMountEffect from '../utils/useDidMountEffect';
 import { PuzzleSolve, WCAEvent } from '../../types';
-import millisecondsToSeconds from '../utils/millisecondsToSeconds';
-import { changePenaltyOfTime, deleteTime } from '../utils/storageTools';
+import { changePenaltyOfSolve, deleteSolve } from '../utils/storageTools';
 import { BiX } from 'react-icons/bi';
 import SolvesContext from '../contexts/SolvesContext';
 import eventNameToFullName from '../utils/eventNameToFullName';
+import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 
-export interface SolveModalProps {
+interface SolveModalProps {
   eventName: WCAEvent;
   solve: PuzzleSolve;
   isActive: boolean;
@@ -29,8 +28,8 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
             <h2 className="title is-2">{eventNameToFullName(eventName)}</h2>
             <h4 className="title is-4">
               Time:{' '}
-              {solve.time !== -1
-                ? millisecondsToSeconds(solve.time).toFixed(2) +
+              {solve.time !== -1 //Check DNF
+                ? millisecondsToHHMMSSDD(solve.time) +
                   (solve.penalty ? ` (${solve.penalty.type})` : '')
                 : 'DNF'}
             </h4>
@@ -46,7 +45,7 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
               <div className="m-3 is-size-3 is-link-dark">
                 <a
                   onClick={() => {
-                    changePenaltyOfTime(eventName, solve.solveId, { type: '+2', amount: 2 });
+                    changePenaltyOfSolve(eventName, solve.solveId, { type: '+2', amount: 2 });
                     updateSolves();
                   }}
                 >
@@ -56,7 +55,7 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
               <div className="m-3 is-size-3 is-link-dark">
                 <a
                   onClick={() => {
-                    changePenaltyOfTime(eventName, solve.solveId, { type: 'DNF' });
+                    changePenaltyOfSolve(eventName, solve.solveId, { type: 'DNF' });
                     updateSolves();
                   }}
                 >
@@ -67,7 +66,7 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                 <a
                   onClick={() => {
                     if (window.confirm('Are you sure you want to delete your previous time?')) {
-                      deleteTime(eventName, solve.solveId);
+                      deleteSolve(eventName, solve.solveId);
                       updateSolves();
                       setIsActive(false);
                     }

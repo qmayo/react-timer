@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Penalty, WCAEvent } from '../../types';
 import SolvesContext from '../contexts/SolvesContext';
 import useDidMountEffect from '../utils/useDidMountEffect';
-import { saveTime } from '../utils/storageTools';
+import { saveSolve } from '../utils/storageTools';
 import { nanoid } from 'nanoid';
 import HHMMSSDDToMs from '../utils/HHMMSSDDToMs';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 
-export interface ManualTimerProps {
+interface ManualTimerProps {
   eventName: WCAEvent;
   setShouldScrambleUpdate: any;
   scrambleString: string;
@@ -17,10 +17,6 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
   const [time, setTime] = useState<number | null>(null); //HHMMSSDD, not MS
 
   const { solves, updateSolves } = useContext(SolvesContext);
-
-  useEffect(() => {
-    //Just want to re-render
-  }, [eventName]);
 
   useDidMountEffect(() => {
     setShouldScrambleUpdate(true);
@@ -35,7 +31,7 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
 
           if (time && time !== 0) {
             const solveId = nanoid();
-            saveTime(
+            saveSolve(
               eventName,
               HHMMSSDDToMs(time),
               undefined as unknown as Penalty,

@@ -6,12 +6,12 @@ import Casual from './components/screens/Casual';
 import Analytics from './components/screens/Analytics';
 import SolvesContext from './components/contexts/SolvesContext';
 import { WCAEvent, PuzzleAverage, PuzzleSolve, TimeEntryType } from './types/index';
-import { getTimes } from './components/utils/storageTools';
+import { getSolves } from './components/utils/storageTools';
 
 function App() {
   const [eventName, setEvent] = useState<WCAEvent>('333');
   const [solves, setSolves] = useState<PuzzleSolve[] | null>(null);
-  const [timeEntryType, setTimeEntryTipe] = useState<TimeEntryType>('manual');
+  const [timeEntryType, setTimeEntryTipe] = useState<TimeEntryType>('timer');
   const [avgsToDisplay, setAvgsToDisplay] = useState<Array<PuzzleAverage>>([
     { size: 5, type: 'avg' },
     { size: 12, type: 'avg' },
@@ -19,7 +19,7 @@ function App() {
   ]);
 
   useEffect(() => {
-    const times = getTimes(eventName);
+    const times = getSolves(eventName);
     setSolves(times);
   }, [eventName]);
 
@@ -31,7 +31,7 @@ function App() {
           solves: solves,
           updateSolves: () => {
             //NEEDS TO BE CALLED WHENEVER SOLVES ARE CHANGED IN LOCALSTORAGE
-            const solves = getTimes(eventName);
+            const solves = getSolves(eventName);
             setSolves(solves);
           },
         }}

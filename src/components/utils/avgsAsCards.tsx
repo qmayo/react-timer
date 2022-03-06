@@ -7,86 +7,88 @@ import {
   getBestAoX,
   getWorstAoX,
 } from './sessionStatisticsTools';
-import { getTimes, getCurrentTimes } from './storageTools';
-import millisecondsToSeconds from './millisecondsToSeconds';
+import { getSolves, getCurrentSolves } from './storageTools';
 import { PuzzleAverage, WCAEvent } from '../../types';
 import { nanoid } from 'nanoid';
+import millisecondsToHHMMSSDD from './millisecondsToHHMMSSDD';
 
 const avgsAsCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) => {
   return avgsToDisplay.map((avg) => {
     if (avg.type === 'avg') {
       let currentAverage, bestAverage, worstAverage;
+      let currentAverageStr, bestAverageStr, worstAverageStr;
 
-      let currentTimes = getCurrentTimes(eventName, avg.size);
+      let currentTimes = getCurrentSolves(eventName, avg.size);
       currentTimes // @ts-ignore
-        ? (currentTimes = currentTimes.map((solve) => millisecondsToSeconds(solve.time)))
+        ? (currentTimes = currentTimes.map((solve) => (solve.time)))
         : (currentTimes = null);
 
-      let times = getTimes(eventName); // @ts-ignore
-      times ? (times = times.map((solve) => millisecondsToSeconds(solve.time))) : (times = null);
+      let times = getSolves(eventName); // @ts-ignore
+      times ? (times = times.map((solve) => (solve.time))) : (times = null);
 
       if (currentTimes) {
         // @ts-ignore
-        currentAverage = getAvg(currentTimes).toFixed(2);
+        currentAverageStr = millisecondsToHHMMSSDD(getAvg(currentTimes));
       }
 
       if (times) {
         // @ts-ignore
         bestAverage = getBestAoX(times, avg.size);
         if (bestAverage) {
-          bestAverage = bestAverage.toFixed(2);
+          bestAverageStr = millisecondsToHHMMSSDD(bestAverage);
         }
         // @ts-ignore
         worstAverage = getWorstAoX(times, avg.size);
         if (worstAverage) {
-          worstAverage = worstAverage.toFixed(2);
+          worstAverageStr = millisecondsToHHMMSSDD(worstAverage);
         }
       }
 
       return (
         <Card key={nanoid(5)}>
           <h4 className="title is-4">{`Ao${avg.size}`}:</h4>
-          <p>Current: {currentAverage || 'N/A'}</p>
-          <p>Best: {bestAverage || 'N/A'}</p>
-          <p>Worst: {worstAverage || 'N/A'}</p>
+          <p>Current: {currentAverageStr || 'N/A'}</p>
+          <p>Best: {bestAverageStr || 'N/A'}</p>
+          <p>Worst: {worstAverageStr || 'N/A'}</p>
         </Card>
       );
     } else {
       //avg.type === 'mean'
       let currentMean, bestMean, worstMean;
+      let currentMeanStr, bestMeanStr, worstMeanStr;
 
-      let currentTimes = getCurrentTimes(eventName, avg.size);
+      let currentTimes = getCurrentSolves(eventName, avg.size);
       currentTimes // @ts-ignore
         ? (currentTimes = currentTimes.map((solve) => solve.time))
         : (currentTimes = null);
 
-      let times = getTimes(eventName); // @ts-ignore
+      let times = getSolves(eventName); // @ts-ignore
       times ? (times = times.map((solve) => solve.time)) : (times = null);
 
       if (currentTimes) {
         // @ts-ignore
-        currentMean = getMean(currentTimes).toFixed(2);
+        currentMeanStr = millisecondsToHHMMSSDD(getMean(currentTimes));
       }
 
       if (times) {
         // @ts-ignore
         bestMean = getBestMoX(times, avg.size);
         if (bestMean) {
-          bestMean = bestMean.toFixed(2);
+          bestMeanStr = millisecondsToHHMMSSDD(bestMean);
         }
         // @ts-ignore
         worstMean = getWorstMoX(times, avg.size);
         if (worstMean) {
-          worstMean = worstMean.toFixed(2);
+          worstMeanStr = millisecondsToHHMMSSDD(worstMean);
         }
       }
 
       return (
         <Card key={nanoid(5)}>
           <h4 className="title is-4">{`Mo${avg.size}`}:</h4>
-          <p>Current: {currentMean || 'N/A'}</p>
-          <p>Best: {bestMean || 'N/A'}</p>
-          <p>Worst: {worstMean || 'N/A'}</p>
+          <p>Current: {currentMeanStr || 'N/A'}</p>
+          <p>Best: {bestMeanStr || 'N/A'}</p>
+          <p>Worst: {worstMeanStr || 'N/A'}</p>
         </Card>
       );
     }

@@ -1,14 +1,13 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 import { nanoid } from 'nanoid';
 
-import { getTimes, saveTime } from '../utils/storageTools';
+import { saveSolve } from '../utils/storageTools';
 import useDidMountEffect from '../utils/useDidMountEffect';
-import millisecondsToSeconds from '../utils/millisecondsToSeconds';
 import SolvesContext from '../contexts/SolvesContext';
 
-import { WCAEvent, Penalty, PuzzleSolve, TimeEntryType } from '../../types';
+import { WCAEvent, Penalty, PuzzleSolve } from '../../types';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 
 let settings = {
@@ -19,7 +18,7 @@ let settings = {
   targetComponentID: 'timer',
 };
 
-export interface TimerProps {
+interface TimerProps {
   eventName: WCAEvent;
   setShouldScrambleUpdate: any;
   scrambleString: string;
@@ -28,13 +27,9 @@ export interface TimerProps {
 const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProps) => {
   const { solves, updateSolves } = useContext(SolvesContext);
 
-  useEffect(() => {
-    //Just want to re-render
-  }, [eventName, solves]);
-
   const keyboardTimerCallback = (time: number, penalty: Penalty): void => {
     const solveId = nanoid();
-    saveTime(eventName, time, penalty, scrambleString, new Date(), solveId);
+    saveSolve(eventName, time, penalty, scrambleString, new Date(), solveId);
     updateSolves();
   };
 
