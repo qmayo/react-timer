@@ -29,9 +29,15 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
   }
 
   const deleteSelectedSolves = () => {
-    selectedSolves.forEach((solve) => {
-      deleteSolve(eventName, solve); //'solve' is already the solveId
-    })
+    selectedSolves.forEach((solveId: PuzzleSolve["solveId"]) => {
+      deleteSolve(eventName, solveId); //'solve' is already the solveId
+    });
+    setSelectedSolves([]);
+    updateSolves();
+  }
+
+  const isSolveSelected = (solveId: PuzzleSolve["solveId"]) => {
+    return selectedSolves.includes(solveId) ? true : false;
   }
 
   return (
@@ -40,8 +46,14 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
         <h1 className="title is-1">{eventNameToFullName(eventName)}</h1>
         {/* <SearchAverages eventName={eventName} /> */}
         <div className='container has-text-left' style={(selectedSolves.length === 0) ? { visibility: "hidden" } : {}}>
-          <FiXCircle className='is-clickable' />
-          <FiTrash className='is-clickable ml-5' />
+          <FiXCircle className='is-clickable' onClick={() => {
+            setSelectedSolves([]);
+          }} />
+          <FiTrash className='is-clickable ml-5' onClick={() => {
+            if (window.confirm("Are you sure you want to delete all of the selected solves?")) {
+              deleteSelectedSolves();
+            }
+          }} />
         </div>
         <table className="table is-striped is-hoverable is-fullwidth">
           <thead>
@@ -52,7 +64,7 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
           <tbody>
             {solves &&
               solves.map((solve) => {
-                return <AnalyticsSolveModalWrapper eventName={eventName} solve={solve} selectSolve={selectSolve} deselectSolve={deselectSolve} />;
+                return <AnalyticsSolveModalWrapper eventName={eventName} solveIsSelected={isSolveSelected(solve.solveId)} solve={solve} selectSolve={selectSolve} deselectSolve={deselectSolve} />;
               })}
           </tbody>
         </table>

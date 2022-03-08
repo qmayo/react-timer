@@ -23,18 +23,6 @@ export const getCurrentSolves = (eventName: WCAEvent, amount: number): Array<Puz
   }
 };
 
-/* export const getSolve = (eventName: WCAEvent, solveId: string):  => {
-  const solves = getSolves(eventName);
-
-  if (solves && solves.length !== 0) {
-    const solve = solves.find((solve) => {
-      return solve.solveId === solveId;
-    })
-
-
-  }
-} */
-
 export const saveSolve = (
   eventName: WCAEvent,
   time: number,
@@ -63,7 +51,7 @@ export const saveSolve = (
   }
 };
 
-export const deleteSolve = (eventName: WCAEvent, solveId: string): void => {
+export const deleteSolve = (eventName: WCAEvent, solveId: PuzzleSolve["solveId"]): void => {
   const solves = getSolves(eventName);
 
   if (solves && solves.length !== 0) {
@@ -90,7 +78,7 @@ export const deleteCurrentSolve = (eventName: WCAEvent): void => {
 
 export const changePenaltyOfSolve = (
   eventName: WCAEvent,
-  solveId: string,
+  solveId: PuzzleSolve["solveId"],
   penalty: Penalty
 ): void => {
   const solves = getSolves(eventName);

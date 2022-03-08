@@ -65,7 +65,7 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
               <div className="m-3 is-size-3 is-link-dark">
                 <a
                   onClick={() => {
-                    if (window.confirm('Are you sure you want to delete your previous time?')) {
+                    if (window.confirm('Are you sure you want to delete this solve?')) {
                       deleteSolve(eventName, solve.solveId);
                       updateSolves();
                       setIsActive(false);

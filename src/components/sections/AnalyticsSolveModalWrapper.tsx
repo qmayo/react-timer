@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import { PuzzleSolve, WCAEvent } from '../../types';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 import SolveModal from '../modals/SolveModal';
-import { deleteSolve } from '../utils/storageTools';
 
 export interface SolveModalForAnalytics {
   eventName: WCAEvent;
   solve: PuzzleSolve;
+  solveIsSelected: boolean;
   selectSolve: (solveId: PuzzleSolve["solveId"]) => void;
   deselectSolve: (solveId: PuzzleSolve["solveId"]) => void;
 }
 
-const AnalyticsSolveModalWrapper = ({ eventName, solve, selectSolve, deselectSolve }: SolveModalForAnalytics) => {
+const AnalyticsSolveModalWrapper = ({ eventName, solve, solveIsSelected, selectSolve, deselectSolve }: SolveModalForAnalytics) => {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [checkboxIsChecked, setCheckboxIsChecked] = useState<boolean>(false);
 
   return (
     <React.Fragment key={solve.solveId}>
@@ -26,10 +25,9 @@ const AnalyticsSolveModalWrapper = ({ eventName, solve, selectSolve, deselectSol
           <input 
             type="checkbox" 
             className="checkbox" 
-            checked={checkboxIsChecked} 
+            checked={solveIsSelected} 
             onChange={(e) => {
               e.target.checked ? selectSolve(solve.solveId) : deselectSolve(solve.solveId);
-              setCheckboxIsChecked(e.target.checked);
             }} 
             onClick={(e) => {
               e.stopPropagation(); //Dont open modal
