@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import { PuzzleSolve } from '../../types';
 
-export interface SolvesContextInterface {
+interface SolvesContextInterface {
   solves: PuzzleSolve[] | null;
   updateSolves: () => void;
 }
