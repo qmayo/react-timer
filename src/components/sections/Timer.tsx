@@ -46,19 +46,20 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
     }
   }, [state]);
 
-  useEffect(() => { //Spacebard presses scroll down
+  useEffect(() => {
+    //Spacebard presses scroll down
     const handleSpacebar = (e: KeyboardEvent) => {
-      if (e.key === " " && e.target === document.body) {  
-        e.preventDefault();  
-      } 
+      if (e.key === ' ' && e.target === document.body) {
+        e.preventDefault();
+      }
     };
 
     window.addEventListener('keydown', handleSpacebar);
 
     return () => {
       window.removeEventListener('keydown', handleSpacebar);
-    }
-  }, [])
+    };
+  }, []);
 
   const renderTime = (solve: PuzzleSolve) => {
     if (solve.penalty) {

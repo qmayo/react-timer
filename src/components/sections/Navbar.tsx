@@ -13,14 +13,7 @@ const Navbar = ({ eventName, changeEvent }: NavbarProps) => {
   return (
     <div className="navbar has-background-link-dark mb-6">
       <div className="navbar-brand">
-        <div
-          style={{
-            display: 'flex',
-            flexFlow: 'row nowrap',
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}
-        >
+        <div className="is-flex is-wrap-nowrap is-justify-content-center is-align-content-center">
           <h1 className="navbar-item title is-1 has-text-white">ReactTimer</h1>
           <BiCubeAlt style={{ marginTop: 23 }} color="white" size={50} />
         </div>

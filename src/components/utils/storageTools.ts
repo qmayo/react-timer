@@ -13,7 +13,10 @@ export const getSolves = (eventName: WCAEvent): Array<PuzzleSolve> | null => {
   }
 };
 
-export const getCurrentSolves = (eventName: WCAEvent, amount: number): Array<PuzzleSolve> | null => {
+export const getCurrentSolves = (
+  eventName: WCAEvent,
+  amount: number
+): Array<PuzzleSolve> | null => {
   const solves = getSolves(eventName);
 
   if (solves && solves.length >= amount) {
@@ -51,7 +54,7 @@ export const saveSolve = (
   }
 };
 
-export const deleteSolve = (eventName: WCAEvent, solveId: PuzzleSolve["solveId"]): void => {
+export const deleteSolve = (eventName: WCAEvent, solveId: PuzzleSolve['solveId']): void => {
   const solves = getSolves(eventName);
 
   if (solves && solves.length !== 0) {
@@ -78,7 +81,7 @@ export const deleteCurrentSolve = (eventName: WCAEvent): void => {
 
 export const changePenaltyOfSolve = (
   eventName: WCAEvent,
-  solveId: PuzzleSolve["solveId"],
+  solveId: PuzzleSolve['solveId'],
   penalty: Penalty
 ): void => {
   const solves = getSolves(eventName);
@@ -98,7 +101,8 @@ export const changePenaltyOfSolve = (
           penalizedSolve.penalty = penalty;
         } else {
           if (solve.penalty) {
-            if (solve.penalty.type === '+2') { //Change from +2 to DNF if already +2; Else set DNF
+            if (solve.penalty.type === '+2') {
+              //Change from +2 to DNF if already +2; Else set DNF
               penalizedSolve.time = solve.time - 2000;
               penalizedSolve.penalty = penalty;
             }
@@ -138,7 +142,8 @@ export const changePenaltyOfCurrentSolve = (eventName: WCAEvent, penalty: Penalt
           penalizedSolve.penalty = penalty;
         } else {
           if (solve.penalty) {
-            if (solve.penalty.type === '+2') { //Change from +2 to DNF if already +2; Else set DNF
+            if (solve.penalty.type === '+2') {
+              //Change from +2 to DNF if already +2; Else set DNF
               penalizedSolve.time = solve.time - 2000;
               penalizedSolve.penalty = penalty;
             }

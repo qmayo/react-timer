@@ -14,9 +14,8 @@ export const getBestMoX = (times: Array<number>, meanSize: number): number | nul
 
     for (let i = 0; i < times.length - meanSize + 1; i++) {
       const mean = getMean(times.slice(i, i + meanSize));
-      // @ts-ignore
-      if (mean < bestMean) {
-        // @ts-ignore
+  
+      if (mean && mean < bestMean) {
         bestMean = mean;
       }
     }
@@ -35,9 +34,7 @@ export const getWorstMoX = (times: Array<number>, meanSize: number): number | nu
 
     for (let i = 0; i < times.length - meanSize + 1; i++) {
       const mean = getMean(times.slice(i, i + meanSize));
-      // @ts-ignore
-      if (mean > worstMean) {
-        // @ts-ignore
+      if (mean && mean > worstMean) {
         worstMean = mean;
       }
     }
@@ -53,18 +50,18 @@ export const getAvg = (times: Array<number>): number | null => {
     } else if (times.length === 2) {
       return times.reduce((a, b) => a + b) / times.length;
     } else {
-      const excludedtimes = Math.ceil(times.length * 0.05);
+      const excludedTimes = Math.ceil(times.length * 0.05);
       let clonedTimes = [...times]; //Call-by-sharing shenanigans
 
-      for (let i = 0; i < excludedtimes; i++) {
+      for (let i = 0; i < excludedTimes; i++) {
         const min = Math.min(...clonedTimes);
         const max = Math.max(...clonedTimes);
         clonedTimes.splice(
-          times.findIndex((time) => time === min),
+          clonedTimes.findIndex((time) => time === min),
           1
         );
         clonedTimes.splice(
-          times.findIndex((time) => time === max),
+          clonedTimes.findIndex((time) => time === max),
           1
         );
       }
@@ -86,9 +83,8 @@ export const getBestAoX = (times: Array<number>, avgSize: number): number | null
 
     for (let i = 0; i < times.length - avgSize + 1; i++) {
       const avg = getAvg(times.slice(i, i + avgSize));
-      // @ts-ignore
-      if (avg < bestAvg) {
-        // @ts-ignore
+
+      if (avg && avg < bestAvg) {
         bestAvg = avg;
       }
     }
@@ -108,9 +104,8 @@ export const getWorstAoX = (times: Array<number>, avgSize: number): number | nul
 
     for (let i = 0; i < times.length - avgSize + 1; i++) {
       const avg = getAvg(times.slice(i, i + avgSize));
-      // @ts-ignore
-      if (avg > worstAvg) {
-        // @ts-ignore
+
+      if (avg && avg > worstAvg) {
         worstAvg = avg;
       }
     }

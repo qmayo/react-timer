@@ -7,11 +7,17 @@ interface SolveModalForAnalytics {
   eventName: WCAEvent;
   solve: PuzzleSolve;
   solveIsSelected: boolean;
-  selectSolve: (solveId: PuzzleSolve["solveId"]) => void;
-  deselectSolve: (solveId: PuzzleSolve["solveId"]) => void;
+  selectSolve: (solveId: PuzzleSolve['solveId']) => void;
+  deselectSolve: (solveId: PuzzleSolve['solveId']) => void;
 }
 
-const AnalyticsSolveModalWrapper = ({ eventName, solve, solveIsSelected, selectSolve, deselectSolve }: SolveModalForAnalytics) => {
+const AnalyticsSolveModalWrapper = ({
+  eventName,
+  solve,
+  solveIsSelected,
+  selectSolve,
+  deselectSolve,
+}: SolveModalForAnalytics) => {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   return (
@@ -21,14 +27,14 @@ const AnalyticsSolveModalWrapper = ({ eventName, solve, solveIsSelected, selectS
           setIsActive(true);
         }}
       >
-        <td className='is-size-5' style={{ width: "5%" }}>
-          <input 
-            type="checkbox" 
-            className="checkbox" 
-            checked={solveIsSelected} 
+        <td className="is-size-5" style={{ width: '5%' }}>
+          <input
+            type="checkbox"
+            className="checkbox"
+            checked={solveIsSelected}
             onChange={(e) => {
               e.target.checked ? selectSolve(solve.solveId) : deselectSolve(solve.solveId);
-            }} 
+            }}
             onClick={(e) => {
               e.stopPropagation(); //Dont open modal
             }}
@@ -36,8 +42,7 @@ const AnalyticsSolveModalWrapper = ({ eventName, solve, solveIsSelected, selectS
         </td>
         <td className="is-size-5" style={{ width: '30%' }}>
           {solve.time !== -1 //Check DNF
-            ? millisecondsToHHMMSSDD(solve.time) +
-              (solve.penalty ? ` (${solve.penalty.type})` : '')
+            ? millisecondsToHHMMSSDD(solve.time) + (solve.penalty ? ` (${solve.penalty.type})` : '')
             : 'DNF'}
         </td>
         <td className="is-size-5" style={{ width: '65%' }}>

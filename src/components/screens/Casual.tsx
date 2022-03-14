@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import Timer from '../sections/Timer';
 import ManualTimer from '../sections/ManualTimer';
 import Scramble from '../scrambles/Scramble';
-import avgsAsCards from '../utils/avgsAsCards';
+import AverageCards from '../utils/AverageCards';
 import { WCAEvent, PuzzleAverage, TimeEntryType } from '../../types';
 import { changePenaltyOfCurrentSolve, deleteCurrentSolve } from '../utils/storageTools';
 import SolvesContext from '../contexts/SolvesContext';
@@ -35,7 +35,6 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
         <div className="column has-text-centered">
           <div id="timer">
             {/* id must match targetComponentID in Timer.js */}
-            {/* @ts-ignore */}
             {timeEntryType !== 'manual' ? (
               <Timer
                 eventName={eventName}
@@ -85,7 +84,7 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
             </div>
           </div>
           <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-around">
-            {avgsAsCards(avgsToDisplay, eventName)}
+            {AverageCards(avgsToDisplay, eventName)}
           </div>
         </div>
       </div>

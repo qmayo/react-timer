@@ -40,7 +40,7 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
               solveId
             );
             updateSolves();
-            setTime(null)
+            setTime(null);
           }
         }}
       >
@@ -51,18 +51,14 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
           maxLength={8}
           value={time ? time : ''}
           onChange={(e) => {
-            const parsedInput =  e.target.value.replace('/\D/[e]/','');
+            const parsedInput = e.target.value.replace('/D/[e]/', '');
             setTime(parseInt(parsedInput));
           }}
         />
       </form>
       <div className="mt-6">
         <small>
-          {solves && (
-            <b>
-              Previous Time: {millisecondsToHHMMSSDD(solves[solves.length - 1].time)}
-            </b>
-          )}
+          {solves && <b>Previous Time: {millisecondsToHHMMSSDD(solves[solves.length - 1].time)}</b>}
         </small>
       </div>
     </div>
