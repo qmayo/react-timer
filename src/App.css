@@ -1,6 +1,26 @@
 @import '~bulma/css/bulma.css';
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.spin {
+  animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
 * {
   font-family: 'Quicksand', sans-serif;
 }
@@ -10,22 +30,10 @@
   border-color: white;
 }
 
-html,
-body {
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-}
-
 *.unselectable {
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
-
-  /*
-    Introduced in IE 10.
-    See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-  */
   -ms-user-select: none;
   user-select: none;
 }
@@ -40,22 +48,16 @@ body {
   background-color: white;
 }
 
-.spin {
-  animation: spin 2s infinite linear;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(359deg);
-  }
-}
-
 .timer-input {
   width: 45%;
   padding: 40px;
   text-align: center;
+}
+
+/* BULMA OVERRIDES */
+
+.navbar-burger > span { /* Burger menu color */
+  background-color: white;
 }
 
 /* TABLET */

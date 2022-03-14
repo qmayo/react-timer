@@ -53,18 +53,21 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
         <div className="container has-text-left">
           <FiXCircle
             className="is-clickable ml-3"
+            title="Deselect solves"
             onClick={() => {
               setSelectedSolves([]);
             }}
           />
           <FiList
             className="is-clickable ml-5"
+            title="Select all solves"
             onClick={() => {
               selectAllSolves();
             }}
           />
           <FiTrash
             className="is-clickable ml-5"
+            title="Delete selected solves"
             onClick={() => {
               if (
                 selectedSolves.length > 0 &&
