@@ -3,7 +3,7 @@ import { PuzzleSolve, WCAEvent } from '../../types';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 import SolveModal from '../modals/SolveModal';
 
-export interface SolveModalForAnalytics {
+interface SolveModalForAnalytics {
   eventName: WCAEvent;
   solve: PuzzleSolve;
   solveIsSelected: boolean;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 import { nanoid } from 'nanoid';
 
@@ -46,17 +46,31 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
     }
   }, [state]);
 
-  const renderTime = (time: PuzzleSolve) => {
-    if (time.penalty) {
-      return time.penalty.type === 'DNF' ? (
+  useEffect(() => { //Spacebard presses scroll down
+    const handleSpacebar = (e: KeyboardEvent) => {
+      if (e.key === " " && e.target === document.body) {  
+        e.preventDefault();  
+      } 
+    };
+
+    window.addEventListener('keydown', handleSpacebar);
+
+    return () => {
+      window.removeEventListener('keydown', handleSpacebar);
+    }
+  }, [])
+
+  const renderTime = (solve: PuzzleSolve) => {
+    if (solve.penalty) {
+      return solve.penalty.type === 'DNF' ? (
         <p className="unselectable">DNF</p>
       ) : (
-        <p className="unselectable">{`${millisecondsToHHMMSSDD(time.time)} (${
-          time.penalty.type
+        <p className="unselectable">{`${millisecondsToHHMMSSDD(solve.time)} (${
+          solve.penalty.type
         })`}</p>
       );
     } else {
-      return <p className="unselectable">{millisecondsToHHMMSSDD(time.time)}</p>;
+      return <p className="unselectable">{millisecondsToHHMMSSDD(solve.time)}</p>;
     }
   };
 

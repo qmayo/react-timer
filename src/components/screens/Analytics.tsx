@@ -5,7 +5,8 @@ import eventNameToFullName from '../utils/eventNameToFullName';
 import SolvesContext from '../contexts/SolvesContext';
 import SearchAverages from '../sections/SearchAverages';
 import { deleteSolve } from '../utils/storageTools';
-import { FiTrash, FiXCircle } from 'react-icons/fi';
+import { FiTrash, FiXCircle, FiList } from 'react-icons/fi';
+
 
 interface AnalyticsProps {
   eventName: WCAEvent;
@@ -19,8 +20,13 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
     setSelectedSolves([...selectedSolves, solveId]);
   }
 
+  const selectAllSolves = () => {
+    if (solves) {
+      setSelectedSolves(solves.map((solve) => solve.solveId));
+    }
+  }
+
   const deselectSolve = (solveId: PuzzleSolve["solveId"]) => {
-    console.log('deselecting...')
     let newSelectedSolves = selectedSolves;
     newSelectedSolves = newSelectedSolves.filter((solve) => {
       return solve !== solveId;
@@ -45,12 +51,15 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
       <div className="container has-text-centered">
         <h1 className="title is-1">{eventNameToFullName(eventName)}</h1>
         {/* <SearchAverages eventName={eventName} /> */}
-        <div className='container has-text-left' style={(selectedSolves.length === 0) ? { visibility: "hidden" } : {}}>
+        <div className='container has-text-left'>
           <FiXCircle className='is-clickable' onClick={() => {
             setSelectedSolves([]);
           }} />
+          <FiList className='is-clickable ml-5' onClick={() => {
+            selectAllSolves();
+          }} />
           <FiTrash className='is-clickable ml-5' onClick={() => {
-            if (window.confirm("Are you sure you want to delete all of the selected solves?")) {
+            if (selectedSolves.length > 0 && window.confirm("Are you sure you want to delete all of the selected solves?")) {
               deleteSelectedSolves();
             }
           }} />
@@ -65,7 +74,7 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
             {solves &&
               solves.map((solve) => {
                 return <AnalyticsSolveModalWrapper eventName={eventName} solveIsSelected={isSolveSelected(solve.solveId)} solve={solve} selectSolve={selectSolve} deselectSolve={deselectSolve} />;
-              })}
+              }).reverse()}
           </tbody>
         </table>
         {!solves && <h5 className="title is-5">No Data Available</h5>}
