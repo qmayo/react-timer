@@ -2,12 +2,11 @@ import { PuzzleSolve } from "../../types";
 
 export const getMean = (solves: Array<PuzzleSolve>): number | null => {
   //Returns mean of all times provided
-  const times = solves.map((solve) => solve.time);
-  if (times) {
+  if (solves) {
     let dnfs = 0;
     solves.forEach((solve) => solve.penalty && solve.penalty.type === "DNF" && dnfs++)
     if (dnfs < 2) {
-      return times.reduce((a, b) => a + b) / times.length;
+      return solves.map((solve) => solve.time).reduce((a, b) => a + b) / solves.length;
     } else {
       return -1; // -1 signifies DNF
     }
@@ -18,54 +17,56 @@ export const getMean = (solves: Array<PuzzleSolve>): number | null => {
 
 export const getBestMoX = (solves: Array<PuzzleSolve>, meanSize: number): number | null => {
   //Returns best mean of size meanSize in a set of times.
-  const times = solves.map((solve) => solve.time);
-  if (times === null || times.length < meanSize) {
-    return null;
-  } else if (times.length === meanSize) {
-    return getMean(solves);
-  } else {
-    let bestMean = Infinity;
-
-    for (let i = 0; i < times.length - meanSize + 1; i++) {
-      const solvesSubset = solves.slice(i, i + meanSize); 
-      let mean = getMean(solvesSubset);
-
-      if (mean === -1) {
-        if (!((bestMean === Infinity) && (i + 1 === times.length - meanSize + 1))) {
-          mean = Infinity;
+  if (solves && solves.length >= meanSize) {
+    if (solves.length === meanSize) {
+      return getMean(solves);
+    } else {
+      let bestMean = Infinity;
+  
+      for (let i = 0; i < solves.length - meanSize + 1; i++) {
+        const solvesSubset = solves.slice(i, i + meanSize); 
+        let mean = getMean(solvesSubset);
+  
+        if (mean === -1) {
+          if (!((bestMean === Infinity) && (i + 1 === solves.length - meanSize + 1))) {
+            mean = Infinity;
+          }
+        }
+    
+        if (mean && mean < bestMean) {
+          bestMean = mean;
         }
       }
-  
-      if (mean && mean < bestMean) {
-        bestMean = mean;
-      }
+      return bestMean === Infinity ? null : bestMean;
     }
-    return bestMean === Infinity ? null : bestMean;
+  } else {
+    return null;
   }
 };
 
 export const getWorstMoX = (solves: Array<PuzzleSolve>, meanSize: number): number | null => {
   //Returns worst mean of size meanSize in a set of times.
-  const times = solves.map((solve) => solve.time);
-  if (times === null || times.length < meanSize) {
-    return null;
-  } else if (times.length === meanSize) {
-    return getMean(solves);
-  } else {
-    let worstMean = 0;
-
-    for (let i = 0; i < times.length - meanSize + 1; i++) {
-      const solvesSubset = solves.slice(i, i + meanSize); 
-      let mean = getMean(solvesSubset);
-
-      if (mean && mean > worstMean) {
-        worstMean = mean;
-      } else if (mean === -1) {
-        worstMean = mean;
-        break;
+  if (solves && solves.length >= meanSize) {
+    if (solves.length === meanSize) {
+      return getMean(solves);
+    } else {
+      let worstMean = 0;
+  
+      for (let i = 0; i < solves.length - meanSize + 1; i++) {
+        const solvesSubset = solves.slice(i, i + meanSize); 
+        let mean = getMean(solvesSubset);
+  
+        if (mean && mean > worstMean) {
+          worstMean = mean;
+        } else if (mean === -1) {
+          worstMean = mean;
+          break;
+        }
       }
+      return worstMean === 0 ? null : worstMean;
     }
-    return worstMean === 0 ? null : worstMean;
+  } else {
+    return null;
   }
 };
 
@@ -150,11 +151,11 @@ export const getBestAoX = (solves: Array<PuzzleSolve>, avgSize: number): number 
   
       for (let i = 0; i < solves.length - avgSize + 1; i++) {
         const solvesSubset = solves.slice(i, i + avgSize);
-        const avg = getAvg(solvesSubset);
+        let avg = getAvg(solvesSubset);
 
         if (avg === -1) {
           if(!((bestAvg === Infinity) && (i + 1 === solves.length - avgSize + 1))) {
-            bestAvg = Infinity;
+            avg = Infinity;
           }
         }
   
