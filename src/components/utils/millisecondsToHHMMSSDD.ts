@@ -1,4 +1,8 @@
 const millisecondsToHHMMSSDD = (num: number): string => {
+  if (num < 0) {
+    return "DNF";
+  }
+
   let seconds = num / 1000;
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor(seconds / 60);
