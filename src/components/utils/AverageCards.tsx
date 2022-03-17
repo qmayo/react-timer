@@ -18,25 +18,23 @@ const AverageCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) 
   
   return avgsToDisplay.map((avg) => {
     if (solves) {
-      const times = solves.map((solve) => solve.time);
-
       if (avg.type === 'avg') {
         let currentAvgStr,
           bestAvgStr,
           worstAvgStr = '';
 
-        if (times.length >= avg.size) {
-          const currentAvg = getAvg(times.slice(-avg.size));
+        if (solves.length >= avg.size) {
+          const currentAvg = getAvg(solves.slice(-avg.size));
           if (currentAvg) {
             currentAvgStr = millisecondsToHHMMSSDD(currentAvg);
           }
 
-          const bestAvg = getBestAoX(times, avg.size);
+          const bestAvg = getBestAoX(solves, avg.size);
           if (bestAvg) {
             bestAvgStr = millisecondsToHHMMSSDD(bestAvg);
           }
 
-          const worstAvg = getWorstAoX(times, avg.size);
+          const worstAvg = getWorstAoX(solves, avg.size);
           if (worstAvg) {
             worstAvgStr = millisecondsToHHMMSSDD(worstAvg);
           }
@@ -55,18 +53,18 @@ const AverageCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) 
           bestMeanStr,
           worstMeanStr = '';
 
-        if (times.length >= avg.size) {
-          const currentMean = getMean(times.slice(-avg.size));
+        if (solves.length >= avg.size) {
+          const currentMean = getMean(solves.slice(-avg.size));
           if (currentMean) {
             currentMeanStr = millisecondsToHHMMSSDD(currentMean);
           }
 
-          const bestMean = getBestMoX(times, avg.size);
+          const bestMean = getBestMoX(solves, avg.size);
           if (bestMean) {
             bestMeanStr = millisecondsToHHMMSSDD(bestMean);
           }
 
-          const worstMean = getWorstMoX(times, avg.size);
+          const worstMean = getWorstMoX(solves, avg.size);
           if (worstMean) {
             worstMeanStr = millisecondsToHHMMSSDD(worstMean);
           }
