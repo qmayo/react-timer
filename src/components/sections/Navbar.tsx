@@ -15,15 +15,20 @@ const Navbar = ({ eventName, changeEvent }: NavbarProps) => {
 
   useEffect(() => {
     setMenuActive(false);
-  }, [location])
+  }, [location]);
 
   return (
     <div className="navbar has-background-link-dark mb-6">
       <div className="navbar-brand">
         <h1 className="navbar-item title is-1 has-text-white mb-0">ReactTimer</h1>
-        <a role="button" className="navbar-burger" style={{ alignSelf: 'center' }} onClick={() => {
-          setMenuActive(!menuActive);
-        }}>
+        <a
+          role="button"
+          className={`navbar-burger ${menuActive ? 'is-active' : ''}`}
+          style={{ alignSelf: 'center' }}
+          onClick={() => {
+            setMenuActive(!menuActive);
+          }}
+        >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -39,20 +44,18 @@ const Navbar = ({ eventName, changeEvent }: NavbarProps) => {
               </a>
             </Link>
           </div>
-          <div className='navbar-item has-dropdown is-hoverable'>
+          <div className="navbar-item has-dropdown is-hoverable">
             <a className="navbar-link has-text-white has-background-link-dark">Mode</a>
             <div className="navbar-dropdown has-background-link-dark">
               <Link to="/casual">
                 <a className="navbar-item has-text-white has-background-link-dark">Casual</a>
               </Link>
               <Link to="/competetive">
-                <a className="navbar-item has-text-white has-background-link-dark">
-                  Competetive
-                </a>
+                <a className="navbar-item has-text-white has-background-link-dark">Competetive</a>
               </Link>
             </div>
           </div>
-          <div className='navbar-item has-dropdown is-hoverable'>
+          <div className="navbar-item has-dropdown is-hoverable">
             <a className="navbar-link has-text-white has-background-link-dark">Event</a>
             <div className="navbar-dropdown has-background-link-dark">
               <Events eventName={eventName} changeEvent={changeEvent} />

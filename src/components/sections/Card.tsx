@@ -1,10 +1,14 @@
 import React from 'react';
 
-const Card = (props: any) => {
+interface CardProps {
+  children: React.ReactNode;
+}
+
+const Card = ({ children }: CardProps) => {
   return (
     <div className="card" style={{ margin: 5 }}>
       <div className="card-content">
-        <div className="content">{props.children}</div>
+        <div className="content">{children}</div>
       </div>
     </div>
   );

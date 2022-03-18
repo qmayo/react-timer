@@ -17,6 +17,8 @@ export type WCAEvent =
 
 export type TimeEntryType = 'timer' | 'manual' | 'stackmat';
 
+export type AverageType = 'avg' | 'mean';
+
 export interface Penalty {
   type: 'DNF' | '+2';
   amount?: number;
@@ -24,7 +26,7 @@ export interface Penalty {
 
 export interface PuzzleAverage {
   size: number;
-  type: 'avg' | 'mean';
+  type: AverageType;
 }
 
 export interface PuzzleSolve {

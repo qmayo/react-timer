@@ -49,27 +49,28 @@ body {
 }
 
 .timer-input {
-  width: 45%;
+  width: 65%;
   padding: 40px;
   text-align: center;
 }
 
 /* BULMA OVERRIDES */
 
-.navbar-burger > span { /* Burger menu color */
+.navbar-burger > span {
+  /* Burger menu color */
   background-color: white;
 }
 
 /* TABLET */
 @media only screen and (max-width: 768px) {
   .timer-input {
-    width: 65%;
+    width: 80%;
   }
 }
 
 /* MOBILE */
 @media only screen and (max-width: 500px) {
   .timer-input {
-    width: 90%;
+    width: 95%;
   }
 }

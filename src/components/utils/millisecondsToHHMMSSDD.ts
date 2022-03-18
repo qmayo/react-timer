@@ -1,6 +1,6 @@
 const millisecondsToHHMMSSDD = (num: number): string => {
   if (num < 0) {
-    return "DNF";
+    return 'DNF';
   }
 
   let seconds = num / 1000;

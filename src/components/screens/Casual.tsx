@@ -22,17 +22,17 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
 
   return (
     <div>
-      <div className="container has-text-centered">
-        <Scramble
-          eventName={eventName}
-          scrambleString={scrambleString}
-          setScramble={setScramble}
-          shouldScrambleUpdate={shouldScrambleUpdate}
-          setShouldScrambleUpdate={setShouldScrambleUpdate}
-        />
-      </div>
       <div className="columns is-vcentered">
         <div className="column has-text-centered">
+          <div>
+            <Scramble
+              eventName={eventName}
+              scrambleString={scrambleString}
+              setScramble={setScramble}
+              shouldScrambleUpdate={shouldScrambleUpdate}
+              setShouldScrambleUpdate={setShouldScrambleUpdate}
+            />
+          </div>
           <div id="timer">
             {/* id must match targetComponentID in Timer.js */}
             {timeEntryType !== 'manual' ? (
@@ -49,8 +49,8 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
               />
             )}
           </div>
-          <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center mb-6">
-            <div className="m-3 is-size-3 is-link-dark">
+          <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center">
+            <div className="m-3 is-size-5 is-link-dark">
               <a
                 onClick={() => {
                   changePenaltyOfCurrentSolve(eventName, { type: '+2', amount: 2 });
@@ -60,7 +60,7 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
                 +2
               </a>
             </div>
-            <div className="m-3 is-size-3 is-link-dark">
+            <div className="m-3 is-size-5 is-link-dark">
               <a
                 onClick={() => {
                   changePenaltyOfCurrentSolve(eventName, { type: 'DNF' });
@@ -70,7 +70,7 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
                 DNF
               </a>
             </div>
-            <div className="m-3 is-size-3 is-link-dark">
+            <div className="m-3 is-size-5 is-link-dark">
               <a
                 onClick={() => {
                   if (window.confirm('Are you sure you want to delete your previous time?')) {

@@ -14,22 +14,23 @@ interface ManualTimerProps {
 }
 
 const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: ManualTimerProps) => {
-  const [time, setTime] = useState<number | null>(null); //HHMMSSDD, not MS
+  const [time, setTime] = useState<number>(); //HHMMSSDD, not MS
 
   const { solves, updateSolves } = useContext(SolvesContext);
 
   useDidMountEffect(() => {
     setShouldScrambleUpdate(true);
-    setShouldScrambleUpdate(false);
-  }, [solves]);
+  }, [solves]); //TODO: Maybe scramble should be context
 
   return (
-    <div className="container mt-6 mb-6">
+    <div className="container mt-6 mb-3">
       <form
         onSubmit={(e) => {
           e.preventDefault();
 
-          if (time && time !== 0) {
+          setShouldScrambleUpdate(false);
+
+          if (time && time !== 0 && typeof time === 'number') {
             const solveId = nanoid();
             saveSolve(
               eventName,
@@ -40,25 +41,33 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
               solveId
             );
             updateSolves();
-            setTime(null);
+            setTime(undefined);
           }
         }}
       >
         <input
           className="Large input timer-input"
-          placeholder="Enter Time (HHMMSSDD)"
+          style={{ fontSize: '4em' }}
           type="text"
           maxLength={8}
           value={time ? time : ''}
           onChange={(e) => {
-            const parsedInput = e.target.value.replace('/D/[e]/', '');
-            setTime(parseInt(parsedInput));
+            setTime(parseInt(e.target.value));
           }}
         />
       </form>
-      <div className="mt-6">
+      <div className="mt-4">
         <small>
-          {solves && <b>Previous Time: {millisecondsToHHMMSSDD(solves[solves.length - 1].time)}</b>}
+          {solves && (
+            <b>
+              Previous Time:{' '}
+              {millisecondsToHHMMSSDD(solves[solves.length - 1].time) +
+                ' ' +
+                (solves[solves.length - 1]?.penalty
+                  ? `(${solves[solves.length - 1]?.penalty?.type})`
+                  : '')}
+            </b>
+          )}
         </small>
       </div>
     </div>

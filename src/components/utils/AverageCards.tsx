@@ -15,7 +15,7 @@ import SolvesContext from '../contexts/SolvesContext';
 
 const AverageCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) => {
   const { solves } = useContext(SolvesContext);
-  
+
   return avgsToDisplay.map((avg) => {
     if (solves) {
       if (avg.type === 'avg') {
