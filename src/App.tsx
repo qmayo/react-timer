@@ -11,7 +11,7 @@ import { getSolves } from './components/utils/storageTools';
 function App() {
   const [eventName, setEvent] = useState<WCAEvent>('333');
   const [solves, setSolves] = useState<PuzzleSolve[] | null>(null);
-  const [timeEntryType, setTimeEntryTipe] = useState<TimeEntryType>('manual');
+  const [timeEntryType, setTimeEntryTipe] = useState<TimeEntryType>('timer');
   const [avgsToDisplay, setAvgsToDisplay] = useState<Array<PuzzleAverage>>([
     { size: 5, type: 'avg' },
     { size: 12, type: 'avg' },
