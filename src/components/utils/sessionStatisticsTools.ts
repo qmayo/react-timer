@@ -19,7 +19,7 @@ export const getAllMeans = (
   solves: Array<PuzzleSolve>,
   meanSize: number
 ): Array<{ solves: Array<PuzzleSolve>; average: number }> | null => {
-  if (solves && solves.length >= meanSize) {
+  if (solves && solves.length >= meanSize && meanSize !== 0) {
     if (solves.length === meanSize) {
       //@ts-ignore
       return [{ solves: solves, average: getMean(solves) }];
@@ -178,7 +178,7 @@ export const getAllAvgs = (
   avgSize: number
 ): Array<{ solves: Array<PuzzleSolve>; average: number }> | null => {
   //Returns list of all averages with their respective PuzzleSolve objects
-  if (solves && solves.length >= avgSize) {
+  if (solves && solves.length >= avgSize && avgSize !== 0) {
     if (solves.length === avgSize) {
       //@ts-ignore
       return [{ solves: solves, average: getAvg(solves) }];

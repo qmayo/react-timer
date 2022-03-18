@@ -6,11 +6,12 @@ import { FiTrash, FiXCircle, FiList } from 'react-icons/fi';
 import AnalyticsSolveModalWrapper from './AnalyticsSolveModalWrapper';
 import { getAllMeans, getAllAvgs } from '../utils/sessionStatisticsTools';
 import AnalyticsAverageModalWrapper from './AnalyticsAverageModalWrapper';
+import { nanoid } from 'nanoid';
 
 interface AnalyticsTableProps {
   eventName: WCAEvent;
   display: 'solve' | AverageType;
-  averageSize?: number; //Size of mean OR avg
+  averageSize: number; //Size of mean OR avg
 }
 
 const AnalyticsTable = ({ eventName, display, averageSize = 5 }: AnalyticsTableProps) => {
@@ -51,6 +52,7 @@ const AnalyticsTable = ({ eventName, display, averageSize = 5 }: AnalyticsTableP
     <div>
       {display === 'solve' && (
         <div className="container has-text-left">
+          <hr />
           <FiXCircle
             className="is-clickable ml-3"
             title="Deselect solves"
@@ -77,6 +79,7 @@ const AnalyticsTable = ({ eventName, display, averageSize = 5 }: AnalyticsTableP
               }
             }}
           />
+          <hr />
         </div>
       )}
       <div className="table-container">
@@ -121,26 +124,32 @@ const AnalyticsTable = ({ eventName, display, averageSize = 5 }: AnalyticsTableP
                 .reverse()}
             {display === 'avg' &&
               solves &&
-              getAllAvgs(solves, averageSize)?.map((avg) => {
-                return (
-                  <AnalyticsAverageModalWrapper
-                    eventName={eventName}
-                    averageType={display}
-                    average={avg}
-                  />
-                );
-              }).reverse()}
+              getAllAvgs(solves, averageSize)
+                ?.map((avg) => {
+                  return (
+                    <AnalyticsAverageModalWrapper
+                      key={nanoid(10)}
+                      eventName={eventName}
+                      averageType={display}
+                      average={avg}
+                    />
+                  );
+                })
+                .reverse()}
             {display === 'mean' &&
               solves &&
-              getAllMeans(solves, averageSize)?.map((mean) => {
-                return (
-                  <AnalyticsAverageModalWrapper
-                    eventName={eventName}
-                    averageType={display}
-                    average={mean}
-                  />
-                );
-              }).reverse()}
+              getAllMeans(solves, averageSize)
+                ?.map((mean) => {
+                  return (
+                    <AnalyticsAverageModalWrapper
+                      key={nanoid(10)}
+                      eventName={eventName}
+                      averageType={display}
+                      average={mean}
+                    />
+                  );
+                })
+                .reverse()}
           </tbody>
         </table>
       </div>

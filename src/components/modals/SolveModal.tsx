@@ -27,17 +27,21 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
             </a>
             <h2 className="title is-2">{eventNameToFullName(eventName)}</h2>
             <div>
-            <p className='is-size-4 m-2'>
-              Time: {millisecondsToHHMMSSDD(solve.time) + (solve.penalty && solve.time !== -1 ? ` (${solve.penalty.type})` : '')}
-            </p>
-            <p className='is-size-4 m-2'>Scramble: {solve.scramble}</p>
-            <p className='is-size-4 m-2'>Penalty: {solve.penalty ? solve.penalty.type : 'None'}</p>
-            <p className='is-size-4 m-2'>
-              Timestamp:{' '}
-              {new Date(solve.date).toLocaleTimeString() +
-                ' ' +
-                new Date(solve.date).toLocaleDateString()}
-            </p>
+              <p className="is-size-4 m-2">
+                Time:{' '}
+                {millisecondsToHHMMSSDD(solve.time) +
+                  (solve.penalty && solve.time !== -1 ? ` (${solve.penalty.type})` : '')}
+              </p>
+              <p className="is-size-4 m-2">Scramble: {solve.scramble}</p>
+              <p className="is-size-4 m-2">
+                Penalty: {solve.penalty ? solve.penalty.type : 'None'}
+              </p>
+              <p className="is-size-4 m-2">
+                Timestamp:{' '}
+                {new Date(solve.date).toLocaleTimeString() +
+                  ' ' +
+                  new Date(solve.date).toLocaleDateString()}
+              </p>
             </div>
             <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center">
               <div className="m-3 is-size-3 is-link-dark">

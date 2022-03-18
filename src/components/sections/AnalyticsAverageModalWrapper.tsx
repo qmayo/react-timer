@@ -30,7 +30,8 @@ const AnalyticsAverageModalWrapper = ({
           {average.solves.map((solve, index) => {
             return (
               <>
-                {millisecondsToHHMMSSDD(solve.time) + (solve.penalty && solve.time !== -1 ? ` (${solve.penalty.type})` : '') +
+                {millisecondsToHHMMSSDD(solve.time) +
+                  (solve.penalty && solve.time !== -1 ? ` (${solve.penalty.type})` : '') +
                   (index === average.solves.length - 1 ? '' : ', ')}
               </>
             );

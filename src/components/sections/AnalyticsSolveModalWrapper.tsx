@@ -41,7 +41,8 @@ const AnalyticsSolveModalWrapper = ({
           />
         </td>
         <td className="is-size-5" style={{ width: '30%' }}>
-        {millisecondsToHHMMSSDD(solve.time) + (solve.penalty && solve.time !== -1 ? ` (${solve.penalty.type})` : '')}
+          {millisecondsToHHMMSSDD(solve.time) +
+            (solve.penalty && solve.time !== -1 ? ` (${solve.penalty.type})` : '')}
         </td>
         <td className="is-size-5" style={{ width: '65%' }}>
           {solve.scramble}

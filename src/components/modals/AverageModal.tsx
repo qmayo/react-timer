@@ -35,16 +35,26 @@ const AverageModal = ({
             <h4 className="title is-4">
               {averageType === 'avg' ? 'Average' : 'Mean'}: {millisecondsToHHMMSSDD(average)}
             </h4>
-            <ul className='has-text-left'>
-              {solves && solves.map((solve) => {
-                return (
-                  <li className='mb-5'>
-                    <p className='is-size-4'>Time: {millisecondsToHHMMSSDD(solve.time) + (solve.penalty && solve.time !== -1 ? ` (${solve.penalty.type})` : '')}</p>
-                    <p>Scramble: {solve.scramble}</p>
-                    <p>Timestamp: {new Date(solve.date).toLocaleDateString() + ' ' + new Date(solve.date).toLocaleTimeString()}</p>
-                  </li>
-                )
-              })}
+            <ul className="has-text-left">
+              {solves &&
+                solves.map((solve) => {
+                  return (
+                    <li className="mb-5">
+                      <p className="is-size-4">
+                        Time:{' '}
+                        {millisecondsToHHMMSSDD(solve.time) +
+                          (solve.penalty && solve.time !== -1 ? ` (${solve.penalty.type})` : '')}
+                      </p>
+                      <p>Scramble: {solve.scramble}</p>
+                      <p>
+                        Timestamp:{' '}
+                        {new Date(solve.date).toLocaleDateString() +
+                          ' ' +
+                          new Date(solve.date).toLocaleTimeString()}
+                      </p>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>
