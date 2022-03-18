@@ -13,9 +13,9 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
   return (
     <div>
       <div className="container has-text-centered">
-        <h1 className="title is-1">{eventNameToFullName(eventName)}</h1>
+        <h1 className="title is-2">{eventNameToFullName(eventName)}</h1>
         <div>
-          <form className="mb-6" onSubmit={(e) => e.preventDefault}>
+          <form className="mb-6 ml-2" onSubmit={(e) => e.preventDefault}>
             <div className="field has-text-left">
               <h5 className="title is-5 mb-2">Showing:</h5>
               <div className="control">
