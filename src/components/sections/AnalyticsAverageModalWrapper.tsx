@@ -19,6 +19,7 @@ const AnalyticsAverageModalWrapper = ({
   return (
     <React.Fragment key={average.solves[0].solveId}>
       <tr
+        className='is-clickable'
         onClick={() => {
           setIsActive(true);
         }}
