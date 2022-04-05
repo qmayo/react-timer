@@ -2,11 +2,13 @@ import React, { useState, useContext } from 'react';
 import { PuzzleSolve, AverageType, WCAEvent } from '../../types';
 import SolvesContext from '../contexts/SolvesContext';
 import { deleteSolve } from '../utils/storageTools';
-import { FiTrash, FiXCircle, FiList } from 'react-icons/fi';
+import { FiTrash, FiXCircle, FiList, FiArrowDown, FiArrowUp } from 'react-icons/fi';
 import AnalyticsSolveModalWrapper from './AnalyticsSolveModalWrapper';
 import { getAllMeans, getAllAvgs } from '../utils/sessionStatisticsTools';
 import AnalyticsAverageModalWrapper from './AnalyticsAverageModalWrapper';
 import { nanoid } from 'nanoid';
+import exportSolves from '../utils/exportSolves';
+import importSolves from '../utils/importSolves';
 
 interface AnalyticsTableProps {
   eventName: WCAEvent;
@@ -77,6 +79,20 @@ const AnalyticsTable = ({ eventName, display, averageSize = 5 }: AnalyticsTableP
               ) {
                 deleteSelectedSolves();
               }
+            }}
+          />
+          <FiArrowUp
+            className='is-clickable ml-5'
+            title='Export solves'
+            onClick={() => {
+              exportSolves(JSON.stringify(solves), `${eventName}.json`)
+            }}
+          />
+          <FiArrowDown
+            className='is-clickable ml-5'
+            title='Import solves'
+            onClick={() => {
+              importSolves(eventName);
             }}
           />
           <hr />

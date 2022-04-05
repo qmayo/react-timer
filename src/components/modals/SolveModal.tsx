@@ -44,7 +44,7 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
               </p>
             </div>
             <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center">
-              <div className="m-3 is-size-3 is-link-dark">
+              <div className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
                     changePenaltyOfSolve(eventName, solve.solveId, { type: '+2', amount: 2 });
@@ -54,7 +54,7 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                   +2
                 </a>
               </div>
-              <div className="m-3 is-size-3 is-link-dark">
+              <div className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
                     changePenaltyOfSolve(eventName, solve.solveId, { type: 'DNF' });
@@ -64,7 +64,7 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                   DNF
                 </a>
               </div>
-              <div className="m-3 is-size-3 is-link-dark">
+              <div className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
                     if (window.confirm('Are you sure you want to delete this solve?')) {
