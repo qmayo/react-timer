@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './components/sections/Navbar';
 import Casual from './components/screens/Casual';
 import Analytics from './components/screens/Analytics';
@@ -49,6 +49,9 @@ function App() {
           </Route>
           <Route exact path="/analytics">
             <Analytics eventName={eventName} />
+          </Route>
+          <Route path="*">
+            <Redirect to="/casual" />
           </Route>
         </Switch>
       </SolvesContext.Provider>
