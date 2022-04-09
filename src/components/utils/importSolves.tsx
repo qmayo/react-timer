@@ -16,7 +16,7 @@ const importSolves = (eventName: WCAEvent) => {
 
             reader.addEventListener('load', (e) => {
                 let solves = String(e.target?.result);
-                solves && console.log(solves)//localStorage.setItem(eventName, solves)
+                solves && localStorage.setItem(eventName, solves)
             })
 
             reader.addEventListener('error', (e) => {
