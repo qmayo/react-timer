@@ -82,17 +82,18 @@ const AnalyticsTable = ({ eventName, display, averageSize = 5 }: AnalyticsTableP
             }}
           />
           <FiArrowUp
-            className='is-clickable ml-5'
-            title='Export solves'
+            className="is-clickable ml-5"
+            title="Import solves"
             onClick={() => {
-              exportSolves(JSON.stringify(solves), `${eventName}.json`)
+              importSolves(eventName);
+              updateSolves();
             }}
           />
           <FiArrowDown
-            className='is-clickable ml-5'
-            title='Import solves'
+            className="is-clickable ml-5"
+            title="Download solves"
             onClick={() => {
-              importSolves(eventName);
+              exportSolves(JSON.stringify(solves), `${eventName}.json`);
             }}
           />
           <hr />

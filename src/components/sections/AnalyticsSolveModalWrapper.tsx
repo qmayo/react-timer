@@ -23,7 +23,7 @@ const AnalyticsSolveModalWrapper = ({
   return (
     <React.Fragment key={solve.solveId}>
       <tr
-        className='is-clickable'
+        className="is-clickable"
         onClick={() => {
           setIsActive(true);
         }}

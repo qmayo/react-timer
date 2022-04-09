@@ -1,16 +1,7 @@
 @import '~bulma/css/bulma.css';
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
-html,
-body {
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-.spin {
-  animation: spin 2s infinite linear;
-}
+/* ANIMATIONS */
 
 @keyframes spin {
   0% {
@@ -19,6 +10,19 @@ body {
   100% {
     transform: rotate(359deg);
   }
+}
+
+.spin {
+  animation: spin 2s infinite linear;
+}
+
+/* GENERAL */
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 * {

@@ -82,12 +82,12 @@ const AverageCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) 
     } else {
       return (
         <Card key={nanoid(5)}>
-            <h4 className="title is-4">{avg.type === 'avg' ? `Ao${avg.size}` : `Mo${avg.size}`}:</h4>
-            <p>Current: {'N/A'}</p>
-            <p>Best: {'N/A'}</p>
-            <p>Worst: {'N/A'}</p>
-          </Card>
-      )
+          <h4 className="title is-4">{avg.type === 'avg' ? `Ao${avg.size}` : `Mo${avg.size}`}:</h4>
+          <p>Current: {'N/A'}</p>
+          <p>Best: {'N/A'}</p>
+          <p>Worst: {'N/A'}</p>
+        </Card>
+      );
     }
   });
 };
