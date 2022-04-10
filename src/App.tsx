@@ -7,11 +7,12 @@ import Analytics from './components/screens/Analytics';
 import SolvesContext from './components/contexts/SolvesContext';
 import { WCAEvent, PuzzleAverage, PuzzleSolve, TimeEntryType } from './types/index';
 import { getSolves } from './components/utils/storageTools';
+import Competetive from './components/screens/Competetive';
 
 function App() {
   const [eventName, setEvent] = useState<WCAEvent>('333');
   const [solves, setSolves] = useState<PuzzleSolve[] | null>(null);
-  const [timeEntryType, setTimeEntryTipe] = useState<TimeEntryType>('timer');
+  const [timeEntryType, setTimeEntryTipe] = useState<TimeEntryType>('manual');
   const [avgsToDisplay, setAvgsToDisplay] = useState<Array<PuzzleAverage>>([
     { size: 5, type: 'avg' },
     { size: 12, type: 'avg' },
@@ -45,7 +46,7 @@ function App() {
             />
           </Route>
           <Route exact path="/competetive">
-            <div className="Competetive"></div>
+            <Competetive eventName={eventName} timeEntryType={timeEntryType} />
           </Route>
           <Route exact path="/analytics">
             <Analytics eventName={eventName} />
