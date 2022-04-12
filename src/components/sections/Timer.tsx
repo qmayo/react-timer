@@ -112,7 +112,7 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
   return (
     <div
       className={
-        'is-flex is-justify-content-center is-align-items-center' + (isTiming ? ' fill-window' : '')
+        'container has-text-centered' + (isTiming ? ' fill-window' : '')
       }
     >
       <h1 style={{ fontSize: '12vh', padding: '20px', margin: '5px' }}>
