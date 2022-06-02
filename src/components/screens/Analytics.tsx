@@ -13,17 +13,17 @@ const dropdownOptions: Array<{
   value: string;
 }> = [
   {
-    name: "Solves",
-    value: "solve"
+    name: 'Solves',
+    value: 'solve',
   },
   {
-    name: "Averages",
-    value: "avg"
+    name: 'Averages',
+    value: 'avg',
   },
   {
-    name: "Means",
-    value: "mean"
-  }
+    name: 'Means',
+    value: 'mean',
+  },
 ];
 
 const Analytics = ({ eventName }: AnalyticsProps) => {
@@ -36,10 +36,10 @@ const Analytics = ({ eventName }: AnalyticsProps) => {
         <h1 className="title is-2">{eventNameToFullName(eventName)}</h1>
         <div>
           <div className="mb-3 ml-2 has-text-left">
-            <Dropdown 
-              title="Set Display" 
-              options={dropdownOptions} 
-              selectedOption={display} 
+            <Dropdown
+              title="Set Display"
+              options={dropdownOptions}
+              selectedOption={display}
               setSelectedOption={setDisplay}
             />
             {display !== 'solve' && (

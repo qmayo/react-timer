@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaAngleDown } from 'react-icons/fa'
+import { FaAngleDown } from 'react-icons/fa';
 
 interface DropdownProps {
   title: string;
@@ -11,13 +11,16 @@ interface DropdownProps {
   setSelectedOption: (option: any) => any;
 }
 
-const Dropdown = ({ title, options, selectedOption, setSelectedOption }: DropdownProps) => { 
+const Dropdown = ({ title, options, selectedOption, setSelectedOption }: DropdownProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   return (
-    <div className={`dropdown ${isActive ? 'is-active' : ''}`} onClick={() => {
+    <div
+      className={`dropdown ${isActive ? 'is-active' : ''}`}
+      onClick={() => {
         setIsActive(!isActive);
-    }}>
+      }}
+    >
       <div className="dropdown-trigger">
         <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
           <span>{title}</span>
@@ -30,27 +33,32 @@ const Dropdown = ({ title, options, selectedOption, setSelectedOption }: Dropdow
         <div className="dropdown-content">
           {/* @ts-ignore */}
           {options.map((option) => {
-              if (option.value === selectedOption) {
-                return (
-                    <a className="dropdown-item is-active" onClick={() => {
-                        setSelectedOption(option.value);
-                        setIsActive(false);
-                    }}>
-                        {option.name}
-                    </a>
-                )
-              } else {
-                return (
-                    <a className="dropdown-item" onClick={() => {
-                        setSelectedOption(option.value);
-                        setIsActive(false);
-                    }}>
-                      {option.name}
-                    </a>
-                )
-              }
-          })
-        }
+            if (option.value === selectedOption) {
+              return (
+                <a
+                  className="dropdown-item is-active"
+                  onClick={() => {
+                    setSelectedOption(option.value);
+                    setIsActive(false);
+                  }}
+                >
+                  {option.name}
+                </a>
+              );
+            } else {
+              return (
+                <a
+                  className="dropdown-item"
+                  onClick={() => {
+                    setSelectedOption(option.value);
+                    setIsActive(false);
+                  }}
+                >
+                  {option.name}
+                </a>
+              );
+            }
+          })}
         </div>
       </div>
     </div>

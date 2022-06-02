@@ -19,32 +19,16 @@ let settings = {
 };
 
 interface TimerProps {
-  eventName: WCAEvent;
   setShouldScrambleUpdate: any;
-  scrambleString: string;
+  mode: 'competetive' | 'casual';
+  defaultTime?: string; //For competetive mode
+  callback: (time: number, penalty: Penalty) => void;
 }
 
-const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProps) => {
-  const { solves, updateSolves } = useContext(SolvesContext);
+const Timer = ({ setShouldScrambleUpdate, mode, defaultTime = '0.00', callback }: TimerProps) => {
+  const { solves } = useContext(SolvesContext);
 
-  const keyboardTimerCallback = (time: number, penalty: Penalty): void => {
-    const solveId = nanoid();
-    saveSolve(eventName, time, penalty, scrambleString, new Date(), solveId);
-    updateSolves();
-  };
-
-  const { time, inspectionTime, state, isTiming } = useKeyboardTimer(
-    settings,
-    keyboardTimerCallback
-  );
-
-  useDidMountEffect(() => {
-    if (state === 'NONE' || state === 'STOPPED') {
-      setShouldScrambleUpdate(true);
-    } else {
-      setShouldScrambleUpdate(false);
-    }
-  }, [state]);
+  const { time, inspectionTime, state, isTiming } = useKeyboardTimer(settings, callback);
 
   useEffect(() => {
     //Spacebard presses scroll down
@@ -80,7 +64,7 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
     switch (state) {
       default:
         return (
-          <p className="unselectable">{solves ? renderTime(solves[solves.length - 1]) : '0.00'}</p>
+          <p className="unselectable">{solves && mode === 'casual' ? renderTime(solves[solves.length - 1]) : defaultTime}</p>
         );
 
       case 'SPACE_PRESSED_INSPECTION':
@@ -112,7 +96,7 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
   return (
     <div
       className={
-        'container has-text-centered' + (isTiming ? ' fill-window' : '')
+        'is-flex is-justify-content-center is-align-items-center' + (isTiming ? ' fill-window' : '')
       }
     >
       <h1 style={{ fontSize: '12vh', padding: '20px', margin: '5px' }}>
