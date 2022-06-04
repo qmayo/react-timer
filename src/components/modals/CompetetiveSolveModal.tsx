@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+// IDENTICAL TO SOLVEMODAL EXCEPT PENALTY FUNCTIONS; MAYBE INTEGRATE BOTH INTO DYNAMIC COMPONENT
+import React from 'react';
 import { PuzzleSolve, WCAEvent } from '../../types';
 import { changePenaltyOfSolve, deleteSolve } from '../utils/storageTools';
 import { BiX } from 'react-icons/bi';
@@ -11,11 +12,11 @@ interface SolveModalProps {
   solve: PuzzleSolve;
   isActive: boolean;
   setIsActive: any;
+  solves: Array<PuzzleSolve>;
+  setSolves: (solves: Array<PuzzleSolve>) => void;
 }
 
-const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps) => {
-  const { updateSolves } = useContext(SolvesContext);
-
+const CompetetiveSolveModal = ({ eventName, solve, isActive, setIsActive, solves, setSolves }: SolveModalProps) => {
   return (
     <div className={`modal ${isActive ? 'is-active' : ''}`}>
       <div className="modal-background" onClick={() => setIsActive(false)}></div>
@@ -47,8 +48,14 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
               <div className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
-                    changePenaltyOfSolve(eventName, solve.solveId, { type: '+2', amount: 2 });
-                    updateSolves();
+                    let targetSolve = solves.find((_solve) => _solve.solveId === solve.solveId); //@ts-ignore
+                    let index = solves.indexOf(targetSolve); //@ts-ignore
+
+                    targetSolve.penalty = { type: '+2', amount: 2 }; //@ts-ignore
+                    targetSolve.time += 2000;
+                    let copiedSolves = [...solves]; //@ts-ignore
+                    copiedSolves[index] = targetSolve;
+                    setSolves(copiedSolves); 
                   }}
                 >
                   +2
@@ -57,8 +64,17 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
               <div className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
-                    changePenaltyOfSolve(eventName, solve.solveId, { type: 'DNF' });
-                    updateSolves();
+                    let targetSolve = solves.find((_solve) => _solve.solveId === solve.solveId); //@ts-ignore
+                    let index = solves.indexOf(targetSolve); //@ts-ignore
+
+                    if (targetSolve?.penalty?.type === '+2') {
+                        targetSolve.time -= 2000;
+                    }
+                    //@ts-ignore
+                    targetSolve.penalty = { type: 'DNF' };
+                    let copiedSolves = [...solves]; //@ts-ignore
+                    copiedSolves[index] = targetSolve;
+                    setSolves(copiedSolves); 
                   }}
                 >
                   DNF
@@ -67,14 +83,21 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
               <div className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
-                    if (window.confirm('Are you sure you want to delete this solve?')) {
-                      deleteSolve(eventName, solve.solveId);
-                      updateSolves();
-                      setIsActive(false);
+                    let targetSolve = solves.find((_solve) => _solve.solveId === solve.solveId); //@ts-ignore
+                    let index = solves.indexOf(targetSolve); //@ts-ignore
+
+                    if (targetSolve?.penalty?.type === '+2') {
+                        targetSolve.time -= 2000;
                     }
-                  }}
+//@ts-ignore
+                    delete targetSolve.penalty; 
+                    let copiedSolves = [...solves]; //@ts-ignore
+                    copiedSolves[index] = targetSolve;
+                    setSolves(copiedSolves); 
+                    }
+                  }
                 >
-                  Delete
+                  OK
                 </a>
               </div>
             </div>
@@ -85,4 +108,4 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
   );
 };
 
-export default SolveModal;
+export default CompetetiveSolveModal;

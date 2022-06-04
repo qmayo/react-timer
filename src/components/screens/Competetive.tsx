@@ -95,8 +95,7 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
           <div className="is-flex is-justify-content-center mt-6">
             {completedSolves.map((solve, index) => {
               return (<p className={index !== 0 ? 'ml-6' : ''}>
-                <CompetetiveSolveModalWrapper eventName={eventName} solve={completedSolves[index]} />
-                {index + 1}:<a> {millisecondsToHHMMSSDD(solve.time)}</a>
+                <CompetetiveSolveModalWrapper eventName={eventName} solve={completedSolves[index]} index={index} solves={completedSolves} setSolves={setCompletedSolves} />
               </p>);
             })}
           </div>
