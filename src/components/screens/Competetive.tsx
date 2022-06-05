@@ -26,11 +26,15 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
 
   useEffect(() => {
     setCompletedSolves([]);
+    setHasEnded(false);
   }, [hasStarted]);
 
   useEffect(() => {
     if (completedSolves.length === (averageTypeForEvent(eventName) === 'avg' ? 5 : 3)) {
       setHasEnded(true);
+    } else {
+      setShouldScrambleUpdate(true);
+      setShouldScrambleUpdate(false);
     }
   }, [completedSolves]);
 
@@ -80,15 +84,17 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
             <div className="is-flex is-justify-content-center mt-6">
               {completedSolves.map((solve, index) => {
                 return (
-                  <p className={index !== 0 ? 'ml-6' : ''}>
-                    <CompetetiveSolveModalWrapper
-                      eventName={eventName}
-                      solve={solve}
-                      index={index}
-                      solves={completedSolves}
-                      setSolves={setCompletedSolves}
-                    />
-                  </p>
+                  
+                  <span key={solve.solveId} className={index !== 0 ? 'ml-6' : ''}>
+                  <CompetetiveSolveModalWrapper
+                    eventName={eventName}
+                    solve={solve}
+                    index={index}
+                    solves={completedSolves}
+                    setSolves={setCompletedSolves}
+                  />
+                </span>
+                  
                 );
               })}
             </div>
@@ -145,7 +151,7 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
             <div className="is-flex is-justify-content-center mt-6">
               {completedSolves.map((solve, index) => {
                 return (
-                  <p className={index !== 0 ? 'ml-6' : ''}>
+                  <span key={solve.solveId} className={index !== 0 ? 'ml-6' : ''}>
                     <CompetetiveSolveModalWrapper
                       eventName={eventName}
                       solve={solve}
@@ -153,7 +159,7 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
                       solves={completedSolves}
                       setSolves={setCompletedSolves}
                     />
-                  </p>
+                  </span>
                 );
               })}
             </div>
