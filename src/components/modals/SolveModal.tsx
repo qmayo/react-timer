@@ -43,8 +43,8 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                   new Date(solve.date).toLocaleDateString()}
               </p>
             </div>
-            <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center">
-              <div className="m-3 is-size-5 is-link-dark">
+            <div /* className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center" */>
+              <span className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
                     changePenaltyOfSolve(eventName, solve.solveId, { type: '+2', amount: 2 });
@@ -53,8 +53,8 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                 >
                   +2
                 </a>
-              </div>
-              <div className="m-3 is-size-5 is-link-dark">
+              </span>
+              <span className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
                     changePenaltyOfSolve(eventName, solve.solveId, { type: 'DNF' });
@@ -63,8 +63,8 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                 >
                   DNF
                 </a>
-              </div>
-              <div className="m-3 is-size-5 is-link-dark">
+              </span>
+              <span className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
                     if (window.confirm('Are you sure you want to delete this solve?')) {
@@ -76,7 +76,7 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                 >
                   Delete
                 </a>
-              </div>
+              </span>
             </div>
           </div>
         </div>

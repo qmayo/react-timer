@@ -9,7 +9,6 @@ import ManualTimer from '../sections/ManualTimer';
 import { nanoid } from 'nanoid';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 import CompetetiveSolveModalWrapper from '../sections/CompetetiveSolveModalWrapper';
-import { getAvg } from '../utils/sessionStatisticsTools';
 import CompetetiveAverageModalWrapper from '../sections/CompetetiveAverageModalWrapper';
 
 interface CompetetiveProps {
@@ -30,10 +29,10 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
   }, [hasStarted]);
 
   useEffect(() => {
-    if (completedSolves.length === 5) {
+    if (completedSolves.length === (averageTypeForEvent(eventName) === 'avg' ? 5 : 3)) {
       setHasEnded(true);
     }
-  }, [completedSolves])
+  }, [completedSolves]);
 
   const getTimeEntryTypeString = (timeEntryType: TimeEntryType): string => {
     switch (timeEntryType) {
@@ -62,67 +61,102 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
   };
 
   return (
-    <div className={`${hasStarted ? 'has-text-centered fill-window' : 'container has-text-centered '}`}>
+    <div
+      className={`${hasStarted ? 'has-text-centered fill-window' : 'container has-text-centered '}`}
+    >
       {hasStarted ? (
-        !hasEnded ? (
+        hasEnded ? (
           <div className="is-flex is-flex-direction-column">
-          <div>
-            <FiX
-              className="is-pulled-right is-clickable m-3"
-              size={25}
-              onClick={() => {
-                setHasStarted(false);
-              }}
-            />
-          </div>
-          <div className="has-text-centered">
-            <Scramble
-              eventName={eventName}
-              scrambleString={scrambleString}
-              setScramble={setScramble}
-              shouldScrambleUpdate={shouldScrambleUpdate}
-              setShouldScrambleUpdate={setShouldScrambleUpdate}
-            />
-          </div>
-          {timeEntryType === 'timer' ? (
-            <div id="timer">
-              <Timer 
-                callback={timerCallback} 
-                mode={'competetive'} 
-                defaultTime={completedSolves.length > 0 ? (millisecondsToHHMMSSDD(completedSolves[completedSolves.length - 1].time)) : '0.00'} 
-                setShouldScrambleUpdate={setShouldScrambleUpdate} 
+            <div>
+              <FiX
+                className="is-pulled-right is-clickable m-3"
+                size={25}
+                onClick={() => {
+                  setHasStarted(false);
+                }}
               />
             </div>
-          ) : (
-            <div className="has-text-centered" id="timer">
-              <ManualTimer
+            <h2 className="title is-2">Competetive Results:</h2>
+            <div className="is-flex is-justify-content-center mt-6">
+              {completedSolves.map((solve, index) => {
+                return (
+                  <p className={index !== 0 ? 'ml-6' : ''}>
+                    <CompetetiveSolveModalWrapper
+                      eventName={eventName}
+                      solve={solve}
+                      index={index}
+                      solves={completedSolves}
+                      setSolves={setCompletedSolves}
+                    />
+                  </p>
+                );
+              })}
+            </div>
+            <div className="mt-6">
+              <CompetetiveAverageModalWrapper
+                eventName={eventName}
+                solves={completedSolves}
+                averageType={averageTypeForEvent(eventName)}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="is-flex is-flex-direction-column">
+            <div>
+              <FiX
+                className="is-pulled-right is-clickable m-3"
+                size={25}
+                onClick={() => {
+                  setHasStarted(false);
+                }}
+              />
+            </div>
+            <div className="has-text-centered">
+              <Scramble
                 eventName={eventName}
                 scrambleString={scrambleString}
+                setScramble={setScramble}
+                shouldScrambleUpdate={shouldScrambleUpdate}
                 setShouldScrambleUpdate={setShouldScrambleUpdate}
               />
             </div>
-          )}
-          <div className="is-flex is-justify-content-center mt-6">
-            {completedSolves.map((solve, index) => {
-              return (<p className={index !== 0 ? 'ml-6' : ''}>
-                <CompetetiveSolveModalWrapper eventName={eventName} solve={solve} index={index} solves={completedSolves} setSolves={setCompletedSolves} />
-              </p>);
-            })}
-          </div>
-        </div>
-        ) : (
-          <div className="is-flex is-flex-direction-column">
-          <h2 className='title is-2'>Competetive Results:</h2>
-          <div className="is-flex is-justify-content-center mt-6">
-            {completedSolves.map((solve, index) => {
-              return (<p className={index !== 0 ? 'ml-6' : ''}>
-                <CompetetiveSolveModalWrapper eventName={eventName} solve={solve} index={index} solves={completedSolves} setSolves={setCompletedSolves} />
-              </p>);
-            })}
-          </div>
-          <div className='mt-6'>
-            <CompetetiveAverageModalWrapper eventName={eventName} solves={completedSolves} averageType={'avg'} /> {/* TODO: FIX AVGTYPE TO BE DYNAMIC */}
-          </div>
+            {timeEntryType === 'timer' ? (
+              <div id="timer">
+                <Timer
+                  callback={timerCallback}
+                  mode={'competetive'}
+                  defaultTime={
+                    completedSolves.length > 0
+                      ? millisecondsToHHMMSSDD(completedSolves[completedSolves.length - 1].time)
+                      : '0.00'
+                  }
+                  setShouldScrambleUpdate={setShouldScrambleUpdate}
+                />
+              </div>
+            ) : (
+              <div className="has-text-centered" id="timer">
+                <ManualTimer
+                  eventName={eventName}
+                  scrambleString={scrambleString}
+                  setShouldScrambleUpdate={setShouldScrambleUpdate}
+                />
+              </div>
+            )}
+            <div className="is-flex is-justify-content-center mt-6">
+              {completedSolves.map((solve, index) => {
+                return (
+                  <p className={index !== 0 ? 'ml-6' : ''}>
+                    <CompetetiveSolveModalWrapper
+                      eventName={eventName}
+                      solve={solve}
+                      index={index}
+                      solves={completedSolves}
+                      setSolves={setCompletedSolves}
+                    />
+                  </p>
+                );
+              })}
+            </div>
           </div>
         )
       ) : (

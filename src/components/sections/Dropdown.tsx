@@ -7,7 +7,7 @@ interface DropdownProps {
     name: string;
     value: string | number;
   }>;
-  selectedOption: string;
+  selectedOption: string; //VALUE of option IN options
   setSelectedOption: (option: any) => any;
 }
 
