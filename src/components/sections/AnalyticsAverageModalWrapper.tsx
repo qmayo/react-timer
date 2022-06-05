@@ -43,7 +43,6 @@ const AnalyticsAverageModalWrapper = ({
         eventName={eventName}
         solves={average.solves}
         averageType={averageType}
-        average={average.average}
         isActive={isActive}
         setIsActive={setIsActive}
       />

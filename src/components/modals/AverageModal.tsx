@@ -4,12 +4,12 @@ import { BiX } from 'react-icons/bi';
 import SolvesContext from '../contexts/SolvesContext';
 import eventNameToFullName from '../utils/eventNameToFullName';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
+import { getAvg, getMean } from '../utils/sessionStatisticsTools';
 
 interface AverageModalProps {
   eventName: WCAEvent;
   solves: Array<PuzzleSolve>;
   averageType: AverageType;
-  average: number; //Actual average in milliseconds
   isActive: boolean;
   setIsActive: any;
 }
@@ -18,7 +18,6 @@ const AverageModal = ({
   eventName,
   solves,
   averageType,
-  average,
   isActive,
   setIsActive,
 }: AverageModalProps) => {
@@ -32,8 +31,8 @@ const AverageModal = ({
               <BiX color="black" size={40} onClick={() => setIsActive(false)} />
             </a>
             <h2 className="title is-2">{eventNameToFullName(eventName)}</h2>
-            <h4 className="title is-4">
-              {averageType === 'avg' ? 'Average' : 'Mean'}: {millisecondsToHHMMSSDD(average)}
+            <h4 className="title is-4"> {/* @ts-ignore */}
+              {averageType === 'avg' ? 'Average' : 'Mean'}: {averageType === 'avg' ? millisecondsToHHMMSSDD(getAvg(solves)) : millisecondsToHHMMSSDD(getMean(solves))}
             </h4>
             <ul className="has-text-left ml-6">
               {solves &&
