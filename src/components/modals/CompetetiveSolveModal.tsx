@@ -51,8 +51,13 @@ const CompetetiveSolveModal = ({ eventName, solve, isActive, setIsActive, solves
                     let targetSolve = solves.find((_solve) => _solve.solveId === solve.solveId); //@ts-ignore
                     let index = solves.indexOf(targetSolve); //@ts-ignore
 
-                    targetSolve.penalty = { type: '+2', amount: 2 }; //@ts-ignore
-                    targetSolve.time += 2000;
+                    if (targetSolve?.penalty?.type === '+2') {
+                      delete targetSolve.penalty;
+                      targetSolve.time -= 2000;
+                    } else { //@ts-ignore
+                      targetSolve.penalty = { type: '+2', amount: 2 }; //@ts-ignore
+                      targetSolve.time += 2000;
+                    }
                     let copiedSolves = [...solves]; //@ts-ignore
                     copiedSolves[index] = targetSolve;
                     setSolves(copiedSolves); 
@@ -69,35 +74,19 @@ const CompetetiveSolveModal = ({ eventName, solve, isActive, setIsActive, solves
 
                     if (targetSolve?.penalty?.type === '+2') {
                         targetSolve.time -= 2000;
+                    } else if (targetSolve?.penalty?.type === 'DNF') {
+                      delete targetSolve.penalty;
+                    } 
+                    else {
+                        //@ts-ignore
+                      targetSolve.penalty = { type: 'DNF' };
                     }
-                    //@ts-ignore
-                    targetSolve.penalty = { type: 'DNF' };
                     let copiedSolves = [...solves]; //@ts-ignore
                     copiedSolves[index] = targetSolve;
                     setSolves(copiedSolves); 
                   }}
                 >
                   DNF
-                </a>
-              </div>
-              <div className="m-3 is-size-5 is-link-dark">
-                <a
-                  onClick={() => {
-                    let targetSolve = solves.find((_solve) => _solve.solveId === solve.solveId); //@ts-ignore
-                    let index = solves.indexOf(targetSolve); //@ts-ignore
-
-                    if (targetSolve?.penalty?.type === '+2') {
-                        targetSolve.time -= 2000;
-                    }
-//@ts-ignore
-                    delete targetSolve.penalty; 
-                    let copiedSolves = [...solves]; //@ts-ignore
-                    copiedSolves[index] = targetSolve;
-                    setSolves(copiedSolves); 
-                    }
-                  }
-                >
-                  OK
                 </a>
               </div>
             </div>

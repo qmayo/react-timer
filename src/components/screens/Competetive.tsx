@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Penalty, PuzzleSolve, TimeEntryType, WCAEvent } from '../../types';
+import { AverageType, Penalty, PuzzleSolve, TimeEntryType, WCAEvent } from '../../types';
 import eventNameToFullName from '../utils/eventNameToFullName';
 import averageTypeForEvent from '../utils/averageTypeForEvent';
 import { FiX } from 'react-icons/fi';
@@ -9,6 +9,8 @@ import ManualTimer from '../sections/ManualTimer';
 import { nanoid } from 'nanoid';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 import CompetetiveSolveModalWrapper from '../sections/CompetetiveSolveModalWrapper';
+import { getAvg } from '../utils/sessionStatisticsTools';
+import CompetetiveAverageModalWrapper from '../sections/CompetetiveAverageModalWrapper';
 
 interface CompetetiveProps {
   eventName: WCAEvent;
@@ -17,6 +19,7 @@ interface CompetetiveProps {
 
 const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
   const [hasStarted, setHasStarted] = useState<boolean>(false);
+  const [hasEnded, setHasEnded] = useState<boolean>(false);
   const [isUsingVirtualInspection, setIsUsingVirtualInspection] = useState<boolean>(false);
   const [scrambleString, setScramble] = useState<string>('');
   const [shouldScrambleUpdate, setShouldScrambleUpdate] = useState<boolean>(false);
@@ -24,7 +27,13 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
 
   useEffect(() => {
     setCompletedSolves([]);
-  }, [hasStarted])
+  }, [hasStarted]);
+
+  useEffect(() => {
+    if (completedSolves.length === 5) {
+      setHasEnded(true);
+    }
+  }, [completedSolves])
 
   const getTimeEntryTypeString = (timeEntryType: TimeEntryType): string => {
     switch (timeEntryType) {
@@ -53,9 +62,10 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
   };
 
   return (
-    <div className={`${hasStarted ? 'fill-window' : 'container has-text-centered '}`}>
+    <div className={`${hasStarted ? 'has-text-centered fill-window' : 'container has-text-centered '}`}>
       {hasStarted ? (
-        <div className="is-flex is-flex-direction-column is-justify-content-center">
+        !hasEnded ? (
+          <div className="is-flex is-flex-direction-column">
           <div>
             <FiX
               className="is-pulled-right is-clickable m-3"
@@ -95,11 +105,26 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
           <div className="is-flex is-justify-content-center mt-6">
             {completedSolves.map((solve, index) => {
               return (<p className={index !== 0 ? 'ml-6' : ''}>
-                <CompetetiveSolveModalWrapper eventName={eventName} solve={completedSolves[index]} index={index} solves={completedSolves} setSolves={setCompletedSolves} />
+                <CompetetiveSolveModalWrapper eventName={eventName} solve={solve} index={index} solves={completedSolves} setSolves={setCompletedSolves} />
               </p>);
             })}
           </div>
         </div>
+        ) : (
+          <div className="is-flex is-flex-direction-column">
+          <h2 className='title is-2'>Competetive Results:</h2>
+          <div className="is-flex is-justify-content-center mt-6">
+            {completedSolves.map((solve, index) => {
+              return (<p className={index !== 0 ? 'ml-6' : ''}>
+                <CompetetiveSolveModalWrapper eventName={eventName} solve={solve} index={index} solves={completedSolves} setSolves={setCompletedSolves} />
+              </p>);
+            })}
+          </div>
+          <div className='mt-6'>
+            <CompetetiveAverageModalWrapper eventName={eventName} solves={completedSolves} averageType={'avg'} /> {/* TODO: FIX AVGTYPE TO BE DYNAMIC */}
+          </div>
+          </div>
+        )
       ) : (
         <>
           <h5 className="title is-5">Competetive Session Details: </h5>
