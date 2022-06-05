@@ -35,11 +35,11 @@ const AverageModal = ({
             <h4 className="title is-4">
               {averageType === 'avg' ? 'Average' : 'Mean'}: {millisecondsToHHMMSSDD(average)}
             </h4>
-            <ul className="has-text-left">
+            <ul className="has-text-left ml-6">
               {solves &&
                 solves.map((solve) => {
                   return (
-                    <li className="mb-5">
+                    <li key={solve.solveId} className="mb-5">
                       <p className="is-size-4">
                         Time:{' '}
                         {millisecondsToHHMMSSDD(solve.time) +
