@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+// IDENTICAL TO SOLVEMODAL EXCEPT PENALTY FUNCTIONS; MAYBE INTEGRATE BOTH INTO DYNAMIC COMPONENT
+import React from 'react';
 import { PuzzleSolve, WCAEvent } from '../../types';
 import { changePenaltyOfSolve, deleteSolve } from '../utils/storageTools';
 import { BiX } from 'react-icons/bi';
@@ -11,11 +12,11 @@ interface SolveModalProps {
   solve: PuzzleSolve;
   isActive: boolean;
   setIsActive: any;
+  solves: Array<PuzzleSolve>;
+  setSolves: (solves: Array<PuzzleSolve>) => void;
 }
 
-const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps) => {
-  const { updateSolves } = useContext(SolvesContext);
-
+const CompetetiveSolveModal = ({ eventName, solve, isActive, setIsActive, solves, setSolves }: SolveModalProps) => {
   return (
     <div className={`modal ${isActive ? 'is-active' : ''}`}>
       <div className="modal-background" onClick={() => setIsActive(false)}></div>
@@ -43,40 +44,51 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                   new Date(solve.date).toLocaleDateString()}
               </p>
             </div>
-            <div /* className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center" */>
-              <span className="m-3 is-size-5 is-link-dark">
+            <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center">
+              <div className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
-                    changePenaltyOfSolve(eventName, solve.solveId, { type: '+2', amount: 2 });
-                    updateSolves();
+                    let targetSolve = solves.find((_solve) => _solve.solveId === solve.solveId); //@ts-ignore
+                    let index = solves.indexOf(targetSolve); //@ts-ignore
+
+                    if (targetSolve?.penalty?.type === '+2') {
+                      delete targetSolve.penalty;
+                      targetSolve.time -= 2000;
+                    } else { //@ts-ignore
+                      targetSolve.penalty = { type: '+2', amount: 2 }; //@ts-ignore
+                      targetSolve.time += 2000;
+                    }
+                    let copiedSolves = [...solves]; //@ts-ignore
+                    copiedSolves[index] = targetSolve;
+                    setSolves(copiedSolves); 
                   }}
                 >
                   +2
                 </a>
-              </span>
-              <span className="m-3 is-size-5 is-link-dark">
+              </div>
+              <div className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {
-                    changePenaltyOfSolve(eventName, solve.solveId, { type: 'DNF' });
-                    updateSolves();
+                    let targetSolve = solves.find((_solve) => _solve.solveId === solve.solveId); //@ts-ignore
+                    let index = solves.indexOf(targetSolve); //@ts-ignore
+
+                    if (targetSolve?.penalty?.type === '+2') {
+                        targetSolve.time -= 2000;
+                    } else if (targetSolve?.penalty?.type === 'DNF') {
+                      delete targetSolve.penalty;
+                    } 
+                    else {
+                        //@ts-ignore
+                      targetSolve.penalty = { type: 'DNF' };
+                    }
+                    let copiedSolves = [...solves]; //@ts-ignore
+                    copiedSolves[index] = targetSolve;
+                    setSolves(copiedSolves); 
                   }}
                 >
                   DNF
                 </a>
-              </span>
-              <span className="m-3 is-size-5 is-link-dark">
-                <a
-                  onClick={() => {
-                    if (window.confirm('Are you sure you want to delete this solve?')) {
-                      deleteSolve(eventName, solve.solveId);
-                      updateSolves();
-                      setIsActive(false);
-                    }
-                  }}
-                >
-                  Delete
-                </a>
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -85,4 +97,4 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
   );
 };
 
-export default SolveModal;
+export default CompetetiveSolveModal;

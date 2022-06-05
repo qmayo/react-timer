@@ -4,9 +4,10 @@ import Timer from '../sections/Timer';
 import ManualTimer from '../sections/ManualTimer';
 import Scramble from '../scrambles/Scramble';
 import AverageCards from '../utils/AverageCards';
-import { WCAEvent, PuzzleAverage, TimeEntryType } from '../../types';
-import { changePenaltyOfCurrentSolve, deleteCurrentSolve } from '../utils/storageTools';
+import { WCAEvent, PuzzleAverage, TimeEntryType, Penalty } from '../../types';
+import { changePenaltyOfCurrentSolve, deleteCurrentSolve, saveSolve } from '../utils/storageTools';
 import SolvesContext from '../contexts/SolvesContext';
+import { nanoid } from 'nanoid';
 
 interface CasualProps {
   eventName: WCAEvent;
@@ -20,11 +21,20 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
 
   const { updateSolves } = useContext(SolvesContext);
 
+  const timerCallback = (time: number, penalty: Penalty) => {
+    const solveId = nanoid();
+    saveSolve(eventName, time, penalty, scrambleString, new Date(), solveId);
+
+    setShouldScrambleUpdate(true);
+    setShouldScrambleUpdate(false);
+    
+    updateSolves();
+  };
+
   return (
     <div>
       <div className="columns is-vcentered">
         <div className="column has-text-centered">
-          <div>
             <Scramble
               eventName={eventName}
               scrambleString={scrambleString}
@@ -32,15 +42,10 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
               shouldScrambleUpdate={shouldScrambleUpdate}
               setShouldScrambleUpdate={setShouldScrambleUpdate}
             />
-          </div>
           <div id="timer">
             {/* id must match targetComponentID in Timer.js */}
             {timeEntryType !== 'manual' ? (
-              <Timer
-                eventName={eventName}
-                setShouldScrambleUpdate={setShouldScrambleUpdate}
-                scrambleString={scrambleString}
-              />
+              <Timer setShouldScrambleUpdate={setShouldScrambleUpdate} mode={'casual'} callback={timerCallback} />
             ) : (
               <ManualTimer
                 eventName={eventName}
@@ -49,8 +54,8 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
               />
             )}
           </div>
-          <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center">
-            <div className="m-3 is-size-5 is-link-dark">
+          <div /* className="is-flex is-flex-wrap-wrap is-justify-content-center" */>
+            <span className="m-3 is-size-5 is-link-dark">
               <a
                 onClick={() => {
                   changePenaltyOfCurrentSolve(eventName, { type: '+2', amount: 2 });
@@ -59,8 +64,8 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
               >
                 +2
               </a>
-            </div>
-            <div className="m-3 is-size-5 is-link-dark">
+            </span>
+            <span className="m-3 is-size-5 is-link-dark">
               <a
                 onClick={() => {
                   changePenaltyOfCurrentSolve(eventName, { type: 'DNF' });
@@ -69,8 +74,8 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
               >
                 DNF
               </a>
-            </div>
-            <div className="m-3 is-size-5 is-link-dark">
+            </span>
+            <span className="m-3 is-size-5 is-link-dark">
               <a
                 onClick={() => {
                   if (window.confirm('Are you sure you want to delete your previous time?')) {
@@ -81,9 +86,9 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
               >
                 Delete
               </a>
-            </div>
+            </span>
           </div>
-          <div className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-around">
+          <div className="is-flex is-flex-wrap-wrap is-justify-content-space-around">
             {AverageCards(avgsToDisplay, eventName)}
           </div>
         </div>

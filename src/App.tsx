@@ -7,6 +7,7 @@ import Analytics from './components/screens/Analytics';
 import SolvesContext from './components/contexts/SolvesContext';
 import { WCAEvent, PuzzleAverage, PuzzleSolve, TimeEntryType } from './types/index';
 import { getSolves } from './components/utils/storageTools';
+import Competetive from './components/screens/Competetive';
 
 function App() {
   const [eventName, setEvent] = useState<WCAEvent>('333');
@@ -45,7 +46,7 @@ function App() {
             />
           </Route>
           <Route exact path="/competetive">
-            <div className="Competetive"></div>
+            <Competetive eventName={eventName} timeEntryType={timeEntryType} />
           </Route>
           <Route exact path="/analytics">
             <Analytics eventName={eventName} />

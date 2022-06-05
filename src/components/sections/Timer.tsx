@@ -19,32 +19,16 @@ let settings = {
 };
 
 interface TimerProps {
-  eventName: WCAEvent;
   setShouldScrambleUpdate: any;
-  scrambleString: string;
+  mode: 'competetive' | 'casual';
+  defaultTime?: string; //For competetive mode
+  callback: (time: number, penalty: Penalty) => void;
 }
 
-const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProps) => {
-  const { solves, updateSolves } = useContext(SolvesContext);
+const Timer = ({ setShouldScrambleUpdate, mode, defaultTime = '0.00', callback }: TimerProps) => {
+  const { solves } = useContext(SolvesContext);
 
-  const keyboardTimerCallback = (time: number, penalty: Penalty): void => {
-    const solveId = nanoid();
-    saveSolve(eventName, time, penalty, scrambleString, new Date(), solveId);
-    updateSolves();
-  };
-
-  const { time, inspectionTime, state, isTiming } = useKeyboardTimer(
-    settings,
-    keyboardTimerCallback
-  );
-
-  useDidMountEffect(() => {
-    if (state === 'NONE' || state === 'STOPPED') {
-      setShouldScrambleUpdate(true);
-    } else {
-      setShouldScrambleUpdate(false);
-    }
-  }, [state]);
+  const { time, inspectionTime, state, isTiming } = useKeyboardTimer(settings, callback);
 
   useEffect(() => {
     //Spacebard presses scroll down
@@ -64,14 +48,14 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
   const renderTime = (solve: PuzzleSolve) => {
     if (solve.penalty) {
       return solve.penalty.type === 'DNF' ? (
-        <p className="unselectable">DNF</p>
+        "DNF"
       ) : (
-        <p className="unselectable">{`${millisecondsToHHMMSSDD(solve.time)} (${
+        `${millisecondsToHHMMSSDD(solve.time)} (${
           solve.penalty.type
-        })`}</p>
+        })`
       );
     } else {
-      return <p className="unselectable">{millisecondsToHHMMSSDD(solve.time)}</p>;
+      return millisecondsToHHMMSSDD(solve.time);
     }
   };
 
@@ -80,32 +64,32 @@ const Timer = ({ eventName, setShouldScrambleUpdate, scrambleString }: TimerProp
     switch (state) {
       default:
         return (
-          <p className="unselectable">{solves ? renderTime(solves[solves.length - 1]) : '0.00'}</p>
+          <span className="unselectable">{solves && mode === 'casual' ? renderTime(solves[solves.length - 1]) : defaultTime}</span>
         );
 
       case 'SPACE_PRESSED_INSPECTION':
         return (
-          <p className="unselectable" style={{ color: 'green' }}>
+          <span className="unselectable" style={{ color: 'green' }}>
             15
-          </p>
+          </span>
         );
       case 'INSPECTION':
-        return <p className="unselectable">{inspectionTime}</p>;
+        return <span className="unselectable">{inspectionTime}</span>;
 
       case 'SPACE_PRESSED_TIMING':
         return (
-          <p className="unselectable" style={{ color: 'red' }}>
+          <span className="unselectable" style={{ color: 'red' }}>
             0.00
-          </p>
+          </span>
         );
       case 'SPACE_PRESSED_VALID':
         return (
-          <p className="unselectable" style={{ color: 'green' }}>
+          <span className="unselectable" style={{ color: 'green' }}>
             0.00
-          </p>
+          </span>
         );
       case 'STARTED':
-        return <p className="unselectable">{millisecondsToHHMMSSDD(time)}</p>;
+        return <span className="unselectable">{millisecondsToHHMMSSDD(time)}</span>;
     }
   };
 
