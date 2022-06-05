@@ -5,7 +5,7 @@ export const getMean = (solves: Array<PuzzleSolve>): number | null => {
   if (solves) {
     let dnfs = 0;
     solves.forEach((solve) => solve.penalty && solve.penalty.type === 'DNF' && dnfs++);
-    if (dnfs < 2) {
+    if (dnfs === 0) {
       return solves.map((solve) => solve.time).reduce((a, b) => a + b) / solves.length;
     } else {
       return -1; // -1 signifies DNF
