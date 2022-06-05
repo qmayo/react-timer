@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { AverageType, PuzzleSolve, WCAEvent } from '../../types';
 import AverageModal from '../modals/AverageModal';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
-import { getAvg } from '../utils/sessionStatisticsTools';
+import { getAvg, getMean } from '../utils/sessionStatisticsTools';
 
 interface CompetetiveAverageModalProps {
     eventName: WCAEvent;
@@ -19,12 +19,11 @@ const CompetetiveAverageModalWrapper = ({
 
   return (
     <div> {/* @ts-ignore */}
-        <h4 className='title is-4'>{averageType === 'avg' ? 'Average' : "Mean"}: <a onClick={() => setIsActive(true)}>{millisecondsToHHMMSSDD(getAvg(solves))}</a> </h4>
+        <h4 className='title is-4'>{averageType === 'avg' ? 'Average' : "Mean"}: <a onClick={() => setIsActive(true)}>{averageType === 'avg' ? millisecondsToHHMMSSDD(getAvg(solves)) : millisecondsToHHMMSSDD(getMean(solves))}</a> </h4>
         <AverageModal
           eventName={eventName}
           solves={solves}
-          averageType={averageType} /* @ts-ignore */
-          average={getAvg(solves)}
+          averageType={averageType}
           isActive={isActive}
           setIsActive={setIsActive}
         />
