@@ -32,13 +32,13 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
   useEffect(() => {
     if (completedSolves.length === (averageTypeForEvent(eventName) === 'avg' ? 5 : 3)) {
       setHasEnded(true);
-    } else {
-      setShouldScrambleUpdate(true);
-      setShouldScrambleUpdate(false);
     }
+    
+      
+    
   }, [completedSolves]);
 
-  const getTimeEntryTypeString = (timeEntryType: TimeEntryType): string => {
+  const getTimeEntryTypeString = (timeEntryType: TimeEntryType): string => { /* prob move to utils later */
     switch (timeEntryType) {
       case 'timer':
         return 'Virtual timer';
@@ -62,6 +62,7 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
         solveId: solveId,
       },
     ]);
+    setShouldScrambleUpdate(true);
   };
 
   return (

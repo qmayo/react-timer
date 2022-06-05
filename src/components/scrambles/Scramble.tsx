@@ -65,6 +65,7 @@ const Scramble = ({
   useEffect(() => {
     if (shouldScrambleUpdate) {
       getNewScramble();
+      setShouldScrambleUpdate(false);
     }
   }, [shouldScrambleUpdate]);
 

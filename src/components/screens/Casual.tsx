@@ -26,7 +26,6 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
     saveSolve(eventName, time, penalty, scrambleString, new Date(), solveId);
 
     setShouldScrambleUpdate(true);
-    setShouldScrambleUpdate(false);
     
     updateSolves();
   };
