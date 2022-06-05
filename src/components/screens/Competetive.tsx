@@ -32,6 +32,9 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
   useEffect(() => {
     if (completedSolves.length === (averageTypeForEvent(eventName) === 'avg' ? 5 : 3)) {
       setHasEnded(true);
+    } else {
+      setShouldScrambleUpdate(true);
+      setShouldScrambleUpdate(false);
     }
   }, [completedSolves]);
 
