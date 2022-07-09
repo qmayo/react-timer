@@ -1,46 +1,21 @@
-import React, { useContext, useState } from 'react';
-import { Penalty, WCAEvent } from '../../types';
-import SolvesContext from '../contexts/SolvesContext';
-import useDidMountEffect from '../utils/useDidMountEffect';
-import { saveSolve } from '../utils/storageTools';
-import { nanoid } from 'nanoid';
+import React, { useState } from 'react';
 import HHMMSSDDToMs from '../utils/HHMMSSDDToMs';
-import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 
 interface ManualTimerProps {
-  eventName: WCAEvent;
-  setShouldScrambleUpdate: any;
-  scrambleString: string;
+  callback: (time: number) => void;
 }
 
-const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: ManualTimerProps) => {
+const ManualTimer = ({ callback }: ManualTimerProps) => {
   const [time, setTime] = useState<number>(); //HHMMSSDD, not MS
 
-  const { solves, updateSolves } = useContext(SolvesContext);
-
-  useDidMountEffect(() => {
-    setShouldScrambleUpdate(true);
-  }, [solves]); //TODO: Maybe scramble should be context
-
   return (
-    <div className="container mt-6 mb-3">
+    <div className="container mt-6 mb-6">
       <form
         onSubmit={(e) => {
           e.preventDefault();
 
-          setShouldScrambleUpdate(false);
-
           if (time && time !== 0 && typeof time === 'number') {
-            const solveId = nanoid();
-            saveSolve(
-              eventName,
-              HHMMSSDDToMs(time),
-              undefined as unknown as Penalty,
-              scrambleString,
-              new Date(),
-              solveId
-            );
-            updateSolves();
+            callback(HHMMSSDDToMs(time));
             setTime(undefined);
           }
         }}
@@ -56,20 +31,6 @@ const ManualTimer = ({ eventName, setShouldScrambleUpdate, scrambleString }: Man
           }}
         />
       </form>
-      <div className="mt-4">
-        <small>
-          {solves && (
-            <b>
-              Previous Time:{' '}
-              {millisecondsToHHMMSSDD(solves[solves.length - 1].time) +
-                ' ' +
-                (solves[solves.length - 1]?.penalty
-                  ? `(${solves[solves.length - 1]?.penalty?.type})`
-                  : '')}
-            </b>
-          )}
-        </small>
-      </div>
     </div>
   );
 };

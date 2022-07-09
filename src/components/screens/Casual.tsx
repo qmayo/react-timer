@@ -30,6 +30,23 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
     updateSolves();
   };
 
+  const manualTimerCallback = (time: number) => {
+    const solveId = nanoid();
+    saveSolve(
+        eventName,
+        time,
+        undefined as unknown as Penalty,
+        scrambleString,
+        new Date(),
+        solveId,
+      
+    );
+
+    setShouldScrambleUpdate(true);
+
+    updateSolves();
+  }
+
   return (
     <div>
       <div className="columns is-vcentered">
@@ -44,16 +61,14 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
           <div id="timer">
             {/* id must match targetComponentID in Timer.js */}
             {timeEntryType !== 'manual' ? (
-              <Timer setShouldScrambleUpdate={setShouldScrambleUpdate} mode={'casual'} callback={timerCallback} />
+              <Timer mode={'casual'} callback={timerCallback} />
             ) : (
               <ManualTimer
-                eventName={eventName}
-                setShouldScrambleUpdate={setShouldScrambleUpdate}
-                scrambleString={scrambleString}
+                callback={manualTimerCallback}
               />
             )}
           </div>
-          <div /* className="is-flex is-flex-wrap-wrap is-justify-content-center" */>
+          <div className='mb-6'/* className="is-flex is-flex-wrap-wrap is-justify-content-center" */>
             <span className="m-3 is-size-5 is-link-dark">
               <a
                 onClick={() => {

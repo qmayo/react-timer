@@ -18,7 +18,7 @@ const CompetetiveSolveModalWrapper = ({ eventName, solve, index, solves, setSolv
     <div key={solve.solveId}>
         {index + 1}:<a onClick={() => {
         setIsActive(true);
-    }}> {millisecondsToHHMMSSDD(solve.time)}</a>
+    }}> {`${millisecondsToHHMMSSDD(solve.time)} ${solve.penalty ? `(${solve.penalty.type})` : ''}`}</a>
         <CompetetiveSolveModal eventName={eventName} solve={solve} isActive={isActive} setIsActive={setIsActive} solves={solves} setSolves={setSolves} />
     </div>
   )

@@ -65,6 +65,22 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
     setShouldScrambleUpdate(true);
   };
 
+  const manualTimerCallback = (time: number) => {
+    const solveId = nanoid();
+    setCompletedSolves([
+      ...completedSolves,
+      {
+        eventName: eventName,
+        time: time,
+        penalty: undefined,
+        scramble: scrambleString,
+        date: new Date(),
+        solveId: solveId,
+      },
+    ]);
+    setShouldScrambleUpdate(true);
+  }
+
   return (
     <div
       className={`${hasStarted ? 'has-text-centered fill-window' : 'container has-text-centered '}`}
@@ -132,20 +148,24 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
                 <Timer
                   callback={timerCallback}
                   mode={'competetive'}
-                  defaultTime={
+                  defaultSolve={
                     completedSolves.length > 0
-                      ? millisecondsToHHMMSSDD(completedSolves[completedSolves.length - 1].time)
-                      : '0.00'
+                      ? completedSolves[completedSolves.length - 1]
+                      : {
+                        eventName: eventName,
+                        time: 0,
+                        penalty: undefined,
+                        scramble: '',
+                        date: new Date(),
+                        solveId: ''
+                      }
                   }
-                  setShouldScrambleUpdate={setShouldScrambleUpdate}
                 />
               </div>
             ) : (
               <div className="has-text-centered" id="timer">
                 <ManualTimer
-                  eventName={eventName}
-                  scrambleString={scrambleString}
-                  setShouldScrambleUpdate={setShouldScrambleUpdate}
+                  callback={manualTimerCallback}
                 />
               </div>
             )}

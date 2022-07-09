@@ -1,13 +1,9 @@
 import React from 'react';
 import { useContext, useEffect } from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
-import { nanoid } from 'nanoid';
-
-import { saveSolve } from '../utils/storageTools';
-import useDidMountEffect from '../utils/useDidMountEffect';
 import SolvesContext from '../contexts/SolvesContext';
 
-import { WCAEvent, Penalty, PuzzleSolve } from '../../types';
+import { Penalty, PuzzleSolve } from '../../types';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 
 let settings = {
@@ -19,19 +15,18 @@ let settings = {
 };
 
 interface TimerProps {
-  setShouldScrambleUpdate: any;
   mode: 'competetive' | 'casual';
-  defaultTime?: string; //For competetive mode
+  defaultSolve?: PuzzleSolve; //For competetive mode
   callback: (time: number, penalty: Penalty) => void;
 }
 
-const Timer = ({ setShouldScrambleUpdate, mode, defaultTime = '0.00', callback }: TimerProps) => {
+const Timer = ({ mode, defaultSolve, callback }: TimerProps) => {
   const { solves } = useContext(SolvesContext);
 
   const { time, inspectionTime, state, isTiming } = useKeyboardTimer(settings, callback);
 
   useEffect(() => {
-    //Spacebard presses scroll down
+    //Spacebar presses scroll down
     const handleSpacebar = (e: KeyboardEvent) => {
       if (e.key === ' ' && e.target === document.body) {
         e.preventDefault();
@@ -63,8 +58,8 @@ const Timer = ({ setShouldScrambleUpdate, mode, defaultTime = '0.00', callback }
     //render timer itself
     switch (state) {
       default:
-        return (
-          <span className="unselectable">{solves && mode === 'casual' ? renderTime(solves[solves.length - 1]) : defaultTime}</span>
+        return ( /* @ts-ignore because code in Competetive.tsx gaurantees defaultSolve is not null/undefined */
+          <span className="unselectable">{solves && mode === 'casual' ? renderTime(solves[solves.length - 1]) : renderTime(defaultSolve)}</span>
         );
 
       case 'SPACE_PRESSED_INSPECTION':
