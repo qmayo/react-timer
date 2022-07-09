@@ -58,8 +58,14 @@ const Timer = ({ mode, defaultSolve, callback }: TimerProps) => {
     //render timer itself
     switch (state) {
       default:
-        return ( /* @ts-ignore because code in Competetive.tsx gaurantees defaultSolve is not null/undefined */
-          <span className="unselectable">{solves && mode === 'casual' ? renderTime(solves[solves.length - 1]) : renderTime(defaultSolve)}</span>
+        return (
+          <span className="unselectable">
+          {mode === 'casual' 
+          ? (solves && solves.length > 0
+          ? renderTime(solves[solves.length - 1]) 
+          : '0.00')  /* @ts-ignore because code in Competetive.tsx gaurantees defaultSolve is not null/undefined */
+          : renderTime(defaultSolve)}
+          </span>
         );
 
       case 'SPACE_PRESSED_INSPECTION':
