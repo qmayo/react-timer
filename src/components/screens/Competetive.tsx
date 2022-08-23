@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AverageType, Penalty, PuzzleSolve, TimeEntryType, WCAEvent } from '../../types';
+import { Penalty, PuzzleSolve, TimeEntryType, WCAEvent } from '../../types';
 import eventNameToFullName from '../utils/eventNameToFullName';
 import averageTypeForEvent from '../utils/averageTypeForEvent';
 import { FiX } from 'react-icons/fi';
@@ -7,7 +7,6 @@ import Timer from '../sections/Timer';
 import Scramble from '../scrambles/Scramble';
 import ManualTimer from '../sections/ManualTimer';
 import { nanoid } from 'nanoid';
-import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 import CompetetiveSolveModalWrapper from '../sections/CompetetiveSolveModalWrapper';
 import CompetetiveAverageModalWrapper from '../sections/CompetetiveAverageModalWrapper';
 

@@ -17,6 +17,8 @@ export type WCAEvent =
 
 export type TimeEntryType = 'timer' | 'manual' | 'stackmat';
 
+export type InspectionMode = 'always' | 'never' | 'nonbld';
+
 export type AverageType = 'avg' | 'mean';
 
 export interface Penalty {

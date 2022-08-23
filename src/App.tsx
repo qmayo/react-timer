@@ -5,14 +5,16 @@ import Navbar from './components/sections/Navbar';
 import Casual from './components/screens/Casual';
 import Analytics from './components/screens/Analytics';
 import SolvesContext from './components/contexts/SolvesContext';
-import { WCAEvent, PuzzleAverage, PuzzleSolve, TimeEntryType } from './types/index';
+import { WCAEvent, PuzzleAverage, PuzzleSolve, TimeEntryType, InspectionMode } from './types/index';
 import { getSolves } from './components/utils/storageTools';
 import Competetive from './components/screens/Competetive';
 
 function App() {
   const [eventName, setEvent] = useState<WCAEvent>('333');
   const [solves, setSolves] = useState<PuzzleSolve[] | null>(null);
-  const [timeEntryType, setTimeEntryTipe] = useState<TimeEntryType>('timer');
+  const [timeEntryType, setTimeEntryType] = useState<TimeEntryType>('timer');
+  const [inspectionMode, setInspectionMode] = useState<InspectionMode>('never');
+  const [useVirtualInspection, setUseVirtualInspection] = useState<boolean>(false);
   const [avgsToDisplay, setAvgsToDisplay] = useState<Array<PuzzleAverage>>([
     { size: 5, type: 'avg' },
     { size: 12, type: 'avg' },
@@ -26,7 +28,16 @@ function App() {
 
   return (
     <Router>
-      <Navbar eventName={eventName} changeEvent={setEvent} />
+      <Navbar 
+        eventName={eventName} 
+        changeEvent={setEvent} 
+        timeEntryType={timeEntryType} 
+        setTimeEntryType={setTimeEntryType}
+        inspectionMode={inspectionMode}
+        setInspectionMode={setInspectionMode} 
+        useVirtualInspection={useVirtualInspection}
+        setUseVirtualInspection={setUseVirtualInspection}
+      />
       <SolvesContext.Provider
         value={{
           solves: solves,

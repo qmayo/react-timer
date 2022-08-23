@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { WCAEvent } from '../../types';
+import { InspectionMode, TimeEntryType, WCAEvent } from '../../types';
 import Events from './Events';
 import { Link, useLocation } from 'react-router-dom';
+import SettingsModalWrapper from './SettingsModalWrapper';
 
 interface NavbarProps {
   eventName: WCAEvent;
   changeEvent: any;
+  timeEntryType: TimeEntryType;
+  setTimeEntryType: any;
+  inspectionMode: InspectionMode;
+  setInspectionMode: any;
+  useVirtualInspection: boolean;
+  setUseVirtualInspection: any;
 }
 
-const Navbar = ({ eventName, changeEvent }: NavbarProps) => {
+const Navbar = ({ eventName, changeEvent, timeEntryType, setTimeEntryType, inspectionMode, setInspectionMode, useVirtualInspection, setUseVirtualInspection }: NavbarProps) => {
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const location = useLocation();
@@ -37,6 +44,16 @@ const Navbar = ({ eventName, changeEvent }: NavbarProps) => {
       <div className={`navbar-menu has-background-link-dark ${menuActive ? 'is-active' : ''}`}>
         <div className="navbar-start"></div>
         <div className="navbar-end mr-6">
+          <div className='navbar-item pl-6'>
+              <SettingsModalWrapper 
+                timeEntryType={timeEntryType} 
+                setTimeEntryType={setTimeEntryType}
+                inspectionMode={inspectionMode}
+                setInspectionMode={setInspectionMode} 
+                useVirtualInspection={useVirtualInspection}
+                setUseVirtualInspection={setUseVirtualInspection}
+              />
+          </div>
           <div className="navbar-item pl-0">
             <Link to="/analytics">
               <a className="navbar-link is-arrowless has-text-white has-background-link-dark">
