@@ -16,7 +16,14 @@ interface SolveModalProps {
   setSolves: (solves: Array<PuzzleSolve>) => void;
 }
 
-const CompetetiveSolveModal = ({ eventName, solve, isActive, setIsActive, solves, setSolves }: SolveModalProps) => {
+const CompetetiveSolveModal = ({
+  eventName,
+  solve,
+  isActive,
+  setIsActive,
+  solves,
+  setSolves,
+}: SolveModalProps) => {
   return (
     <div className={`modal ${isActive ? 'is-active' : ''}`}>
       <div className="modal-background" onClick={() => setIsActive(false)}></div>
@@ -54,13 +61,14 @@ const CompetetiveSolveModal = ({ eventName, solve, isActive, setIsActive, solves
                     if (targetSolve?.penalty?.type === '+2') {
                       delete targetSolve.penalty;
                       targetSolve.time -= 2000;
-                    } else { //@ts-ignore
+                    } else {
+                      //@ts-ignore
                       targetSolve.penalty = { type: '+2', amount: 2 }; //@ts-ignore
                       targetSolve.time += 2000;
                     }
                     let copiedSolves = [...solves]; //@ts-ignore
                     copiedSolves[index] = targetSolve;
-                    setSolves(copiedSolves); 
+                    setSolves(copiedSolves);
                   }}
                 >
                   +2
@@ -73,17 +81,16 @@ const CompetetiveSolveModal = ({ eventName, solve, isActive, setIsActive, solves
                     let index = solves.indexOf(targetSolve); //@ts-ignore
 
                     if (targetSolve?.penalty?.type === '+2') {
-                        targetSolve.time -= 2000;
+                      targetSolve.time -= 2000;
                     } else if (targetSolve?.penalty?.type === 'DNF') {
                       delete targetSolve.penalty;
-                    } 
-                    else {
-                        //@ts-ignore
+                    } else {
+                      //@ts-ignore
                       targetSolve.penalty = { type: 'DNF' };
                     }
                     let copiedSolves = [...solves]; //@ts-ignore
                     copiedSolves[index] = targetSolve;
-                    setSolves(copiedSolves); 
+                    setSolves(copiedSolves);
                   }}
                 >
                   DNF

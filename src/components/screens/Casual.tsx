@@ -26,49 +26,48 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
     saveSolve(eventName, time, penalty, scrambleString, new Date(), solveId);
 
     setShouldScrambleUpdate(true);
-    
+
     updateSolves();
   };
 
   const manualTimerCallback = (time: number) => {
     const solveId = nanoid();
     saveSolve(
-        eventName,
-        time,
-        undefined as unknown as Penalty,
-        scrambleString,
-        new Date(),
-        solveId,
-      
+      eventName,
+      time,
+      undefined as unknown as Penalty,
+      scrambleString,
+      new Date(),
+      solveId
     );
 
     setShouldScrambleUpdate(true);
 
     updateSolves();
-  }
+  };
 
   return (
     <div>
       <div className="columns is-vcentered">
         <div className="column has-text-centered">
-            <Scramble
-              eventName={eventName}
-              scrambleString={scrambleString}
-              setScramble={setScramble}
-              shouldScrambleUpdate={shouldScrambleUpdate}
-              setShouldScrambleUpdate={setShouldScrambleUpdate}
-            />
+          <Scramble
+            eventName={eventName}
+            scrambleString={scrambleString}
+            setScramble={setScramble}
+            shouldScrambleUpdate={shouldScrambleUpdate}
+            setShouldScrambleUpdate={setShouldScrambleUpdate}
+          />
           <div id="timer">
             {/* id must match targetComponentID in Timer.js */}
             {timeEntryType !== 'manual' ? (
               <Timer mode={'casual'} callback={timerCallback} />
             ) : (
-              <ManualTimer
-                callback={manualTimerCallback}
-              />
+              <ManualTimer callback={manualTimerCallback} />
             )}
           </div>
-          <div className='mb-6'/* className="is-flex is-flex-wrap-wrap is-justify-content-center" */>
+          <div
+            className="mb-6" /* className="is-flex is-flex-wrap-wrap is-justify-content-center" */
+          >
             <span className="m-3 is-size-5 is-link-dark">
               <a
                 onClick={() => {

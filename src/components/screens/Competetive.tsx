@@ -32,12 +32,10 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
     if (completedSolves.length === (averageTypeForEvent(eventName) === 'avg' ? 5 : 3)) {
       setHasEnded(true);
     }
-    
-      
-    
   }, [completedSolves]);
 
-  const getTimeEntryTypeString = (timeEntryType: TimeEntryType): string => { /* prob move to utils later */
+  const getTimeEntryTypeString = (timeEntryType: TimeEntryType): string => {
+    /* prob move to utils later */
     switch (timeEntryType) {
       case 'timer':
         return 'Virtual timer';
@@ -78,7 +76,7 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
       },
     ]);
     setShouldScrambleUpdate(true);
-  }
+  };
 
   return (
     <div
@@ -100,17 +98,15 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
             <div className="is-flex is-justify-content-center mt-6">
               {completedSolves.map((solve, index) => {
                 return (
-                  
                   <span key={solve.solveId} className={index !== 0 ? 'ml-6' : ''}>
-                  <CompetetiveSolveModalWrapper
-                    eventName={eventName}
-                    solve={solve}
-                    index={index}
-                    solves={completedSolves}
-                    setSolves={setCompletedSolves}
-                  />
-                </span>
-                  
+                    <CompetetiveSolveModalWrapper
+                      eventName={eventName}
+                      solve={solve}
+                      index={index}
+                      solves={completedSolves}
+                      setSolves={setCompletedSolves}
+                    />
+                  </span>
                 );
               })}
             </div>
@@ -151,21 +147,19 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
                     completedSolves.length > 0
                       ? completedSolves[completedSolves.length - 1]
                       : {
-                        eventName: eventName,
-                        time: 0,
-                        penalty: undefined,
-                        scramble: '',
-                        date: new Date(),
-                        solveId: ''
-                      }
+                          eventName: eventName,
+                          time: 0,
+                          penalty: undefined,
+                          scramble: '',
+                          date: new Date(),
+                          solveId: '',
+                        }
                   }
                 />
               </div>
             ) : (
               <div className="has-text-centered" id="timer">
-                <ManualTimer
-                  callback={manualTimerCallback}
-                />
+                <ManualTimer callback={manualTimerCallback} />
               </div>
             )}
             <div className="is-flex is-justify-content-center mt-6">

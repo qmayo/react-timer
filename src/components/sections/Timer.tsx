@@ -42,13 +42,9 @@ const Timer = ({ mode, defaultSolve, callback }: TimerProps) => {
 
   const renderTime = (solve: PuzzleSolve) => {
     if (solve.penalty) {
-      return solve.penalty.type === 'DNF' ? (
-        "DNF"
-      ) : (
-        `${millisecondsToHHMMSSDD(solve.time)} (${
-          solve.penalty.type
-        })`
-      );
+      return solve.penalty.type === 'DNF'
+        ? 'DNF'
+        : `${millisecondsToHHMMSSDD(solve.time)} (${solve.penalty.type})`;
     } else {
       return millisecondsToHHMMSSDD(solve.time);
     }
@@ -60,11 +56,11 @@ const Timer = ({ mode, defaultSolve, callback }: TimerProps) => {
       default:
         return (
           <span className="unselectable">
-          {mode === 'casual' 
-          ? (solves && solves.length > 0
-          ? renderTime(solves[solves.length - 1]) 
-          : '0.00')  /* @ts-ignore because code in Competetive.tsx gaurantees defaultSolve is not null/undefined */
-          : renderTime(defaultSolve)}
+            {mode === 'casual'
+              ? solves && solves.length > 0
+                ? renderTime(solves[solves.length - 1])
+                : '0.00' /* @ts-ignore because code in Competetive.tsx gaurantees defaultSolve is not null/undefined */
+              : renderTime(defaultSolve)}
           </span>
         );
 

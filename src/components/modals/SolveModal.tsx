@@ -43,7 +43,8 @@ const SolveModal = ({ eventName, solve, isActive, setIsActive }: SolveModalProps
                   new Date(solve.date).toLocaleDateString()}
               </p>
             </div>
-            <div /* className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center" */>
+            <div /* className="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-center" */
+            >
               <span className="m-3 is-size-5 is-link-dark">
                 <a
                   onClick={() => {

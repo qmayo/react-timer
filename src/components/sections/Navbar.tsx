@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InspectionMode, TimeEntryType, WCAEvent } from '../../types';
+import { AverageType, InspectionMode, TimeEntryType, WCAEvent } from '../../types';
 import Events from './Events';
 import { Link, useLocation } from 'react-router-dom';
 import SettingsModalWrapper from './SettingsModalWrapper';
@@ -13,9 +13,26 @@ interface NavbarProps {
   setInspectionMode: any;
   useVirtualInspection: boolean;
   setUseVirtualInspection: any;
+  averageDisplayType: AverageType;
+  setAverageDisplayType: any;
+  averageSizes: Array<number>;
+  setAverageSizes: any;
 }
 
-const Navbar = ({ eventName, changeEvent, timeEntryType, setTimeEntryType, inspectionMode, setInspectionMode, useVirtualInspection, setUseVirtualInspection }: NavbarProps) => {
+const Navbar = ({
+  eventName,
+  changeEvent,
+  timeEntryType,
+  setTimeEntryType,
+  inspectionMode,
+  setInspectionMode,
+  useVirtualInspection,
+  setUseVirtualInspection,
+  averageDisplayType,
+  setAverageDisplayType,
+  averageSizes,
+  setAverageSizes
+}: NavbarProps) => {
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const location = useLocation();
@@ -44,15 +61,19 @@ const Navbar = ({ eventName, changeEvent, timeEntryType, setTimeEntryType, inspe
       <div className={`navbar-menu has-background-link-dark ${menuActive ? 'is-active' : ''}`}>
         <div className="navbar-start"></div>
         <div className="navbar-end mr-6">
-          <div className='navbar-item pl-6'>
-              <SettingsModalWrapper 
-                timeEntryType={timeEntryType} 
-                setTimeEntryType={setTimeEntryType}
-                inspectionMode={inspectionMode}
-                setInspectionMode={setInspectionMode} 
-                useVirtualInspection={useVirtualInspection}
-                setUseVirtualInspection={setUseVirtualInspection}
-              />
+          <div className="navbar-item pl-0">
+            <SettingsModalWrapper
+              timeEntryType={timeEntryType}
+              setTimeEntryType={setTimeEntryType}
+              inspectionMode={inspectionMode}
+              setInspectionMode={setInspectionMode}
+              useVirtualInspection={useVirtualInspection}
+              setUseVirtualInspection={setUseVirtualInspection}
+              averageDisplayType={averageDisplayType}
+              setAverageDisplayType={setAverageDisplayType}
+              averageSizes={averageSizes}
+              setAverageSizes={setAverageSizes}
+            />
           </div>
           <div className="navbar-item pl-0">
             <Link to="/analytics">
