@@ -60,7 +60,20 @@ function App() {
           <Route exact path="/casual">
             <Casual
               eventName={eventName}
-              avgsToDisplay={avgsToDisplay}
+              avgsToDisplay={[
+                {
+                  size: averageSizes[0],
+                  type: averageDisplayType,
+                },
+                {
+                  size: averageSizes[1],
+                  type: averageDisplayType,
+                },
+                {
+                  size: averageSizes[2],
+                  type: averageDisplayType,
+                },
+              ]}
               timeEntryType={timeEntryType}
             />
           </Route>

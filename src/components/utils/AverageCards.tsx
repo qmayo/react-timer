@@ -23,7 +23,7 @@ const AverageCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) 
           bestAvgStr,
           worstAvgStr = '';
 
-        if (solves.length >= avg.size) {
+        if (solves.length >= avg.size && avg.size !== 0) {
           const currentAvg = getAvg(solves.slice(-avg.size));
           if (currentAvg) {
             currentAvgStr = millisecondsToHHMMSSDD(currentAvg);
@@ -53,7 +53,7 @@ const AverageCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) 
           bestMeanStr,
           worstMeanStr = '';
 
-        if (solves.length >= avg.size) {
+        if (solves.length >= avg.size && avg.size !== 0) {
           const currentMean = getMean(solves.slice(-avg.size));
           if (currentMean) {
             currentMeanStr = millisecondsToHHMMSSDD(currentMean);
