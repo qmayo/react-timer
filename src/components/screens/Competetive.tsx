@@ -155,6 +155,7 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
                           solveId: '',
                         }
                   }
+                  inspectionMode={'nonbld'}
                 />
               </div>
             ) : (

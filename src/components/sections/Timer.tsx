@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react';
 import useKeyboardTimer from 'use-keyboard-timer';
 import SolvesContext from '../contexts/SolvesContext';
 
-import { Penalty, PuzzleSolve } from '../../types';
+import { InspectionMode, Penalty, PuzzleSolve } from '../../types';
 import millisecondsToHHMMSSDD from '../utils/millisecondsToHHMMSSDD';
 
 let settings = {
@@ -18,9 +18,10 @@ interface TimerProps {
   mode: 'competetive' | 'casual';
   defaultSolve?: PuzzleSolve; //For competetive mode
   callback: (time: number, penalty: Penalty) => void;
+  inspectionMode: InspectionMode;
 }
 
-const Timer = ({ mode, defaultSolve, callback }: TimerProps) => {
+const Timer = ({ mode, defaultSolve, callback, inspectionMode }: TimerProps) => {
   const { solves } = useContext(SolvesContext);
 
   const { time, inspectionTime, state, isTiming } = useKeyboardTimer(settings, callback);
@@ -39,6 +40,10 @@ const Timer = ({ mode, defaultSolve, callback }: TimerProps) => {
       window.removeEventListener('keydown', handleSpacebar);
     };
   }, []);
+
+  useEffect(() => {
+    settings.inspection = inspectionMode;
+  }, [inspectionMode])
 
   const renderTime = (solve: PuzzleSolve) => {
     if (solve.penalty) {

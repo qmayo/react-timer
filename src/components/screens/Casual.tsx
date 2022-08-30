@@ -4,7 +4,7 @@ import Timer from '../sections/Timer';
 import ManualTimer from '../sections/ManualTimer';
 import Scramble from '../scrambles/Scramble';
 import AverageCards from '../utils/AverageCards';
-import { WCAEvent, PuzzleAverage, TimeEntryType, Penalty } from '../../types';
+import { WCAEvent, PuzzleAverage, TimeEntryType, Penalty, InspectionMode } from '../../types';
 import { changePenaltyOfCurrentSolve, deleteCurrentSolve, saveSolve } from '../utils/storageTools';
 import SolvesContext from '../contexts/SolvesContext';
 import { nanoid } from 'nanoid';
@@ -13,9 +13,10 @@ interface CasualProps {
   eventName: WCAEvent;
   avgsToDisplay: Array<PuzzleAverage>;
   timeEntryType: TimeEntryType;
+  inspectionMode: InspectionMode;
 }
 
-const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
+const Casual = ({ eventName, avgsToDisplay, timeEntryType, inspectionMode }: CasualProps) => {
   const [scrambleString, setScramble] = useState<string>('');
   const [shouldScrambleUpdate, setShouldScrambleUpdate] = useState<boolean>(false);
 
@@ -60,7 +61,11 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType }: CasualProps) => {
           <div id="timer">
             {/* id must match targetComponentID in Timer.js */}
             {timeEntryType !== 'manual' ? (
-              <Timer mode={'casual'} callback={timerCallback} />
+              <Timer 
+                mode={'casual'} 
+                callback={timerCallback} 
+                inspectionMode={inspectionMode}
+              />
             ) : (
               <ManualTimer callback={manualTimerCallback} />
             )}
