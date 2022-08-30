@@ -1,4 +1,10 @@
-import { Penalty, PuzzleSolve, WCAEvent } from '../../types';
+import { Penalty, PuzzleSolve, WCAEvent, SettingsInterface } from '../../types';
+
+/* 
+  KEYS:
+  rt-settings
+  event in WCAEvent
+*/
 
 export const getSolves = (eventName: WCAEvent): Array<PuzzleSolve> | null => {
   const unparsedSolves = localStorage.getItem(eventName);
@@ -166,5 +172,19 @@ export const changePenaltyOfCurrentSolve = (eventName: WCAEvent, penalty: Penalt
         localStorage.setItem(eventName, JSON.stringify(solves));
       }
     }
+  }
+};
+
+export const saveSettings = (settings: SettingsInterface): void => {
+  localStorage.setItem('rt-settings', JSON.stringify(settings));
+};
+
+export const getSettings = (): SettingsInterface | null => {
+  const settings = localStorage.getItem('rt-settings');
+
+  if (settings) {
+    return JSON.parse(settings);
+  } else {
+    return null;
   }
 };

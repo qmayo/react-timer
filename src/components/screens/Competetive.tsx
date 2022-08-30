@@ -9,6 +9,7 @@ import ManualTimer from '../sections/ManualTimer';
 import { nanoid } from 'nanoid';
 import CompetetiveSolveModalWrapper from '../sections/CompetetiveSolveModalWrapper';
 import CompetetiveAverageModalWrapper from '../sections/CompetetiveAverageModalWrapper';
+import getTimeEntryTypeString from '../utils/getTimeEntryTypeString';
 
 interface CompetetiveProps {
   eventName: WCAEvent;
@@ -33,18 +34,6 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
       setHasEnded(true);
     }
   }, [completedSolves]);
-
-  const getTimeEntryTypeString = (timeEntryType: TimeEntryType): string => {
-    /* prob move to utils later */
-    switch (timeEntryType) {
-      case 'timer':
-        return 'Virtual timer';
-      case 'manual':
-        return 'Manual entry';
-      case 'stackmat':
-        return 'Stackmat';
-    }
-  };
 
   const timerCallback = (time: number, penalty: Penalty) => {
     const solveId = nanoid();

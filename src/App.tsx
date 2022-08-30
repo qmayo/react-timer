@@ -6,20 +6,56 @@ import Casual from './components/screens/Casual';
 import Analytics from './components/screens/Analytics';
 import SolvesContext from './components/contexts/SolvesContext';
 import SettingsContext from './components/contexts/SettingsContext';
-import { WCAEvent, PuzzleSolve, TimeEntryType, InspectionMode, AverageType } from './types/index';
-import { getSolves } from './components/utils/storageTools';
+import {
+  WCAEvent,
+  PuzzleSolve,
+  TimeEntryType,
+  InspectionMode,
+  AverageType,
+  SettingsInterface,
+} from './types/index';
+import { getSettings, getSolves, saveSettings } from './components/utils/storageTools';
 import Competetive from './components/screens/Competetive';
 
 function App() {
   const [eventName, setEvent] = useState<WCAEvent>('333');
   const [solves, setSolves] = useState<PuzzleSolve[] | null>(null);
+
+  //SETTINGS
   const [timeEntryType, setTimeEntryType] = useState<TimeEntryType>('timer');
   const [inspectionMode, setInspectionMode] = useState<InspectionMode>('never'); //TODO: implement nonbld in timer lib
   const [useVirtualInspection, setUseVirtualInspection] = useState<boolean>(false);
   const [averageDisplayType, setAverageDisplayType] = useState<AverageType>('avg');
-  const [averageSizes, setAverageSizes] = useState<Array<number>>([
-    5, 12, 50
-  ])
+  const [averageSizes, setAverageSizes] = useState<Array<number>>([5, 12, 50]);
+
+  const updateSettings = (settings: SettingsInterface): void => {
+    setTimeEntryType(settings.timeEntryType);
+    setInspectionMode(settings.inspectionMode);
+    setUseVirtualInspection(settings.useVirtualInspection);
+    setAverageDisplayType(settings.averageDisplayType);
+    setAverageSizes(settings.averageSizes);
+  };
+
+  useEffect(() => {
+    const settings = getSettings();
+
+    if (settings) {
+      console.log(settings.inspectionMode);
+      updateSettings(settings);
+    }
+  }, []);
+
+  useEffect(() => {
+    const settings = {
+      timeEntryType: timeEntryType,
+      inspectionMode: inspectionMode,
+      useVirtualInspection: useVirtualInspection,
+      averageDisplayType: averageDisplayType,
+      averageSizes: averageSizes,
+    };
+    console.log(settings);
+    saveSettings(settings);
+  }, [timeEntryType, inspectionMode, useVirtualInspection, averageDisplayType, averageSizes]);
 
   useEffect(() => {
     const times = getSolves(eventName);

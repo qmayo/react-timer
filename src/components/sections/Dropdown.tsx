@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import { FaAngleDown } from 'react-icons/fa';
 
@@ -41,6 +42,7 @@ const Dropdown = ({ title, options, selectedOption, setSelectedOption }: Dropdow
                     setSelectedOption(option.value);
                     setIsActive(false);
                   }}
+                  key={nanoid(5)}
                 >
                   {option.name}
                 </a>
@@ -53,6 +55,7 @@ const Dropdown = ({ title, options, selectedOption, setSelectedOption }: Dropdow
                     setSelectedOption(option.value);
                     setIsActive(false);
                   }}
+                  key={nanoid(5)}
                 >
                   {option.name}
                 </a>

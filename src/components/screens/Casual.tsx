@@ -61,11 +61,7 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType, inspectionMode }: Cas
           <div id="timer">
             {/* id must match targetComponentID in Timer.js */}
             {timeEntryType !== 'manual' ? (
-              <Timer 
-                mode={'casual'} 
-                callback={timerCallback} 
-                inspectionMode={inspectionMode}
-              />
+              <Timer mode={'casual'} callback={timerCallback} inspectionMode={inspectionMode} />
             ) : (
               <ManualTimer callback={manualTimerCallback} />
             )}

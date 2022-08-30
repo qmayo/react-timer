@@ -7,17 +7,14 @@ const SettingsModalWrapper = () => {
 
   return (
     <React.Fragment>
-    <a
-      className="navbar-link is-arrowless has-text-white has-background-link-dark"
-      onClick={() => setIsActive(!isActive)}
-    >
-      Settings
-    </a>
-    <SettingsModal
-    isActive={isActive}
-    setIsActive={setIsActive}
-  />
-  </React.Fragment>
+      <a
+        className="navbar-link is-arrowless has-text-white has-background-link-dark"
+        onClick={() => setIsActive(!isActive)}
+      >
+        Settings
+      </a>
+      <SettingsModal isActive={isActive} setIsActive={setIsActive} />
+    </React.Fragment>
   );
 };
 

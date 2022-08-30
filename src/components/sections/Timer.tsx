@@ -43,7 +43,7 @@ const Timer = ({ mode, defaultSolve, callback, inspectionMode }: TimerProps) => 
 
   useEffect(() => {
     settings.inspection = inspectionMode;
-  }, [inspectionMode])
+  }, [inspectionMode]);
 
   const renderTime = (solve: PuzzleSolve) => {
     if (solve.penalty) {

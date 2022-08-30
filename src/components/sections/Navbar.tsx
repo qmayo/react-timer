@@ -31,7 +31,7 @@ const Navbar = ({
   averageDisplayType,
   setAverageDisplayType,
   averageSizes,
-  setAverageSizes
+  setAverageSizes,
 }: NavbarProps) => {
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
