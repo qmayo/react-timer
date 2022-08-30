@@ -5,6 +5,7 @@ import Navbar from './components/sections/Navbar';
 import Casual from './components/screens/Casual';
 import Analytics from './components/screens/Analytics';
 import SolvesContext from './components/contexts/SolvesContext';
+import SettingsContext from './components/contexts/SettingsContext';
 import { WCAEvent, PuzzleSolve, TimeEntryType, InspectionMode, AverageType } from './types/index';
 import { getSolves } from './components/utils/storageTools';
 import Competetive from './components/screens/Competetive';
@@ -27,63 +28,78 @@ function App() {
 
   return (
     <Router>
-      <Navbar
-        eventName={eventName}
-        changeEvent={setEvent}
-        timeEntryType={timeEntryType}
-        setTimeEntryType={setTimeEntryType}
-        inspectionMode={inspectionMode}
-        setInspectionMode={setInspectionMode}
-        useVirtualInspection={useVirtualInspection}
-        setUseVirtualInspection={setUseVirtualInspection}
-        averageDisplayType={averageDisplayType}
-        setAverageDisplayType={setAverageDisplayType}
-        averageSizes={averageSizes}
-        setAverageSizes={setAverageSizes}
-      />
-      <SolvesContext.Provider
+      <SettingsContext.Provider
         value={{
-          solves: solves,
-          updateSolves: () => {
-            //NEEDS TO BE CALLED WHENEVER SOLVES ARE CHANGED IN LOCALSTORAGE
-            const solves = getSolves(eventName);
-            setSolves(solves);
-          },
+          timeEntryType: timeEntryType,
+          setTimeEntryType: setTimeEntryType,
+          inspectionMode: inspectionMode,
+          setInspectionMode: setInspectionMode,
+          useVirtualInspection: useVirtualInspection,
+          setUseVirtualInspection: setUseVirtualInspection,
+          averageDisplayType: averageDisplayType,
+          setAverageDisplayType: setAverageDisplayType,
+          averageSizes: averageSizes,
+          setAverageSizes: setAverageSizes,
         }}
       >
-        <Switch>
-          <Route exact path="/casual">
-            <Casual
-              eventName={eventName}
-              avgsToDisplay={[
-                {
-                  size: averageSizes[0],
-                  type: averageDisplayType,
-                },
-                {
-                  size: averageSizes[1],
-                  type: averageDisplayType,
-                },
-                {
-                  size: averageSizes[2],
-                  type: averageDisplayType,
-                },
-              ]}
-              timeEntryType={timeEntryType}
-              inspectionMode={inspectionMode}
-            />
-          </Route>
-          <Route exact path="/competetive">
-            <Competetive eventName={eventName} timeEntryType={timeEntryType} />
-          </Route>
-          <Route exact path="/analytics">
-            <Analytics eventName={eventName} />
-          </Route>
-          <Route path="*">
-            <Redirect to="/casual" />
-          </Route>
-        </Switch>
-      </SolvesContext.Provider>
+        <Navbar
+          eventName={eventName}
+          changeEvent={setEvent}
+          timeEntryType={timeEntryType}
+          setTimeEntryType={setTimeEntryType}
+          inspectionMode={inspectionMode}
+          setInspectionMode={setInspectionMode}
+          useVirtualInspection={useVirtualInspection}
+          setUseVirtualInspection={setUseVirtualInspection}
+          averageDisplayType={averageDisplayType}
+          setAverageDisplayType={setAverageDisplayType}
+          averageSizes={averageSizes}
+          setAverageSizes={setAverageSizes}
+        />
+        <SolvesContext.Provider
+          value={{
+            solves: solves,
+            updateSolves: () => {
+              //NEEDS TO BE CALLED WHENEVER SOLVES ARE CHANGED IN LOCALSTORAGE
+              const solves = getSolves(eventName);
+              setSolves(solves);
+            },
+          }}
+        >
+          <Switch>
+            <Route exact path="/casual">
+              <Casual
+                eventName={eventName}
+                avgsToDisplay={[
+                  {
+                    size: averageSizes[0],
+                    type: averageDisplayType,
+                  },
+                  {
+                    size: averageSizes[1],
+                    type: averageDisplayType,
+                  },
+                  {
+                    size: averageSizes[2],
+                    type: averageDisplayType,
+                  },
+                ]}
+                timeEntryType={timeEntryType}
+                inspectionMode={inspectionMode}
+              />
+            </Route>
+            <Route exact path="/competetive">
+              <Competetive eventName={eventName} timeEntryType={timeEntryType} />
+            </Route>
+            <Route exact path="/analytics">
+              <Analytics eventName={eventName} />
+            </Route>
+            <Route path="*">
+              <Redirect to="/casual" />
+            </Route>
+          </Switch>
+        </SolvesContext.Provider>
+      </SettingsContext.Provider>
     </Router>
   );
 }

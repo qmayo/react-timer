@@ -72,7 +72,7 @@ const AverageCards = (avgsToDisplay: Array<PuzzleAverage>, eventName: WCAEvent) 
 
         return (
           <Card key={nanoid(5)}>
-            <h4 className="title is-4">{`Ao${avg.size}`}:</h4>
+            <h4 className="title is-4">{`Mo${avg.size}`}:</h4>
             <p>Current: {currentMeanStr || 'N/A'}</p>
             <p>Best: {bestMeanStr || 'N/A'}</p>
             <p>Worst: {worstMeanStr || 'N/A'}</p>

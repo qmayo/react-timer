@@ -1,37 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BiX } from 'react-icons/bi';
 import { AverageType, InspectionMode, TimeEntryType } from '../../types';
 import Dropdown from '../sections/Dropdown';
+import SettingsContext from '../contexts/SettingsContext';
 
 interface SettingsModalProps {
   isActive: boolean;
   setIsActive: any;
-  timeEntryType: TimeEntryType;
-  setTimeEntryType: any;
-  inspectionMode: InspectionMode;
-  setInspectionMode: any;
-  useVirtualInspection: boolean;
-  setUseVirtualInspection: any;
-  averageDisplayType: AverageType;
-  setAverageDisplayType: any;
-  averageSizes: Array<number>;
-  setAverageSizes: any;
 }
 
 const SettingsModal = ({
   isActive,
   setIsActive,
-  timeEntryType,
-  setTimeEntryType,
-  inspectionMode,
-  setInspectionMode,
-  useVirtualInspection,
-  setUseVirtualInspection,
-  averageDisplayType,
-  setAverageDisplayType,
-  averageSizes,
-  setAverageSizes,
 }: SettingsModalProps) => {
+  const { 
+    timeEntryType,
+    setTimeEntryType,
+    inspectionMode,
+    setInspectionMode,
+    useVirtualInspection,
+    setUseVirtualInspection,
+    averageDisplayType,
+    setAverageDisplayType,
+    averageSizes,
+    setAverageSizes,
+   } = useContext(SettingsContext);
+
   return (
     <div className={`modal ${isActive ? 'is-active' : ''}`}>
       <div className="modal-background" onClick={() => setIsActive(false)}></div>

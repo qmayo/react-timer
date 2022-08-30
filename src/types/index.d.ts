@@ -39,3 +39,16 @@ export interface PuzzleSolve {
   date: Date;
   solveId: string;
 }
+
+export interface SettingsInterface {
+  timeEntryType: TimeEntryType;
+  setTimeEntryType: (timeEntryType: TimeEntryType) => any;
+  inspectionMode: InspectionMode;
+  setInspectionMode: (inspectionMode: InspectionMode) => any;
+  useVirtualInspection: boolean;
+  setUseVirtualInspection: (useVirtualInspection: boolean) => any;
+  averageDisplayType: AverageType;
+  setAverageDisplayType: (averageDispalyType: AverageType) => any;
+  averageSizes: Array<number>;
+  setAverageSizes: (averageSizes: Array<number>) => any;
+}

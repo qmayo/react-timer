@@ -62,18 +62,7 @@ const Navbar = ({
         <div className="navbar-start"></div>
         <div className="navbar-end mr-6">
           <div className="navbar-item pl-0">
-            <SettingsModalWrapper
-              timeEntryType={timeEntryType}
-              setTimeEntryType={setTimeEntryType}
-              inspectionMode={inspectionMode}
-              setInspectionMode={setInspectionMode}
-              useVirtualInspection={useVirtualInspection}
-              setUseVirtualInspection={setUseVirtualInspection}
-              averageDisplayType={averageDisplayType}
-              setAverageDisplayType={setAverageDisplayType}
-              averageSizes={averageSizes}
-              setAverageSizes={setAverageSizes}
-            />
+            <SettingsModalWrapper />
           </div>
           <div className="navbar-item pl-0">
             <Link to="/analytics">
