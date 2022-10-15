@@ -23,7 +23,7 @@ function App() {
 
   //SETTINGS
   const [timeEntryType, setTimeEntryType] = useState<TimeEntryType>('timer');
-  const [inspectionMode, setInspectionMode] = useState<InspectionMode>('never'); //TODO: implement nonbld in timer lib
+  const [inspectionMode, setInspectionMode] = useState<InspectionMode>('never'); //TODO: implement nonbld
   const [useVirtualInspection, setUseVirtualInspection] = useState<boolean>(false);
   const [averageDisplayType, setAverageDisplayType] = useState<AverageType>('avg');
   const [averageSizes, setAverageSizes] = useState<Array<number>>([5, 12, 50]);
@@ -53,7 +53,6 @@ function App() {
       averageDisplayType: averageDisplayType,
       averageSizes: averageSizes,
     };
-    console.log(settings);
     saveSettings(settings);
   }, [timeEntryType, inspectionMode, useVirtualInspection, averageDisplayType, averageSizes]);
 
@@ -81,16 +80,6 @@ function App() {
         <Navbar
           eventName={eventName}
           changeEvent={setEvent}
-          timeEntryType={timeEntryType}
-          setTimeEntryType={setTimeEntryType}
-          inspectionMode={inspectionMode}
-          setInspectionMode={setInspectionMode}
-          useVirtualInspection={useVirtualInspection}
-          setUseVirtualInspection={setUseVirtualInspection}
-          averageDisplayType={averageDisplayType}
-          setAverageDisplayType={setAverageDisplayType}
-          averageSizes={averageSizes}
-          setAverageSizes={setAverageSizes}
         />
         <SolvesContext.Provider
           value={{
@@ -125,7 +114,7 @@ function App() {
               />
             </Route>
             <Route exact path="/competetive">
-              <Competetive eventName={eventName} timeEntryType={timeEntryType} />
+              <Competetive eventName={eventName} />
             </Route>
             <Route exact path="/analytics">
               <Analytics eventName={eventName} />

@@ -7,31 +7,11 @@ import SettingsModalWrapper from './SettingsModalWrapper';
 interface NavbarProps {
   eventName: WCAEvent;
   changeEvent: any;
-  timeEntryType: TimeEntryType;
-  setTimeEntryType: any;
-  inspectionMode: InspectionMode;
-  setInspectionMode: any;
-  useVirtualInspection: boolean;
-  setUseVirtualInspection: any;
-  averageDisplayType: AverageType;
-  setAverageDisplayType: any;
-  averageSizes: Array<number>;
-  setAverageSizes: any;
 }
 
 const Navbar = ({
   eventName,
   changeEvent,
-  timeEntryType,
-  setTimeEntryType,
-  inspectionMode,
-  setInspectionMode,
-  useVirtualInspection,
-  setUseVirtualInspection,
-  averageDisplayType,
-  setAverageDisplayType,
-  averageSizes,
-  setAverageSizes,
 }: NavbarProps) => {
   const [menuActive, setMenuActive] = useState<boolean>(false);
 

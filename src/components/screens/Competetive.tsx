@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Penalty, PuzzleSolve, TimeEntryType, WCAEvent } from '../../types';
+import React, { useState, useEffect, useContext } from 'react';
+import { Penalty, PuzzleSolve, WCAEvent } from '../../types';
 import eventNameToFullName from '../utils/eventNameToFullName';
 import averageTypeForEvent from '../utils/averageTypeForEvent';
 import { FiX } from 'react-icons/fi';
@@ -10,19 +10,21 @@ import { nanoid } from 'nanoid';
 import CompetetiveSolveModalWrapper from '../sections/CompetetiveSolveModalWrapper';
 import CompetetiveAverageModalWrapper from '../sections/CompetetiveAverageModalWrapper';
 import getTimeEntryTypeString from '../utils/getTimeEntryTypeString';
+import SettingsContext from '../contexts/SettingsContext';
+import InspectionOnlyTimer from '../sections/InspectionOnlyTimer';
 
 interface CompetetiveProps {
   eventName: WCAEvent;
-  timeEntryType: TimeEntryType;
 }
 
-const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
+const Competetive = ({ eventName }: CompetetiveProps) => {
   const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [hasEnded, setHasEnded] = useState<boolean>(false);
-  const [isUsingVirtualInspection, setIsUsingVirtualInspection] = useState<boolean>(false);
   const [scrambleString, setScramble] = useState<string>('');
   const [shouldScrambleUpdate, setShouldScrambleUpdate] = useState<boolean>(false);
   const [completedSolves, setCompletedSolves] = useState<Array<PuzzleSolve>>([]);
+
+  const { timeEntryType, useVirtualInspection, inspectionMode } = useContext(SettingsContext);
 
   useEffect(() => {
     setCompletedSolves([]);
@@ -144,11 +146,14 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
                           solveId: '',
                         }
                   }
-                  inspectionMode={'nonbld'}
+                  inspectionMode={inspectionMode}
                 />
               </div>
             ) : (
               <div className="has-text-centered" id="timer">
+                {useVirtualInspection &&
+                  <InspectionOnlyTimer />
+                } 
                 <ManualTimer callback={manualTimerCallback} />
               </div>
             )}
@@ -180,34 +185,6 @@ const Competetive = ({ eventName, timeEntryType }: CompetetiveProps) => {
                 {averageTypeForEvent(eventName) === 'avg' ? 'Average of 5' : 'Mean of 3'}
               </li>
               <li>Time entry: {getTimeEntryTypeString(timeEntryType)}</li>
-              {timeEntryType !== 'timer' && (
-                <li>
-                  Use virtual inspection:
-                  <span className="control ml-1">
-                    <label className="radio">
-                      <input
-                        type="radio"
-                        name="answer"
-                        onClick={() => {
-                          setIsUsingVirtualInspection(true);
-                        }}
-                      />
-                      Yes
-                    </label>
-                    <label className="radio">
-                      <input
-                        type="radio"
-                        name="answer"
-                        checked={isUsingVirtualInspection ? false : true}
-                        onClick={() => {
-                          setIsUsingVirtualInspection(false);
-                        }}
-                      />
-                      No
-                    </label>
-                  </span>
-                </li>
-              )}
             </ul>
             <button
               className="button is-link is-outlined m-4"
