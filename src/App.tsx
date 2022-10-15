@@ -109,8 +109,6 @@ function App() {
                     type: averageDisplayType,
                   },
                 ]}
-                timeEntryType={timeEntryType}
-                inspectionMode={inspectionMode}
               />
             </Route>
             <Route exact path="/competetive">

@@ -8,19 +8,20 @@ import { WCAEvent, PuzzleAverage, TimeEntryType, Penalty, InspectionMode } from 
 import { changePenaltyOfCurrentSolve, deleteCurrentSolve, saveSolve } from '../utils/storageTools';
 import SolvesContext from '../contexts/SolvesContext';
 import { nanoid } from 'nanoid';
+import SettingsContext from '../contexts/SettingsContext';
+import InspectionOnlyTimer from '../sections/InspectionOnlyTimer';
 
 interface CasualProps {
   eventName: WCAEvent;
   avgsToDisplay: Array<PuzzleAverage>;
-  timeEntryType: TimeEntryType;
-  inspectionMode: InspectionMode;
 }
 
-const Casual = ({ eventName, avgsToDisplay, timeEntryType, inspectionMode }: CasualProps) => {
+const Casual = ({ eventName, avgsToDisplay }: CasualProps) => {
   const [scrambleString, setScramble] = useState<string>('');
   const [shouldScrambleUpdate, setShouldScrambleUpdate] = useState<boolean>(false);
 
   const { updateSolves } = useContext(SolvesContext);
+  const { timeEntryType, inspectionMode, useVirtualInspection } = useContext(SettingsContext);
 
   const timerCallback = (time: number, penalty: Penalty) => {
     const solveId = nanoid();
@@ -63,7 +64,11 @@ const Casual = ({ eventName, avgsToDisplay, timeEntryType, inspectionMode }: Cas
             {timeEntryType !== 'manual' ? (
               <Timer mode={'casual'} callback={timerCallback} inspectionMode={inspectionMode} />
             ) : (
-              <ManualTimer callback={manualTimerCallback} />
+              <>
+              {useVirtualInspection && 
+                <InspectionOnlyTimer />
+              }
+              <ManualTimer callback={manualTimerCallback} /></>
             )}
           </div>
           <div
