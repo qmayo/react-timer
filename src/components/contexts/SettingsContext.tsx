@@ -12,6 +12,8 @@ interface SettingsContextInterface {
   setAverageDisplayType: (averageDispalyType: AverageType) => any;
   averageSizes: Array<number>;
   setAverageSizes: (averageSizes: Array<number>) => any;
+  ambientNoise: boolean;
+  setAmbientNoise: (state: boolean) => any;
 }
 
 const SettingsContext = createContext<SettingsContextInterface>(

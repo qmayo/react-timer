@@ -46,4 +46,5 @@ export interface SettingsInterface {
   useVirtualInspection: boolean;
   averageDisplayType: AverageType;
   averageSizes: Array<number>;
+  ambientNoise: boolean;
 }

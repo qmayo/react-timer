@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './components/sections/Navbar';
@@ -20,6 +20,7 @@ import Competetive from './components/screens/Competetive';
 function App() {
   const [eventName, setEvent] = useState<WCAEvent>('333');
   const [solves, setSolves] = useState<PuzzleSolve[] | null>(null);
+  const ambientNoiseRef = useRef<HTMLMediaElement>(new Audio(process.env.PUBLIC_URL + '/cubing-ambience.mp3'));
 
   //SETTINGS
   const [timeEntryType, setTimeEntryType] = useState<TimeEntryType>('timer');
@@ -27,6 +28,7 @@ function App() {
   const [useVirtualInspection, setUseVirtualInspection] = useState<boolean>(false);
   const [averageDisplayType, setAverageDisplayType] = useState<AverageType>('avg');
   const [averageSizes, setAverageSizes] = useState<Array<number>>([5, 12, 50]);
+  const [ambientNoise, setAmbientNoise] = useState<boolean>(false);
 
   const updateSettings = (settings: SettingsInterface): void => {
     setTimeEntryType(settings.timeEntryType);
@@ -34,6 +36,7 @@ function App() {
     setUseVirtualInspection(settings.useVirtualInspection);
     setAverageDisplayType(settings.averageDisplayType);
     setAverageSizes(settings.averageSizes);
+    //setAmbientNoise(settings.ambientNoise);
   };
 
   useEffect(() => {
@@ -42,6 +45,7 @@ function App() {
     if (settings) {
       console.log(settings.inspectionMode);
       updateSettings(settings);
+      setAmbientNoise(false); //Unlikely this is wanted to play immediately.
     }
   }, []);
 
@@ -52,6 +56,7 @@ function App() {
       useVirtualInspection: useVirtualInspection,
       averageDisplayType: averageDisplayType,
       averageSizes: averageSizes,
+      ambientNoise: ambientNoise,
     };
     saveSettings(settings);
   }, [timeEntryType, inspectionMode, useVirtualInspection, averageDisplayType, averageSizes]);
@@ -60,6 +65,15 @@ function App() {
     const times = getSolves(eventName);
     setSolves(times);
   }, [eventName]);
+
+  useEffect(() => {
+    if (ambientNoise) {
+      ambientNoiseRef.current.play();
+    } else {
+      ambientNoiseRef.current.pause();
+    }
+    
+  }, [ambientNoise])
 
   return (
     <Router>
@@ -75,6 +89,8 @@ function App() {
           setAverageDisplayType: setAverageDisplayType,
           averageSizes: averageSizes,
           setAverageSizes: setAverageSizes,
+          ambientNoise: ambientNoise,
+          setAmbientNoise: setAmbientNoise,
         }}
       >
         <Navbar

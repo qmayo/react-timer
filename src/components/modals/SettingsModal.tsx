@@ -22,6 +22,8 @@ const SettingsModal = ({ isActive, setIsActive }: SettingsModalProps) => {
     setAverageDisplayType,
     averageSizes,
     setAverageSizes,
+    ambientNoise,
+    setAmbientNoise,
   } = useContext(SettingsContext);
 
   return (
@@ -50,10 +52,10 @@ const SettingsModal = ({ isActive, setIsActive }: SettingsModalProps) => {
                         name: 'Manual Entry',
                         value: 'manual',
                       },
-                      {
+/*                       {
                         name: 'Stackmat',
                         value: 'stackmat',
-                      },
+                      }, */
                     ]}
                     selectedOption={timeEntryType}
                     setSelectedOption={setTimeEntryType}
@@ -126,6 +128,33 @@ const SettingsModal = ({ isActive, setIsActive }: SettingsModalProps) => {
                     </span>
                   </div>
                 )}
+                <div className="is-flex is-align-items-center m-3">
+                  <span className="mr-2">Ambient Noise:</span>
+                  <span className="control ml-1">
+                    <label className="radio">
+                      <input
+                        type="radio"
+                        name="ambient-noise"
+                        checked={ambientNoise  ? true : false}
+                        onClick={() => {
+                          setAmbientNoise(true);
+                        }}
+                      />
+                      On
+                    </label>
+                    <label className="radio">
+                      <input
+                        type="radio"
+                        name="ambient-noise"
+                        checked={!ambientNoise ? true : false}
+                        onClick={() => {
+                          setAmbientNoise(false);
+                        }}
+                      />
+                      Off
+                    </label>
+                  </span>
+                </div>
               </div>
               <div className="mb-6">
                 <h6 className="title is-6">Statistics Options</h6>
